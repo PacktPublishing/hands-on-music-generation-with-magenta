@@ -1,0 +1,8 @@
+# pycharm configuration files
+.idea
+
+# vim swap files
+*.swp
+
+# book specific bundle folder
+bundles
