@@ -4,5 +4,6 @@
 # vim swap files
 *.swp
 
-# book specific bundle folder
+# bundle and output folder per chapter
 bundles
+output
