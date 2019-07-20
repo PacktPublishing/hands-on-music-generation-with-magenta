@@ -7,3 +7,10 @@
 # bundle and output folder per chapter
 bundles
 output
+
+# python cache
+__pycache__
+
+# jupyter notebook cache
+.ipynb_checkpoints
+
