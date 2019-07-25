@@ -14,7 +14,8 @@ from magenta.music import notebook_utils
 from magenta.music import sequence_generator_bundle
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
-from code.common.midi2bokeh import draw_midi
+
+from Chapter01.midi2bokeh import draw_midi
 
 
 def app(unused_argv):
