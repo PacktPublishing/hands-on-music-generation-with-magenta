@@ -24,7 +24,6 @@ def generate(unused_argv):
   generator.initialize()
 
   # TODO describe
-  magenta.music.DrumTrack([frozenset([36])])
   primer_drums = magenta.music.DrumTrack(
     [frozenset(pitches) for pitches in [(36,), (), (), (), (46,), (), (), ()]])
   primer_sequence = primer_drums.to_sequence(qpm=120)
@@ -57,7 +56,7 @@ def generate(unused_argv):
     end_time=end_time)
 
   # TODO describe
-  generator_options.args['temperature'].float_value = 0.1
+  generator_options.args['temperature'].float_value = 1
   generator_options.args['beam_size'].int_value = 1
   generator_options.args['branch_factor'].int_value = 1
   generator_options.args['steps_per_iteration'].int_value = 1

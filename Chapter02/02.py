@@ -4,18 +4,18 @@ import threading
 import time
 
 import magenta
+import magenta.music as mm
 import tensorflow as tf
 from bokeh.io import output_file, show
 from magenta.interfaces.midi.magenta_midi import midi_hub
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
-from magenta.music import midi_io
-from magenta.music import notebook_utils
-from magenta.music import sequence_generator_bundle
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 
 from Chapter01.midi2plot import plot_midi
+
+
 
 
 def app(unused_argv):
@@ -26,8 +26,8 @@ def app(unused_argv):
 
   # TODO ex
   # Bundle TODO describe
-  notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
-  bundle = sequence_generator_bundle.read_bundle_file(
+  mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
+  bundle = mm.sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", "drum_kit_rnn.mag"))
 
   # Generator TODO describe
@@ -72,7 +72,7 @@ class LooperMidi(threading.Thread):
     seconds_per_step = 60.0 / qpm / self._sequence_generator.steps_per_quarter
 
     # TODO describe
-    num_steps = 32
+    num_steps = 16
 
     # TODO describe
     total_seconds = num_steps * seconds_per_step
@@ -84,18 +84,21 @@ class LooperMidi(threading.Thread):
     start_time = primer_end_time + seconds_per_step
     end_time = total_seconds
 
+    # TODO loop
+    num_loops = 4
+
     for index in range(0, sys.maxsize):
       tick_wall_start_time = time.time()
 
       # TODO describe
-      start_time2 = start_time + index * total_seconds
-      end_time2 = end_time + index * total_seconds
+      tick_start_time = start_time + index * total_seconds
+      tick_end_time = end_time + index * total_seconds
 
       # TODO describe
       generator_options = generator_pb2.GeneratorOptions()
       generator_options.generate_sections.add(
-        start_time=start_time2,
-        end_time=end_time2)
+        start_time=tick_start_time,
+        end_time=tick_end_time)
 
       # TODO describe
       generator_options.args['temperature'].float_value = 0.1
@@ -107,14 +110,15 @@ class LooperMidi(threading.Thread):
       print("index: " + str(index))
       print("primer_end_time: " + str(primer_end_time))
       print("start_time: " + str(start_time))
-      print("start_time2: " + str(start_time2))
+      print("tick_start_time: " + str(tick_start_time))
       print("end_time: " + str(end_time))
-      print("end_time2: " + str(end_time2))
+      print("tick_end_time: " + str(tick_end_time))
       print("wall_start_time: " + str(wall_start_time))
       print("tick_wall_start_time: " + str(tick_wall_start_time))
       print("tick_wall_start_time (adjusted): "
             + str(tick_wall_start_time - wall_start_time))
       sequence = self._sequence_generator.generate(sequence, generator_options)
+      # sequence = mm.trim_note_sequence(sequence, 1, 2)
 
       sequence_adjusted = music_pb2.NoteSequence()
       sequence_adjusted.CopyFrom(sequence)
@@ -122,7 +126,7 @@ class LooperMidi(threading.Thread):
                                                 wall_start_time)
       player.update_sequence(sequence_adjusted, start_time=tick_wall_start_time)
 
-      pm = midi_io.note_sequence_to_pretty_midi(sequence)
+      pm = mm.midi_io.note_sequence_to_pretty_midi(sequence)
       output_file(self._output_file)
       plot = plot_midi(pm)
       show(plot)
