@@ -9,7 +9,7 @@ from magenta.music import notebook_utils
 from magenta.music import sequence_generator_bundle
 from magenta.protobuf import generator_pb2
 
-from Chapter01.midi2bokeh import plot_midi
+from Chapter01.midi2plot import plot_midi
 
 
 def generate(unused_argv):
