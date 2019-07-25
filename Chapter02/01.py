@@ -9,7 +9,7 @@ from magenta.music import notebook_utils
 from magenta.music import sequence_generator_bundle
 from magenta.protobuf import generator_pb2
 
-from Chapter01.midi2bokeh import draw_midi
+from Chapter01.midi2bokeh import plot_midi
 
 
 def generate(unused_argv):
@@ -89,7 +89,7 @@ def generate(unused_argv):
   print(plot_file)
   pm = midi_io.note_sequence_to_pretty_midi(sequence)
   output_file(plot_file)
-  plot = draw_midi(pm)
+  plot = plot_midi(pm)
   show(plot)
 
   return 0
