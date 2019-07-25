@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 01
+# Chapter 01 - Introduction on Magenta and generative art
 
 This chapter doesn't have any code, has it serves as an introduction to the book and an installation procedure. You can check out the [Jupyter Notebook](notebook.ipynb) to test your installation and the [utility scripts](#utility-scripts).
 

@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 07
+# Chapter 06 - Data preparation and pipelines
 
 TODO
 

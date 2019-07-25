@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 11
+# Chapter 10 - Using Magenta.js and Magenta Studio
 
 TODO
 

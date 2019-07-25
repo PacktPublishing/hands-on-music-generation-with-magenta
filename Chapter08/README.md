@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 09
+# Chapter 08 - Creating a model for a specific musical representation
 
 TODO
 

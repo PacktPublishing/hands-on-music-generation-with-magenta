@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 05
+# Chapter 04 - Latent space interpolation with Music VAE 
 
 TODO
 

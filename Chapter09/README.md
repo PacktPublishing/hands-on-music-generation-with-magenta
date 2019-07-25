@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 10
+# Chapter 09 - Using MIDI to interact with a DAW
 
 TODO
 

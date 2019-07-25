@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 03
+# Chapter 02 - Generating drum sequences with DrumsRNN
 
 ## App
 

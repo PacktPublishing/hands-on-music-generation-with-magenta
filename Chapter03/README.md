@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 04
+# Chapter 03 - Generating polyphonic melodies
 
 TODO
 

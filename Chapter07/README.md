@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 08
+# Chapter 07 - Training an existing model on a specific style
 
 TODO
 

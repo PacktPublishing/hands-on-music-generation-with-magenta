@@ -1,4 +1,4 @@
-# Music Generation with Magenta - Chapter 06
+# Chapter 05 - Audio generation with GANSynth
 
 TODO
 
