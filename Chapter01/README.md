@@ -8,7 +8,13 @@ This chapter also provides [utility scripts](#utility-scripts) we'll be using th
 
 ### `midi2plot.py`
 
-Transforms a MIDI file to a plot, most of the diagram in this book has been done with this tool
+Transforms a MIDI file to a plot, most of the diagram in this book has been done with this tool.
+
+```bash
+python midi2plot.py my_midi_file.mid
+```
+
+Or in Python:
 
 ```python
 from bokeh.io import output_file, show

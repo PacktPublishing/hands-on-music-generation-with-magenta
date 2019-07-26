@@ -6,12 +6,11 @@ import os
 
 import magenta.music as mm
 import tensorflow as tf
-from bokeh.io import output_file, show
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 
-from Chapter01.provided.midi2plot import plot_midi
+from Chapter01.provided.midi2plot import Plotter
 
 
 def generate(unused_argv):
@@ -63,16 +62,15 @@ def generate(unused_argv):
   # Outputs the midi file in the output directory
   midi_file = os.path.join("output", "out.mid")
   mm.midi_io.note_sequence_to_midi_file(sequence, midi_file)
-  print("Generated midi file: " + str(midi_file))
+  print("Generated midi file: " + str(os.path.abspath(midi_file)))
 
   # Outputs the plot file in the output directory and opens your browser for
   # visualisation
   plot_file = os.path.join("output", "out.html")
-  print("Generated plot file: " + str(plot_file))
-  pm = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-  output_file(plot_file)
-  plot = plot_midi(pm)
-  show(plot)
+  print("Generated plot file: " + str(os.path.abspath(plot_file)))
+  pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+  plotter = Plotter()
+  plotter.show(pretty_midi, plot_file)
 
   return 0
 

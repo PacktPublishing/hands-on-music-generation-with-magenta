@@ -5,9 +5,8 @@ import time
 
 import magenta
 import magenta.music as mm
-import pretty_midi
+import pretty_midi as pm
 import tensorflow as tf
-from bokeh.io import output_file, show
 from magenta.interfaces.midi.magenta_midi import midi_hub
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
@@ -15,7 +14,7 @@ from magenta.music import sequences_lib
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 
-from Chapter01.provided.midi2plot import plot_midi
+from Chapter01.provided.midi2plot import Plotter
 
 
 def app(unused_argv):
@@ -94,11 +93,9 @@ class LooperMidi(threading.Thread):
     seconds_per_loop = self._bar_per_loop * seconds_per_bar
 
     # TODO MOVE
-    pm = pretty_midi.PrettyMIDI()
-    pm.instruments.append(pretty_midi.Instrument(0))
-
-    # TODO MOVE
-    plot_max_bar = 16
+    plotter = Plotter(max_bar=16)
+    pretty_midi = pm.PrettyMIDI()
+    pretty_midi.instruments.append(pm.Instrument(0))
 
     # TODO
     wall_start_time = time.time()
@@ -115,21 +112,12 @@ class LooperMidi(threading.Thread):
                                                 wall_start_time)
       player.update_sequence(sequence_adjusted, start_time=cursor_time)
 
-      # TODO MOVE
-      pm_sequence = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-      for instrument in pm_sequence.instruments:
-        for index, note in enumerate(instrument.notes):
-          pm.instruments[0].notes.append(note)
-      min_time = int(pm.get_end_time() - plot_max_bar + 1)
-      remove = []
-      for instrument in pm.instruments:
-        for index, note in enumerate(instrument.notes):
-          if (note.start < min_time):
-            remove.append(note)
-      [pm.instruments[0].notes.remove(note) for note in remove]
-      output_file(self._output_file)
-      plot = plot_midi(pm)
-      show(plot)
+      # TODO MOVE TO UTILS
+      pretty_sequence = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+      for instrument in pretty_sequence.instruments:
+        for note in instrument.notes:
+          pretty_midi.instruments[0].notes.append(note)
+      plotter.show(pretty_midi, self._output_file)
 
       # TODO
       loop_start_time = cursor_time
