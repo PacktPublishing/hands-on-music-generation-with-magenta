@@ -1,3 +1,4 @@
+import os
 import sys
 from enum import Enum
 
@@ -5,11 +6,14 @@ import bokeh
 import bokeh.plotting
 import math
 from bokeh.colors.groups import purple as colors
+from bokeh.embed import file_html
 from bokeh.io import output_file, show
 from bokeh.layouts import column
 from bokeh.models import BoxAnnotation, ColumnDataSource
 from bokeh.models import Range1d, Label
+from bokeh.models.callbacks import CustomJS
 from bokeh.models.widgets.buttons import Button
+from bokeh.resources import CDN
 from pretty_midi import PrettyMIDI
 
 BOX_HORIZONTAL_FILL_ALPHA_EVEN = 0.15
@@ -35,10 +39,13 @@ class TimeScaling(Enum):
 class Plotter:
 
   def __init__(self,
+               time_scaling=TimeScaling.SEC,
                max_bar=None,
-               time_scaling=TimeScaling.SEC):
-    self._max_bar = max_bar
+               live_reload=False):
     self._time_scaling = time_scaling
+    self._max_bar = max_bar
+    self._live_reload = live_reload
+    self._show_counter = 0
 
   def _get_qpm(self, pretty_midi):
     """Returns the first tempo change that is not zero,
@@ -251,28 +258,36 @@ class Plotter:
     plot.x_range = Range1d(start, end + 1)
     plot.y_range = Range1d(pitch_min, pitch_max + 1)
 
-    from bokeh.models.callbacks import CustomJS
-
-    callback = CustomJS(code="""
-    window.setInterval(function(){
-       location.reload();
-    }, 2000);
-    """)
-
-    button = Button(label="live reload")
-    button.js_on_click(callback)
-
-    layout = column(button, plot)
+    if self._live_reload:
+      callback = CustomJS(code="clearInterval(liveReloadInterval)")
+      button = Button(label="stop live reload")
+      button.js_on_click(callback)
+      layout = column(button, plot)
+    else:
+      layout = column(plot)
 
     return layout
 
   def show(self, pretty_midi, plot_file):
-    output_file(plot_file)
     plot = self.plot_midi(pretty_midi)
-    # html = file_html(plot, CDN, template_variables={'plot_script': 'lol'})
-    # with open(plot_file, 'w') as file:
-    #   file.write(html)
-    show(plot)
+    if self._live_reload:
+      html = file_html(plot, CDN, template_variables={'plot_script': 'lol'})
+      html = html.replace("</head>", """
+              <script type="text/javascript">
+                var liveReloadInterval = window.setInterval(function(){
+                  location.reload();
+                }, 2000);
+              </script>
+              </head>""")
+      with open(plot_file, 'w') as file:
+        file.write(html)
+      if self._show_counter == 0:
+        import webbrowser
+        webbrowser.open("file://" + os.path.realpath(plot_file), new=2)
+    else:
+      output_file(plot_file)
+      show(plot)
+    self._show_counter += 1
     return plot
 
 

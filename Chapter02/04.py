@@ -46,7 +46,12 @@ def app(unused_argv):
                          midi_hub.TextureType.POLYPHONIC)
 
   # TODO
+  interaction = Interaction()
+  interaction.start()
+
+  # TODO
   looper = LooperMidi(
+    interaction,
     hub,
     sequence_generator,
     primer_sequence,
@@ -56,6 +61,9 @@ def app(unused_argv):
     num_loops=num_loops,
   )
   looper.start()
+
+  # TODO
+  interaction.join()
   looper.join()
 
   return 0
@@ -65,6 +73,7 @@ def app(unused_argv):
 class LooperMidi(threading.Thread):
 
   def __init__(self,
+               interaction,
                midi_hub,
                sequence_generator,
                primer_sequence,
@@ -73,6 +82,7 @@ class LooperMidi(threading.Thread):
                bar_per_loop=1,
                num_loops=2):
     super(LooperMidi, self).__init__()
+    self._interaction = interaction
     self._midi_hub = midi_hub
     self._sequence_generator = sequence_generator
     self._primer_sequence = primer_sequence
@@ -93,7 +103,7 @@ class LooperMidi(threading.Thread):
     seconds_per_loop = self._bar_per_loop * seconds_per_bar
 
     # TODO MOVE
-    plotter = Plotter(max_bar=16, live_reload=True)
+    plotter = Plotter(max_bar=16)
     pretty_midi = pm.PrettyMIDI()
     pretty_midi.instruments.append(pm.Instrument(0))
 
@@ -132,13 +142,13 @@ class LooperMidi(threading.Thread):
 
       # TODO
       if bar_count % self._num_loops == 0:
-        print("GENERATING")
+        print("GENERATING " + str(self._interaction.input))
         sequence = self._sequence_generator.generate(
           sequence, generator_options)
         sequence = sequences_lib.trim_note_sequence(
           sequence, generation_start_time, generation_end_time)
       else:
-        print("LOOPING")
+        print("LOOPING " + str(self._interaction.input))
         sequence = sequences_lib.trim_note_sequence(
           sequence, loop_start_time, loop_end_time)
         sequence = sequences_lib.shift_sequence_times(
@@ -148,6 +158,17 @@ class LooperMidi(threading.Thread):
       sleep_time = seconds_per_loop - (
           (time.time() - wall_start_time) % seconds_per_loop)
       time.sleep(sleep_time)
+
+
+class Interaction(threading.Thread):
+
+  def __init__(self):
+    super(Interaction, self).__init__()
+    self.input = None
+
+  def run(self):
+    while True:
+      self.input = input('Input: ')
 
 
 if __name__ == "__main__":
