@@ -1,6 +1,8 @@
 # Chapter 01 - Introduction on Magenta and generative art
 
-This chapter doesn't have any code, has it serves as an introduction to the book and an installation procedure. You can check out the [Jupyter Notebook](notebook.ipynb) to test your installation and the [utility scripts](#utility-scripts).
+This chapter doesn't have any code, has it serves as an introduction to the book and an installation procedure. You can check out the [Jupyter Notebook](notebook.ipynb) to test your installation.
+
+This chapter also provides [utility scripts](#utility-scripts) we'll be using thoughout the book.
 
 ## Utility Scripts
 
@@ -11,7 +13,7 @@ Transforms a MIDI file to a plot, most of the diagram in this book has been done
 ```python
 from bokeh.io import output_file, show
 from magenta.music import midi_io
-from Chapter01.midi2plot import plot_midi
+from Chapter01.provided.midi2plot import plot_midi
 
 sequence = ...
 
