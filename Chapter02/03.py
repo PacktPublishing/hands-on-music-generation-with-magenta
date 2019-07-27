@@ -13,8 +13,7 @@ from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.music import sequences_lib
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
-
-from Chapter01.provided.midi2plot import Plotter
+from midi2plot import Plotter
 
 
 def app(unused_argv):
@@ -96,6 +95,7 @@ class LooperMidi(threading.Thread):
     plotter = Plotter(max_bar=16, live_reload=True)
     pretty_midi = pm.PrettyMIDI()
     pretty_midi.instruments.append(pm.Instrument(0))
+    pretty_midi.instruments[0].append(pm.Note(100, 36, 0, 1))
 
     # TODO
     wall_start_time = time.time()

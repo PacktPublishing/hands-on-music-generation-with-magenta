@@ -6,28 +6,9 @@ This chapter also provides [utility scripts](#utility-scripts) we'll be using th
 
 ## Utility Scripts
 
-### `midi2plot.py`
+### [`midi2plot.py`](https://github.com/dubreuia/midi2plot)
 
 Transforms a MIDI file to a plot, most of the diagram in this book has been done with this tool.
-
-```bash
-python midi2plot.py my_midi_file.mid
-```
-
-Or in Python:
-
-```python
-from bokeh.io import output_file, show
-from magenta.music import midi_io
-from Chapter01.provided.midi2plot import plot_midi
-
-sequence = ...
-
-pm = midi_io.note_sequence_to_pretty_midi(sequence)
-output_file("plot.html")
-plot = plot_midi(pm)
-show(plot)
-```
 
 ### `wav2plot.py`
 
