@@ -4,6 +4,34 @@ This chapter doesn't have any code, has it serves as an introduction to the book
 
 This chapter also provides [utility scripts](#utility-scripts) we'll be using thoughout the book.
 
+## Installing Magenta
+
+Installing Magenta using Conda is easier. First [install Miniconda](https://conda.io/en/latest/miniconda.html), then:
+
+```bash
+# Create a new environment for Magenta with Python 3.5.x as interpreter
+conda create --name magenta python=3.5
+
+# Then activate it
+conda activate magenta
+```
+
+Then you can install Magenta with:
+
+```bash
+# Installation
+pip install magenta
+
+## Test installation
+python -c "import magenta; print(magenta.__version__)"
+```
+
+We won't be covering Magenta GPU installation here, please refer to the book.
+
+## Compatibility version grid
+
+TODO
+
 ## Utility Scripts
 
 ### [`midi2plot.py`](https://github.com/dubreuia/midi2plot)
@@ -25,30 +53,3 @@ Transforms a WAV file to a spectrogram.
 ```bash
 python wav2spectrogram.py my_wav_file.wav
 ```
-
-## Installing Magenta
-
-Installing Magenta using Conda is easier. Install Miniconda at https://conda.io/en/latest/miniconda.html, then:
-
-```bash
-# With conda installed, create a new environment for Magenta:
-conda create --name magenta python=3.5
-
-# Then activate it
-conda activate magenta
-```
-
-Then you can install Magenta with:
-
-```bash
-# Installation
-pip install magenta
-
-## Test installation
-python
->>> import magenta
->>> magenta.__version__
-'1.1.2'
-```
-
-We won't be covering Magenta GPU installation here, please refer to the book.
