@@ -9,7 +9,7 @@ import tensorflow as tf
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
-from midi2plot import Plotter
+from visual_midi import Plotter
 
 
 def generate(unused_argv):
