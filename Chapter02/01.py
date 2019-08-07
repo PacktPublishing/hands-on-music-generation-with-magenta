@@ -13,9 +13,6 @@ from visual_midi import Plotter
 
 
 def generate(unused_argv):
-  """Generates a basic drum sequence of 8 seconds based on a hard coded
-  primer."""
-
   # Downloads the bundle from the magenta website, a bundle (.mag file) is a
   # trained model that is used by magenta
   mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
@@ -45,6 +42,9 @@ def generate(unused_argv):
   # the generation time
   seconds_per_bar = num_steps_per_bar * seconds_per_step
 
+  print("Seconds per step: " + str(seconds_per_step))
+  print("Seconds per bar: " + str(seconds_per_bar))
+
   # Creates a primer sequence that is fed into the model for the generator,
   # which will generate a sequence based on this one
   # A DrumTrack models a drum sequence by step, so you have step 1 being the
@@ -69,10 +69,22 @@ def generate(unused_argv):
   generation_start_time = primer_end_time
   generation_end_time = generation_start_time + (seconds_per_bar * num_bars)
 
-  # The generator options are the parameters passed to the generator,
-  # we'll add a bit of temperature for more flavor
+  print("Primer start and end: ["
+        + str(primer_start_time) + ", "
+        + str(primer_end_time) + "]")
+  print("Generation start and end: ["
+        + str(generation_start_time) + ", "
+        + str(generation_end_time) + "]")
+
+  # The generator interface is common for all models
   generator_options = generator_pb2.GeneratorOptions()
-  generator_options.args['temperature'].float_value = 1.1
+
+  # Add a bit of temperature for more flavor
+  temperature = 1.1
+  print("Temperature: " + str(temperature))
+  generator_options.args['temperature'].float_value = temperature
+
+  # Defines the generation section
   generator_options.generate_sections.add(
     start_time=generation_start_time,
     end_time=generation_end_time)

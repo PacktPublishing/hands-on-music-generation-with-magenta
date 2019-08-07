@@ -1,8 +1,20 @@
 # Chapter 01 - Introduction on Magenta and generative art
 
+In this chapter, you’ll learn the basics of generative artwork and what already exists. You’ll learn about the new techniques of artwork generation, like machine learning, and how those techniques can be applied to produce music and art. Magenta will be introduced, along with Tensorflow, with an overview of its different parts and the installation of the required software for this book. We’ll finish the installation by generating a simple MIDI file on the command line.
+
+The following topics will be covered in this chapter:
+
+- Overview of generative artwork
+- New techniques with Machine Learning
+- Magenta and Tensorflow in music generation
+- Installation of Magenta
+- Generating a basic MIDI file
+
+## Code
+
 This chapter doesn't have any code, has it serves as an introduction to the book and an installation procedure. You can check out the [Jupyter Notebook](notebook.ipynb) to test your installation.
 
-This chapter also provides [utility scripts](#utility-scripts) we'll be using thoughout the book.
+This chapter also provides [utility scripts](#utility-scripts) we'll be using throughout the book.
 
 ## Installing Magenta
 
@@ -26,11 +38,9 @@ pip install magenta
 python -c "import magenta; print(magenta.__version__)"
 ```
 
-We won't be covering Magenta GPU installation here, please refer to the book.
+## Installing Magenta GPU
 
-## Compatibility version grid
-
-TODO
+TODO compatibility version grid
 
 ## Utility Scripts
 
