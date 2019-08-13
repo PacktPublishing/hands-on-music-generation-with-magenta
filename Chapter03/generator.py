@@ -16,6 +16,8 @@ def generate(bundle_name: str,
              generator_id: str,
              qpm: float = constants.DEFAULT_QUARTERS_PER_MINUTE,
              primer_filename: str = None,
+             condition_on_primer: bool = False,
+             inject_primer_during_generation: bool = False,
              total_length_bars: int = 4,
              temperature: float = 1.0,
              beam_size: int = 1,
@@ -44,6 +46,10 @@ def generate(bundle_name: str,
       :param primer_filename: The filename for the primer, which will be taken
       from the "primers" directory. If left empty, and empty note sequence will
       be used.
+
+      :param condition_on_primer: https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
+
+      :param inject_primer_during_generation: https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
 
       :param total_length_bars: The total length of the sequence, which contains
       the added length of the primer and the generated sequence together. This
@@ -182,12 +188,17 @@ def generate(bundle_name: str,
         + str(generation_start_time) + ", "
         + str(generation_end_time) + "]")
 
-  # Pass the given parameters, the generator options are common for all models.
+  # Pass the given parameters, the generator options are common for all models,
+  # except for condition_on_primer and no_inject_primer_during_generation
+  # which are specific to polyphonic models
   generator_options = generator_pb2.GeneratorOptions()
   generator_options.args['temperature'].float_value = temperature
   generator_options.args['beam_size'].int_value = beam_size
   generator_options.args['branch_factor'].int_value = branch_factor
   generator_options.args['steps_per_iteration'].int_value = steps_per_iteration
+  generator_options.args['condition_on_primer'].bool_value = condition_on_primer
+  generator_options.args['no_inject_primer_during_generation'].bool_value = (
+    not inject_primer_during_generation)
   generator_options.generate_sections.add(
     start_time=generation_start_time,
     end_time=generation_end_time)

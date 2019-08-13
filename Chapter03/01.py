@@ -5,6 +5,8 @@ from Chapter03 import generator
 
 
 def app(unused_argv):
+  # TODO add tip for chapter 02 for space or equal sign
+
   generator.generate(
     "basic_rnn.mag",
     melody_rnn_sequence_generator,
