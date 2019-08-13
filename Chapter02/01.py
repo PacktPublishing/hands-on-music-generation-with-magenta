@@ -100,10 +100,10 @@ def generate(unused_argv):
 
   # Write the resulting plot file to the output directory
   plot_file = os.path.join("output", "out.html")
-  print("Generated plot file: " + str(os.path.abspath(plot_file)))
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
+  print("Generated plot file: " + str(os.path.abspath(plot_file)))
 
   return 0
 

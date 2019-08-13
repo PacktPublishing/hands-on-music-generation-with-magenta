@@ -49,10 +49,10 @@ def generate(unused_argv):
   sequence = generator.generate(primer_sequence, generator_options)
 
   plot_file = os.path.join("output", "out.html")
-  print("Generated plot file: " + str(os.path.abspath(plot_file)))
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
+  print("Generated plot file: " + str(os.path.abspath(plot_file)))
 
   input_ports = [name for name in mido.get_output_names()
                  if "VirtualMIDISynth" in name
@@ -94,7 +94,7 @@ def generate(unused_argv):
 
       # We sleep for the remaining time in the loop. It means that whatever
       # how much time this loop took, we'll be waking up at the proper
-      # next time.
+      # next bar.
       # For example, if the loop needs to be 8 seconds, and we took 2.4 seconds
       # executing and arriving here, then we'll sleep only 5.6 seconds to wake
       # up with proper timing.
@@ -102,6 +102,7 @@ def generate(unused_argv):
       print("Sleeping for " + str(sleep_time))
       time.sleep(sleep_time)
     except KeyboardInterrupt:
+      print("Stoping")
       return 0
 
 if __name__ == "__main__":

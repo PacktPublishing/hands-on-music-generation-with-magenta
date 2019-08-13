@@ -49,10 +49,10 @@ def generate(unused_argv):
   sequence = generator.generate(primer_sequence, generator_options)
 
   plot_file = os.path.join("output", "out.html")
-  print("Generated plot file: " + str(os.path.abspath(plot_file)))
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
+  print("Generated plot file: " + str(os.path.abspath(plot_file)))
 
   # We find the proper input port for the software synth,
   # this should work on all platforms (if you followed the
