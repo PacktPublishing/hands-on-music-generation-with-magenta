@@ -18,7 +18,7 @@ def generate(bundle_name: str,
              primer_filename: str = None,
              condition_on_primer: bool = False,
              inject_primer_during_generation: bool = False,
-             total_length_bars: int = 4,
+             total_length_steps: int = 64,
              temperature: float = 1.0,
              beam_size: int = 1,
              branch_factor: int = 1,
@@ -51,7 +51,7 @@ def generate(bundle_name: str,
 
       :param inject_primer_during_generation: https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
 
-      :param total_length_bars: The total length of the sequence, which contains
+      :param total_length_steps: The total length of the sequence, which contains
       the added length of the primer and the generated sequence together. This
       value need to be bigger than the primer length in bars.
 
@@ -112,8 +112,6 @@ def generate(bundle_name: str,
       raise Exception("No support for multiple tempos")
     qpm = primer_sequence.tempos[0].qpm
 
-  # Gets the time signature from the primer sequence. If it wasn't provided,
-  # we initialize it to a default 4/4
   if primer_sequence.time_signatures:
     if len(primer_sequence.time_signatures) > 1:
       raise Exception("No support for multiple time signatures")
@@ -128,25 +126,12 @@ def generate(bundle_name: str,
   # (steps per quarter in generators are mostly 4)
   seconds_per_step = 60.0 / qpm / getattr(generator, "steps_per_quarter", 4)
 
-  # Calculate the number of steps per bar, which changes from the time
-  # signature. If we have a 3/4 time signature, steps per bar is 12,
-  # if 4/4, steps per bar is 16.
-  steps_per_quarter_note = constants.DEFAULT_STEPS_PER_QUARTER
-  num_steps_per_bar = (primer_time_signature.numerator * steps_per_quarter_note)
-
-  # Calculate how many seconds per bar for the generation time
-  seconds_per_bar = num_steps_per_bar * seconds_per_step
-
-  print("Seconds per step: " + str(seconds_per_step))
-  print("Steps per bar: " + str(num_steps_per_bar))
-  print("Seconds per bar: " + str(seconds_per_bar))
-
-  # Calculates the primer sequence length in bars and time by taking the
-  # total time (which is the end of the last note) and finding the next bar
+  # Calculates the primer sequence length in steps and time by taking the
+  # total time (which is the end of the last note) and finding the next step
   # start time.
-  primer_sequence_length_bars = math.ceil(primer_sequence.total_time /
-                                          seconds_per_bar)
-  primer_sequence_length_time = primer_sequence_length_bars * seconds_per_bar
+  primer_sequence_length_steps = math.ceil(primer_sequence.total_time
+                                           / seconds_per_step)
+  primer_sequence_length_time = primer_sequence_length_steps * seconds_per_step
 
   # Calculates the start and the end of the primer sequence.
   # We add a negative delta to the end, because if we don't some generators
@@ -161,13 +146,13 @@ def generate(bundle_name: str,
 
   # Calculates the generation time by taking the total time and substracting
   # the primer time. The resulting generation time needs to be bigger than zero.
-  generation_length_bars = total_length_bars - primer_sequence_length_bars
-  if generation_length_bars <= 0:
-    raise Exception("Total length in bars too small "
-                    + "(" + str(total_length_bars) + ")"
+  generation_length_steps = total_length_steps - primer_sequence_length_steps
+  if generation_length_steps <= 0:
+    raise Exception("Total length in steps too small "
+                    + "(" + str(total_length_steps) + ")"
                     + ", needs to be at least one bar bigger than primer "
-                    + "(" + str(primer_sequence_length_bars) + ")")
-  generation_length_time = generation_length_bars * seconds_per_bar
+                    + "(" + str(primer_sequence_length_steps) + ")")
+  generation_length_time = generation_length_steps * seconds_per_step
 
   # Calculates the generate start and end time, the start time will contain
   # the previously added negative delta from the primer end time.
@@ -201,8 +186,8 @@ def generate(bundle_name: str,
     start_time=generation_start_time,
     end_time=generation_end_time)
 
-  # Generates the sequence. The resulting sequence do not have time signature
-  # so we add the same as the primer.
+  # Generates the sequence, add add the time signature
+  # back to the generated sequence
   sequence = generator.generate(primer_sequence, generator_options)
   time_signature = sequence.time_signatures.add()
   time_signature.time = 0
