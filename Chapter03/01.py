@@ -2,11 +2,11 @@
 import tensorflow as tf
 from magenta.models.melody_rnn import melody_rnn_sequence_generator
 
-from Chapter03 import generator2
+from Chapter03 import generator
 
 
 def app(unused_argv):
-  generator2.generate(
+  generator.generate(
     "basic_rnn.mag",
     melody_rnn_sequence_generator,
     "basic_rnn",
@@ -17,7 +17,7 @@ def app(unused_argv):
     write_midi_to_disk=True,
     write_plot_to_disk=True)
 
-  generator2.generate(
+  generator.generate(
     "lookback_rnn.mag",
     melody_rnn_sequence_generator,
     "lookback_rnn",
@@ -29,7 +29,7 @@ def app(unused_argv):
     write_plot_to_disk=True
   )
 
-  generator2.generate(
+  generator.generate(
     "attention_rnn.mag",
     melody_rnn_sequence_generator,
     "attention_rnn",
