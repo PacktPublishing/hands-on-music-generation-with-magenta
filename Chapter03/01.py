@@ -7,7 +7,7 @@ import magenta.music as mm
 import tensorflow as tf
 from magenta.models.improv_rnn import improv_rnn_sequence_generator
 from magenta.models.melody_rnn import melody_rnn_sequence_generator
-from magenta.music import constants
+from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
 from magenta.protobuf import generator_pb2, music_pb2
 from visual_midi import Plotter
 
@@ -18,7 +18,7 @@ CHORD_VELOCITY = 50
 def generate(bundle_name: str,
              sequence_generator,
              generator_id: str,
-             qpm: float = constants.DEFAULT_QUARTERS_PER_MINUTE,
+             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              primer_filename: str = None,
              backing_chords: str = None,
              total_length_steps: int = 64,
@@ -217,6 +217,7 @@ def generate(bundle_name: str,
 
 
 def app(unused_argv):
+  # TODO doc
   generate(
     "basic_rnn.mag",
     melody_rnn_sequence_generator,
@@ -225,6 +226,7 @@ def app(unused_argv):
     total_length_steps=32,
     temperature=0.9)
 
+  # TODO doc
   generate(
     "lookback_rnn.mag",
     melody_rnn_sequence_generator,
@@ -234,6 +236,7 @@ def app(unused_argv):
     temperature=1.1
   )
 
+  # TODO doc
   generate(
     "attention_rnn.mag",
     melody_rnn_sequence_generator,
@@ -243,6 +246,7 @@ def app(unused_argv):
     temperature=1.1
   )
 
+  # TODO remove ?
   # TODO doesn't work
   # - no more than one melodies improv_rnn_sequence_generator.py:103
   # - chords and melodies start same step improv_rnn_sequence_generator.py:133

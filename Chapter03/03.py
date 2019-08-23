@@ -1,39 +1,36 @@
-"""
-TODO
-"""
+"""TODO performance_sequence_generator"""
 import math
 import os
 import time
 
 import magenta.music as mm
-from magenta.music import constants
+import tensorflow as tf
+from magenta.models.performance_rnn import performance_sequence_generator
+from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
 from magenta.protobuf import generator_pb2, music_pb2
 from visual_midi import Plotter
 
-CHORD_SYMBOL = music_pb2.NoteSequence.TextAnnotation.CHORD_SYMBOL
-CHORD_VELOCITY = 50
 
 def generate(bundle_name: str,
              sequence_generator,
              generator_id: str,
-             qpm: float = constants.DEFAULT_QUARTERS_PER_MINUTE,
+             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              primer_filename: str = None,
-             backing_chords: str = None,
-             condition_on_primer: bool = False,
-             inject_primer_during_generation: bool = False,
+             notes_per_second: str = None,
+             pitch_class_histogram: str = None,
              total_length_steps: int = 64,
              temperature: float = 1.0,
              beam_size: int = 1,
              branch_factor: int = 1,
-             steps_per_iteration: int = 1,
-             write_midi_to_disk: bool = False,
-             write_plot_to_disk: bool = False) -> music_pb2.NoteSequence:
+             steps_per_iteration: int = 1) -> music_pb2.NoteSequence:
   """Generates and returns a new sequence given the sequence generator.
 
   Uses the bundle name to download the bundle in the "bundles" directory if it
   doesn't already exist, then uses the sequence generator and the generator id
   to get the generator. Parameters can be provided for the generation phase.
-  The MIDI and plot files can be written to disk.
+  The MIDI and plot files are written to disk in the "output" folder, with the
+  filename pattern "<generator_name>_<generator_id>_<date_time>" with "mid" or
+  "html" respectively.
 
       :param bundle_name: The bundle name to be downloaded and generated with.
 
@@ -50,9 +47,9 @@ def generate(bundle_name: str,
       from the "primers" directory. If left empty, and empty note sequence will
       be used.
 
-      :param condition_on_primer: https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
+      :param notes_per_second: TODO
 
-      :param inject_primer_during_generation: https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
+      :param pitch_class_histogram: TODO
 
       :param total_length_steps: The total length of the sequence, which contains
       the added length of the primer and the generated sequence together. This
@@ -74,14 +71,6 @@ def generate(bundle_name: str,
       :param steps_per_iteration: The number of steps the generation algorithm
       generates at each iteration, a bigger steps per iteration meaning there
       are less iterations in total because more steps gets generated each time.
-
-      :param write_midi_to_disk: True to write the resulting sequence to disk as
-      a MIDI file in the "output" folder. The filename naming pattern is:
-      "GeneratorName_GeneratorId_DateTime.mid".
-
-      :param write_plot_to_disk: True to write the resulting plot to disk as
-      a HTML file in the "output" folder. The filename naming pattern is:
-      "GeneratorName_GeneratorId_DateTime.html".
 
       :returns The generated NoteSequence
   """
@@ -118,24 +107,6 @@ def generate(bundle_name: str,
   # Calculates the seconds per 1 step, which changes depending on the QPM value
   # (steps per quarter in generators are mostly 4)
   seconds_per_step = 60.0 / qpm / getattr(generator, "steps_per_quarter", 4)
-
-  # Create backing chord progression from flags
-  # TODO DOC
-  if backing_chords:
-    raw_chords = backing_chords.split()
-    repeated_chords = [chord for chord in raw_chords
-                       for _ in range(16)]
-    backing_chords = mm.ChordProgression(repeated_chords)
-
-  # Add the backing chords to the input sequence.
-  # TODO DOC
-  if backing_chords:
-    chord_sequence = backing_chords.to_sequence(sequence_start_time=0.0, qpm=qpm)
-    for text_annotation in chord_sequence.text_annotations:
-      if text_annotation.annotation_type == CHORD_SYMBOL:
-        chord = primer_sequence.text_annotations.add()
-        chord.CopyFrom(text_annotation)
-    primer_sequence.total_time = len(backing_chords) * seconds_per_step
 
   # Calculates the primer sequence length in steps and time by taking the
   # total time (which is the end of the last note) and finding the next step
@@ -190,9 +161,11 @@ def generate(bundle_name: str,
   generator_options.args['beam_size'].int_value = beam_size
   generator_options.args['branch_factor'].int_value = branch_factor
   generator_options.args['steps_per_iteration'].int_value = steps_per_iteration
-  generator_options.args['condition_on_primer'].bool_value = condition_on_primer
-  generator_options.args['no_inject_primer_during_generation'].bool_value = (
-    not inject_primer_during_generation)
+  if notes_per_second:
+    generator_options.args['notes_per_second'].string_value = notes_per_second
+  if pitch_class_histogram:
+    generator_options.args['pitch_class_histogram'].string_value = (
+      pitch_class_histogram)
   generator_options.generate_sections.add(
     start_time=generation_start_time,
     end_time=generation_end_time)
@@ -201,30 +174,58 @@ def generate(bundle_name: str,
   # back to the generated sequence
   sequence = generator.generate(primer_sequence, generator_options)
 
-  if backing_chords:
-    renderer = mm.BasicChordRenderer(velocity=CHORD_VELOCITY)
-    renderer.render(sequence)
-
   # Writes the resulting midi file to the output directory
-  if write_midi_to_disk:
-    date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
-    generator_name = str(generator.__class__).split(".")[2]
-    midi_filename = "%s_%s_%s.mid" % (generator_name, generator_id,
-                                      date_and_time)
-    midi_path = os.path.join("output", midi_filename)
-    mm.midi_io.note_sequence_to_midi_file(sequence, midi_path)
-    print("Generated midi file: " + str(os.path.abspath(midi_path)))
+  date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
+  generator_name = str(generator.__class__).split(".")[2]
+  midi_filename = "%s_%s_%s.mid" % (generator_name, generator_id,
+                                    date_and_time)
+  midi_path = os.path.join("output", midi_filename)
+  mm.midi_io.note_sequence_to_midi_file(sequence, midi_path)
+  print("Generated midi file: " + str(os.path.abspath(midi_path)))
 
   # Writes the resulting plot file to the output directory
-  if write_plot_to_disk:
-    date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
-    generator_name = str(generator.__class__).split(".")[2]
-    plot_filename = "%s_%s_%s.html" % (generator_name, generator_id,
-                                       date_and_time)
-    plot_path = os.path.join("output", plot_filename)
-    pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-    plotter = Plotter(plot_max_length_time=64)
-    plotter.save(pretty_midi, plot_path)
-    print("Generated plot file: " + str(os.path.abspath(plot_path)))
+  date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
+  generator_name = str(generator.__class__).split(".")[2]
+  plot_filename = "%s_%s_%s.html" % (generator_name, generator_id,
+                                     date_and_time)
+  plot_path = os.path.join("output", plot_filename)
+  pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+  plotter = Plotter(plot_max_length_time=64)
+  plotter.save(pretty_midi, plot_path)
+  print("Generated plot file: " + str(os.path.abspath(plot_path)))
 
   return sequence
+
+
+def app(unused_argv):
+  # TODO doc
+  generate(
+    "performance_with_dynamics.mag",
+    performance_sequence_generator,
+    "performance_with_dynamics",
+    primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid",
+  )
+
+  # TODO doc
+  generate(
+    "density_conditioned_performance_with_dynamics.mag",
+    performance_sequence_generator,
+    "density_conditioned_performance_with_dynamics",
+    primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid",
+    notes_per_second="5"
+  )
+
+  # TODO doc
+  generate(
+    "pitch_conditioned_performance_with_dynamics.mag",
+    performance_sequence_generator,
+    "pitch_conditioned_performance_with_dynamics",
+    primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid",
+    pitch_class_histogram="[2, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]"
+  )
+
+  return 0
+
+
+if __name__ == "__main__":
+  tf.app.run(app)

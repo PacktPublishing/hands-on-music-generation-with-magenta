@@ -7,7 +7,7 @@ import time
 import magenta.music as mm
 import tensorflow as tf
 from magenta.models.polyphony_rnn import polyphony_sequence_generator
-from magenta.music import constants
+from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
 from magenta.protobuf import generator_pb2, music_pb2
 from visual_midi import Plotter
 
@@ -15,7 +15,7 @@ from visual_midi import Plotter
 def generate(bundle_name: str,
              sequence_generator,
              generator_id: str,
-             qpm: float = constants.DEFAULT_QUARTERS_PER_MINUTE,
+             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              primer_filename: str = None,
              condition_on_primer: bool = False,
              inject_primer_during_generation: bool = False,
@@ -198,6 +198,7 @@ def generate(bundle_name: str,
 
 
 def app(unused_argv):
+  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
@@ -207,6 +208,7 @@ def app(unused_argv):
     temperature=0.9,
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid")
 
+  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
@@ -216,6 +218,7 @@ def app(unused_argv):
     temperature=0.9,
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid")
 
+  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
@@ -225,6 +228,7 @@ def app(unused_argv):
     temperature=0.9,
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid")
 
+  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
