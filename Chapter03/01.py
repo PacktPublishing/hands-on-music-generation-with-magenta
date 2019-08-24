@@ -1,31 +1,31 @@
-"""TODO melody_rnn_sequence_generator"""
-import math
+"""
+This example shows a melody (monophonic) generation using the melody rnn model
+and 3 different configurations: basic, lookback and attention.
+"""
+
 import os
 import time
 
 import magenta.music as mm
+import math
 import tensorflow as tf
-from magenta.models.improv_rnn import improv_rnn_sequence_generator
 from magenta.models.melody_rnn import melody_rnn_sequence_generator
 from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
-from magenta.protobuf import generator_pb2, music_pb2
+from magenta.protobuf.generator_pb2 import GeneratorOptions
+from magenta.protobuf.music_pb2 import NoteSequence
 from visual_midi import Plotter
-
-CHORD_SYMBOL = music_pb2.NoteSequence.TextAnnotation.CHORD_SYMBOL
-CHORD_VELOCITY = 50
 
 
 def generate(bundle_name: str,
              sequence_generator,
              generator_id: str,
-             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              primer_filename: str = None,
-             backing_chords: str = None,
+             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              total_length_steps: int = 64,
              temperature: float = 1.0,
              beam_size: int = 1,
              branch_factor: int = 1,
-             steps_per_iteration: int = 1) -> music_pb2.NoteSequence:
+             steps_per_iteration: int = 1) -> NoteSequence:
   """Generates and returns a new sequence given the sequence generator.
 
   Uses the bundle name to download the bundle in the "bundles" directory if it
@@ -43,14 +43,12 @@ def generate(bundle_name: str,
       :param generator_id: The id of the generator configuration, this is the
       model's configuration.
 
-      :param qpm: The QPM for the generated sequence. If a primer is provided,
-      the primer QPM will be used and this parameter ignored.
-
       :param primer_filename: The filename for the primer, which will be taken
       from the "primers" directory. If left empty, and empty note sequence will
       be used.
 
-      :param backing_chords: TODO
+      :param qpm: The QPM for the generated sequence. If a primer is provided,
+      the primer QPM will be used and this parameter ignored.
 
       :param total_length_steps: The total length of the sequence, which
       contains the added length of the primer and the generated sequence
@@ -96,7 +94,7 @@ def generate(bundle_name: str,
     primer_sequence = mm.midi_io.midi_file_to_note_sequence(
       os.path.join("primers", primer_filename))
   else:
-    primer_sequence = music_pb2.NoteSequence()
+    primer_sequence = NoteSequence()
 
   # Gets the QPM from the primer sequence. If it wasn't provided, take the
   # parameters that defaults to Magenta's default
@@ -108,25 +106,6 @@ def generate(bundle_name: str,
   # Calculates the seconds per 1 step, which changes depending on the QPM value
   # (steps per quarter in generators are mostly 4)
   seconds_per_step = 60.0 / qpm / getattr(generator, "steps_per_quarter", 4)
-
-  # Create backing chord progression from flags
-  # TODO DOC
-  if backing_chords:
-    raw_chords = backing_chords.split()
-    repeated_chords = [chord for chord in raw_chords
-                       for _ in range(16)]
-    backing_chords = mm.ChordProgression(repeated_chords)
-
-  # Add the backing chords to the input sequence.
-  # TODO DOC
-  if backing_chords:
-    chord_sequence = backing_chords.to_sequence(sequence_start_time=0.0,
-                                                qpm=qpm)
-    for text_annotation in chord_sequence.text_annotations:
-      if text_annotation.annotation_type == CHORD_SYMBOL:
-        chord = primer_sequence.text_annotations.add()
-        chord.CopyFrom(text_annotation)
-    primer_sequence.total_time = len(backing_chords) * seconds_per_step
 
   # Calculates the primer sequence length in steps and time by taking the
   # total time (which is the end of the last note) and finding the next step
@@ -176,7 +155,7 @@ def generate(bundle_name: str,
   # Pass the given parameters, the generator options are common for all models,
   # except for condition_on_primer and no_inject_primer_during_generation
   # which are specific to polyphonic models
-  generator_options = generator_pb2.GeneratorOptions()
+  generator_options = GeneratorOptions()
   generator_options.args['temperature'].float_value = temperature
   generator_options.args['beam_size'].int_value = beam_size
   generator_options.args['branch_factor'].int_value = branch_factor
@@ -188,10 +167,6 @@ def generate(bundle_name: str,
   # Generates the sequence, add add the time signature
   # back to the generated sequence
   sequence = generator.generate(primer_sequence, generator_options)
-
-  if backing_chords:
-    renderer = mm.BasicChordRenderer(velocity=CHORD_VELOCITY)
-    renderer.render(sequence)
 
   # Writes the resulting midi file to the output directory
   date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
@@ -217,7 +192,9 @@ def generate(bundle_name: str,
 
 
 def app(unused_argv):
-  # TODO doc
+  # Calling the sequence generator with the basic RNN configuration. The
+  # generated output won't have much of the primer in it, since it has a
+  # hard time remembering past events.
   generate(
     "basic_rnn.mag",
     melody_rnn_sequence_generator,
@@ -226,7 +203,9 @@ def app(unused_argv):
     total_length_steps=32,
     temperature=0.9)
 
-  # TODO doc
+  # Calling the sequence generator with the lookback RNN configuration. The
+  # generated output will carry the musical structure of the primer on 2 bars
+  # (which is the lookback distance) at repeat stuff.
   generate(
     "lookback_rnn.mag",
     melody_rnn_sequence_generator,
@@ -236,7 +215,8 @@ def app(unused_argv):
     temperature=1.1
   )
 
-  # TODO doc
+  # Calling the sequence generator with the attention RNN configuration. The
+  # generated output will carry the musical structure of the primer.
   generate(
     "attention_rnn.mag",
     melody_rnn_sequence_generator,
@@ -245,20 +225,6 @@ def app(unused_argv):
     total_length_steps=128,
     temperature=1.1
   )
-
-  # TODO remove ?
-  # TODO doesn't work
-  # - no more than one melodies improv_rnn_sequence_generator.py:103
-  # - chords and melodies start same step improv_rnn_sequence_generator.py:133
-  generate(
-    "chord_pitches_improv.mag",
-    improv_rnn_sequence_generator,
-    "chord_pitches_improv",
-    primer_filename="Game_of_Thrones_Melody_Polyphonic.mid",
-    backing_chords='C G Am F C G F C',
-    # TODO this needs to fit the hard coded 16 from the generator class
-    total_length_steps=128,
-    temperature=1)
 
   return 0
 

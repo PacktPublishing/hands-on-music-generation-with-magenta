@@ -1,29 +1,33 @@
-"""TODO polyphony_sequence_generator"""
+"""
+This example shows a polyphonic generation with the polyphony rnn model and
+different arguments.
+"""
 
-import math
 import os
 import time
 
 import magenta.music as mm
+import math
 import tensorflow as tf
 from magenta.models.polyphony_rnn import polyphony_sequence_generator
 from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
-from magenta.protobuf import generator_pb2, music_pb2
+from magenta.protobuf.generator_pb2 import GeneratorOptions
+from magenta.protobuf.music_pb2 import NoteSequence
 from visual_midi import Plotter
 
 
 def generate(bundle_name: str,
              sequence_generator,
              generator_id: str,
-             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              primer_filename: str = None,
+             qpm: float = DEFAULT_QUARTERS_PER_MINUTE,
              condition_on_primer: bool = False,
              inject_primer_during_generation: bool = False,
              total_length_steps: int = 64,
              temperature: float = 1.0,
              beam_size: int = 1,
              branch_factor: int = 1,
-             steps_per_iteration: int = 1) -> music_pb2.NoteSequence:
+             steps_per_iteration: int = 1) -> NoteSequence:
   """Generates and returns a new sequence given the sequence generator.
 
   Uses the bundle name to download the bundle in the "bundles" directory if it
@@ -41,12 +45,12 @@ def generate(bundle_name: str,
       :param generator_id: The id of the generator configuration, this is the
       model's configuration.
 
-      :param qpm: The QPM for the generated sequence. If a primer is provided,
-      the primer QPM will be used and this parameter ignored.
-
       :param primer_filename: The filename for the primer, which will be taken
       from the "primers" directory. If left empty, and empty note sequence will
       be used.
+
+      :param qpm: The QPM for the generated sequence. If a primer is provided,
+      the primer QPM will be used and this parameter ignored.
 
       :param condition_on_primer: TODO https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
 
@@ -97,7 +101,7 @@ def generate(bundle_name: str,
     primer_sequence = mm.midi_io.midi_file_to_note_sequence(
       os.path.join("primers", primer_filename))
   else:
-    primer_sequence = music_pb2.NoteSequence()
+    primer_sequence = NoteSequence()
 
   # Gets the QPM from the primer sequence. If it wasn't provided, take the
   # parameters that defaults to Magenta's default
@@ -158,7 +162,7 @@ def generate(bundle_name: str,
   # Pass the given parameters, the generator options are common for all models,
   # except for condition_on_primer and no_inject_primer_during_generation
   # which are specific to polyphonic models
-  generator_options = generator_pb2.GeneratorOptions()
+  generator_options = GeneratorOptions()
   generator_options.args['temperature'].float_value = temperature
   generator_options.args['beam_size'].int_value = beam_size
   generator_options.args['branch_factor'].int_value = branch_factor
