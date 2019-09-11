@@ -1,13 +1,12 @@
 """
-This example shows a polyphonic generation with the polyphony rnn model and
-different arguments.
+This example shows a polyphonic generation with the polyphony rnn model.
 """
 
+import math
 import os
 import time
 
 import magenta.music as mm
-import math
 import tensorflow as tf
 from magenta.models.polyphony_rnn import polyphony_sequence_generator
 from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
@@ -52,9 +51,11 @@ def generate(bundle_name: str,
       :param qpm: The QPM for the generated sequence. If a primer is provided,
       the primer QPM will be used and this parameter ignored.
 
-      :param condition_on_primer: TODO https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
+      :param condition_on_primer: Activates the primer conditioning, which will
+      use the primer to establish a certain key before the generation starts.
 
-      :param inject_primer_during_generation: TODO https://github.com/tensorflow/magenta/tree/master/magenta/models/polyphony_rnn#generate-a-polyphonic-sequence
+      :param inject_primer_during_generation: Activates the primer injection,
+      which will inject the primer in the generated sequence.
 
       :param total_length_steps: The total length of the sequence, which contains
       the added length of the primer and the generated sequence together. This
@@ -202,7 +203,9 @@ def generate(bundle_name: str,
 
 
 def app(unused_argv):
-  # TODO doc
+  """Generates 4 sequences by turning on and off the primer injection
+  and the primer conditioning."""
+
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
@@ -212,7 +215,6 @@ def app(unused_argv):
     temperature=0.9,
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid")
 
-  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
@@ -222,7 +224,6 @@ def app(unused_argv):
     temperature=0.9,
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid")
 
-  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,
@@ -232,7 +233,6 @@ def app(unused_argv):
     temperature=0.9,
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid")
 
-  # TODO doc
   generate(
     "polyphony_rnn.mag",
     polyphony_sequence_generator,

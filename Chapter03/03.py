@@ -1,6 +1,5 @@
 """
-This example shows a polyphonic generation with the performance rnn model and
-different arguments.
+This example shows a polyphonic generation with the performance rnn model.
 """
 
 import os
@@ -52,9 +51,11 @@ def generate(bundle_name: str,
       :param qpm: The QPM for the generated sequence. If a primer is provided,
       the primer QPM will be used and this parameter ignored.
 
-      :param notes_per_second: TODO
+      :param notes_per_second: The approximate number of notes per second in
+      the generated output. Requires more RNN steps, which makes the generation
+      longer.
 
-      :param pitch_class_histogram: TODO
+      :param pitch_class_histogram:
 
       :param total_length_steps: The total length of the sequence, which contains
       the added length of the primer and the generated sequence together. This
@@ -203,7 +204,7 @@ def generate(bundle_name: str,
 
 
 def app(unused_argv):
-  # TODO doc
+  # Generates a sequence with expressive timing and variable velocity
   generate(
     "performance_with_dynamics.mag",
     performance_sequence_generator,
@@ -211,7 +212,8 @@ def app(unused_argv):
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid",
   )
 
-  # TODO doc
+  # Generates a sequence with expressive timing, variable velocity, and
+  # less notes per seconds (defaults 10)
   generate(
     "density_conditioned_performance_with_dynamics.mag",
     performance_sequence_generator,
@@ -220,13 +222,14 @@ def app(unused_argv):
     notes_per_second="5"
   )
 
-  # TODO doc
+  # Generates a sequence with expressive timing, variable velocity, and
+  # a specific pitch density corresponding to the F major scale
   generate(
     "pitch_conditioned_performance_with_dynamics.mag",
     performance_sequence_generator,
     "pitch_conditioned_performance_with_dynamics",
     primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid",
-    pitch_class_histogram="[2, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]"
+    pitch_class_histogram="[1, 0, 1, 0, 1, 2, 0, 1, 0, 1, 0, 1]"
   )
 
   return 0

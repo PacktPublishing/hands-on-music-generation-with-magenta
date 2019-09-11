@@ -1,13 +1,13 @@
 """
 This example shows a melody (monophonic) generation using the melody rnn model
-and 3 different configurations: basic, lookback and attention.
+and 3 configurations: basic, lookback and attention.
 """
 
+import math
 import os
 import time
 
 import magenta.music as mm
-import math
 import tensorflow as tf
 from magenta.models.melody_rnn import melody_rnn_sequence_generator
 from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
@@ -152,9 +152,7 @@ def generate(bundle_name: str,
         + str(generation_start_time) + ", "
         + str(generation_end_time) + "]")
 
-  # Pass the given parameters, the generator options are common for all models,
-  # except for condition_on_primer and no_inject_primer_during_generation
-  # which are specific to polyphonic models
+  # Pass the given parameters, the generator options are common for all models
   generator_options = GeneratorOptions()
   generator_options.args['temperature'].float_value = temperature
   generator_options.args['beam_size'].int_value = beam_size
@@ -199,21 +197,20 @@ def app(unused_argv):
     "basic_rnn.mag",
     melody_rnn_sequence_generator,
     "basic_rnn",
-    primer_filename="Fur_Elisa_Beethoveen_Polyphonic.mid",
+    primer_filename="Fur_Elisa_Beethoveen_Monophonic.mid",
     total_length_steps=32,
     temperature=0.9)
 
   # Calling the sequence generator with the lookback RNN configuration. The
   # generated output will carry the musical structure of the primer on 2 bars
-  # (which is the lookback distance) at repeat stuff.
+  # (which is the lookback distance).
   generate(
     "lookback_rnn.mag",
     melody_rnn_sequence_generator,
     "lookback_rnn",
     primer_filename="Fur_Elisa_Beethoveen_Monophonic.mid",
     total_length_steps=64,
-    temperature=1.1
-  )
+    temperature=1.1)
 
   # Calling the sequence generator with the attention RNN configuration. The
   # generated output will carry the musical structure of the primer.
@@ -223,8 +220,7 @@ def app(unused_argv):
     "attention_rnn",
     primer_filename="Fur_Elisa_Beethoveen_Monophonic.mid",
     total_length_steps=128,
-    temperature=1.1
-  )
+    temperature=1.1)
 
   return 0
 
