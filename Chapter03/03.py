@@ -34,7 +34,7 @@ def generate(bundle_name: str,
   to get the generator. Parameters can be provided for the generation phase.
   The MIDI and plot files are written to disk in the "output" folder, with the
   filename pattern "<generator_name>_<generator_id>_<date_time>" with "mid" or
-  "html" respectively.
+  "html" as extension respectively.
 
       :param bundle_name: The bundle name to be downloaded and generated with.
 

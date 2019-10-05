@@ -6,7 +6,7 @@
 
 import os
 import time
-from typing import List
+from typing import List, Union, Optional
 
 import magenta.music as mm
 import pretty_midi
@@ -64,30 +64,54 @@ def merge(sequences: List[NoteSequence]) -> NoteSequence:
   return mm.midi_io.midi_to_note_sequence(merged)
 
 
-def write_midis(dir: str, prefix: str, sequences: List[NoteSequence]):
-  # TODO Writes the resulting midi file to the output directory
-  if not os.path.exists(os.path.join("output", dir)):
-    os.mkdir(os.path.join("output", dir), )
+# TODO sift to chapter 03
+def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
+              output_dir: Optional[str] = None,
+              prefix: str = "sequence"):
+  """Writes the sequences as MIDI files to the "output" directory, with the
+  filename pattern "<prefix>_<index>_<date_time>" and "mid" as extension.
+
+      :param sequences: a NoteSequence or list of NoteSequence to be saved
+      :param output_dir: an optional subdirectory in the output directory
+      :param prefix: an optional prefix for each file
+  """
+  output_dir = os.path.join("output", output_dir) if output_dir else "output"
+  if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+  if not isinstance(sequences, list):
+    sequences = [sequences]
   for (index, sequence) in enumerate(sequences):
     date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
-    midi_filename = "%s_%s_%s.mid" % (prefix, index, date_and_time)
-    midi_path = os.path.join("output", dir, midi_filename)
-    mm.midi_io.note_sequence_to_midi_file(sequence, midi_path)
-    print("Generated midi file: " + str(os.path.abspath(midi_path)))
+    filename = "%s_%02d_%s.mid" % (prefix, index, date_and_time)
+    path = os.path.join(output_dir, filename)
+    mm.midi_io.note_sequence_to_midi_file(sequence, path)
+    print("Generated midi file: " + str(os.path.abspath(path)))
 
 
-def write_plots(dir: str, prefix: str, sequences: List[NoteSequence]):
-  # TODO Writes the resulting plot file to the output directory
-  if not os.path.exists(os.path.join("output", dir)):
-    os.mkdir(os.path.join("output", dir), )
+# TODO sift to chapter 03
+def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
+              output_dir: Optional[str] = None,
+              prefix: str = "sequence"):
+  """Writes the sequences as HTML plot files to the "output" directory, with the
+  filename pattern "<prefix>_<index>_<date_time>" and "html" as extension.
+
+      :param sequences: a NoteSequence or list of NoteSequence to be saved
+      :param output_dir: an optional subdirectory in the output directory
+      :param prefix: an optional prefix for each file
+  """
+  output_dir = os.path.join("output", output_dir) if output_dir else "output"
+  if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+  if not isinstance(sequences, list):
+    sequences = [sequences]
   for (index, sequence) in enumerate(sequences):
     date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
-    plot_filename = "%s_%s_%s.html" % (prefix, index, date_and_time)
-    plot_path = os.path.join("output", dir, plot_filename)
-    pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+    filename = "%s_%02d_%s.html" % (prefix, index, date_and_time)
+    path = os.path.join(output_dir, filename)
+    midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
     plotter = Plotter(plot_max_length_time=64)
-    plotter.save(pretty_midi, plot_path)
-    print("Generated plot file: " + str(os.path.abspath(plot_path)))
+    plotter.save(midi, path)
+    print("Generated plot file: " + str(os.path.abspath(path)))
 
 
 def app(unused_argv):
@@ -102,10 +126,8 @@ def app(unused_argv):
     sample_sequences = model.sample(2, 32, 1)
 
     # TODO output in folder
-    write_midis("sample", "music_vae-" + "cat-drums_2bar_small",
-                sample_sequences)
-    write_plots("sample", "music_vae-" + "cat-drums_2bar_small",
-                sample_sequences)
+    save_midi(sample_sequences, "sample", "music_vae-cat-drums_2bar_small")
+    save_plot(sample_sequences, "sample", "music_vae-cat-drums_2bar_small")
 
     return sample_sequences
 
@@ -116,6 +138,11 @@ def app(unused_argv):
     if len(sample_sequences) != 2:
       raise Exception("Wrong number of sequences, expected: 2, actual: "
                       + str(len(sample_sequences)))
+    if not sample_sequences[0].notes or not sample_sequences[1].notes:
+      raise Exception("Empty note sequences, sequence 1: "
+                      + str(len(sample_sequences[0].notes))
+                      + ", sequence 2: "
+                      + str(len(sample_sequences[1].notes)))
 
     model = get_model("cat-drums_2bar_small.hikl")
 
@@ -129,19 +156,17 @@ def app(unused_argv):
       sample_sequences[0], sample_sequences[1], 10, 32, 1)
 
     # TODO output in folder
-    write_midis("interpolate", "music_vae-" + "cat-drums_2bar_small",
-                interpolate_sequences)
-    write_plots("interpolate", "music_vae-" + "cat-drums_2bar_small",
-                interpolate_sequences)
+    save_midi(interpolate_sequences, "interpolate",
+              "music_vae-cat-drums_2bar_small")
+    save_plot(interpolate_sequences, "interpolate",
+              "music_vae-cat-drums_2bar_small")
 
     # TODO merge with mm libs
     interpolate_sequence = mm.sequences_lib.concatenate_sequences(
       interpolate_sequences)
 
-    write_midis("merge", "music_vae-" + "cat-drums_2bar_small",
-                [interpolate_sequence])
-    write_plots("merge", "music_vae-" + "cat-drums_2bar_small",
-                [interpolate_sequence])
+    save_midi(interpolate_sequence, "merge", "music_vae-cat-drums_2bar_small")
+    save_plot(interpolate_sequence, "merge", "music_vae-cat-drums_2bar_small")
 
     # TODO merge in two instruments
     # groove_sequence = merge([sample_melody_sequence, groove_sequence])
@@ -158,11 +183,19 @@ def app(unused_argv):
     - use groovae_2bar_humanize to add groove to the drums seq
     - use groovae_2bar_add_closed_hh to add some high hats to the last seq
     """
+    # if interpolate_sequence.total_time != 40:
+    #   raise Exception("Wrong sequence size, expected: 40, actual: "
+    #                   + str(interpolate_sequence.total_time))
     model = get_model("groovae_2bar_humanize")
 
     # TODO 4 = 120 bpm 2 seconds is 1 bar we need 2 bars
     split_interpolate_sequences = mm.sequences_lib.split_note_sequence(
       interpolate_sequence, 4)
+
+    # TODO why ?
+    if len(split_interpolate_sequences) != 10:
+      raise Exception("Wrong number of interpolate size, expected: 10, actual: "
+                      + str(split_interpolate_sequences))
 
     # groove_sequences = []
     # for split_interpolate_sequence in split_interpolate_sequences:
@@ -177,18 +210,17 @@ def app(unused_argv):
     #   groove_sequences.append(groove_sequence)
 
     # TODO encode decode, mu, sigma not necessary but clearer
+    # <class 'tuple'>: (<class 'magenta.models.music_vae.trained_model.NoExtractedExamplesError'>, NoExtractedExamplesError('No examples extracted from NoteSequence: ticks_per_quarter: 220\ntempos
     encoding, mu, sigma = model.encode(split_interpolate_sequences)
     # TODO 32 is 2 bars
     groove_sequences = model.decode(encoding, 32)
 
     # TODO merge with mm libs
     groove_sequence = mm.sequences_lib.concatenate_sequences(
-      groove_sequences, [2] * 10)
+      groove_sequences, [4] * 10)
 
-    write_midis("groove", "music_vae-" + "groove",
-                [groove_sequence])
-    write_plots("groove", "music_vae-" + "groove",
-                [groove_sequence])
+    save_midi(groove_sequence, "groove", "music_vae-groove")
+    save_plot(groove_sequence, "groove", "music_vae-groove")
 
     # TODO add hi hats
     pass
