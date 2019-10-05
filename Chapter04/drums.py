@@ -12,6 +12,7 @@ import magenta.music as mm
 import pretty_midi
 import tensorflow as tf
 from magenta.models.music_vae import TrainedModel, configs
+from magenta.music import DEFAULT_STEPS_PER_BAR
 from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 from visual_midi import Plotter
@@ -91,13 +92,15 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
 # TODO sift to chapter 03
 def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
               output_dir: Optional[str] = None,
-              prefix: str = "sequence"):
+              prefix: str = "sequence",
+              total_bar: int = 2):
   """Writes the sequences as HTML plot files to the "output" directory, with the
   filename pattern "<prefix>_<index>_<date_time>" and "html" as extension.
 
       :param sequences: a NoteSequence or list of NoteSequence to be saved
       :param output_dir: an optional subdirectory in the output directory
       :param prefix: an optional prefix for each file
+      :param total_bar: an int for the number of bars to show in the plot
   """
   output_dir = os.path.join("output", output_dir) if output_dir else "output"
   if not os.path.exists(output_dir):
@@ -109,12 +112,31 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     filename = "%s_%02d_%s.html" % (prefix, index, date_and_time)
     path = os.path.join(output_dir, filename)
     midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-    plotter = Plotter(plot_max_length_time=64)
+    if total_bar > 2:
+      # TODO
+      bar_fill_alphas = [0.5, 0.5] \
+                        + [0.20, 0.20, 0.00, 0.00] * int((total_bar - 4) / 4) \
+                        + [0.5, 0.5]
+    else:
+      # TODO
+      bar_fill_alphas = [0.25, 0.25, 0.05, 0.05]
+    # TODO arg
+    plotter = Plotter(plot_max_length_bar=total_bar,
+                      bar_fill_alphas=bar_fill_alphas,
+                      show_velocity=True)
     plotter.save(midi, path)
     print("Generated plot file: " + str(os.path.abspath(path)))
 
 
 def app(unused_argv):
+  # TODO doesn't work
+  tf.logging.set_verbosity("INFO")
+
+  num_output = 6
+  num_bar_per_sample = 2
+  num_steps_per_sample = num_bar_per_sample * DEFAULT_STEPS_PER_BAR
+  total_bars = num_output * num_bar_per_sample
+
   def sample() -> List[NoteSequence]:
     """
     TODO maybe use a primer to set the ending sample
@@ -123,11 +145,11 @@ def app(unused_argv):
     model = get_model("cat-drums_2bar_small.lokl")
 
     # TODO explain steps and temperature, 32 is 2 bars
-    sample_sequences = model.sample(2, 32, 1)
+    sample_sequences = model.sample(2, num_steps_per_sample)
 
     # TODO output in folder
-    save_midi(sample_sequences, "sample", "music_vae-cat-drums_2bar_small")
-    save_plot(sample_sequences, "sample", "music_vae-cat-drums_2bar_small")
+    save_midi(sample_sequences, "sample", "music_vae")
+    save_plot(sample_sequences, "sample", "music_vae")
 
     return sample_sequences
 
@@ -150,23 +172,24 @@ def app(unused_argv):
     #  No examples extracted from NoteSequence
     # /home/alex/miniconda3/envs/magenta/lib/python3.5/site-packages/magenta/models/music_vae/trained_model.py:220
     # !!! Needs to be quant
-    # TODO explain num_outputs, length, temperature, 32 is 2 bars
+    # TODO explain num_outputs, length, temperature, num_steps is 2 bars
     # TODO use empty sequence : check error and add to book
     interpolate_sequences = model.interpolate(
-      sample_sequences[0], sample_sequences[1], 10, 32, 1)
+      sample_sequences[0],
+      sample_sequences[1],
+      num_output,
+      num_steps_per_sample)
 
     # TODO output in folder
-    save_midi(interpolate_sequences, "interpolate",
-              "music_vae-cat-drums_2bar_small")
-    save_plot(interpolate_sequences, "interpolate",
-              "music_vae-cat-drums_2bar_small")
+    save_midi(interpolate_sequences, "interpolate", "music_vae")
+    save_plot(interpolate_sequences, "interpolate", "music_vae")
 
     # TODO merge with mm libs
     interpolate_sequence = mm.sequences_lib.concatenate_sequences(
-      interpolate_sequences)
+      interpolate_sequences, [4] * num_output)
 
-    save_midi(interpolate_sequence, "merge", "music_vae-cat-drums_2bar_small")
-    save_plot(interpolate_sequence, "merge", "music_vae-cat-drums_2bar_small")
+    save_midi(interpolate_sequence, "merge", "music_vae")
+    save_plot(interpolate_sequence, "merge", "music_vae", total_bars)
 
     # TODO merge in two instruments
     # groove_sequence = merge([sample_melody_sequence, groove_sequence])
@@ -193,7 +216,7 @@ def app(unused_argv):
       interpolate_sequence, 4)
 
     # TODO why ?
-    if len(split_interpolate_sequences) != 10:
+    if len(split_interpolate_sequences) != num_output:
       raise Exception("Wrong number of interpolate size, expected: 10, actual: "
                       + str(split_interpolate_sequences))
 
@@ -205,22 +228,22 @@ def app(unused_argv):
     #   # !!! Needs to be 2 bars
     #   # TODO encode decode, mu, sigma not necessary but clearer
     #   encoding, mu, sigma = model.encode([split_interpolate_sequence])
-    #   # TODO 32 is 2 bars
-    #   groove_sequence = model.decode(encoding, 32)[0]
+    #   # TODO num_steps is 2 bars
+    #   groove_sequence = model.decode(encoding, num_steps)[0]
     #   groove_sequences.append(groove_sequence)
 
     # TODO encode decode, mu, sigma not necessary but clearer
     # <class 'tuple'>: (<class 'magenta.models.music_vae.trained_model.NoExtractedExamplesError'>, NoExtractedExamplesError('No examples extracted from NoteSequence: ticks_per_quarter: 220\ntempos
     encoding, mu, sigma = model.encode(split_interpolate_sequences)
-    # TODO 32 is 2 bars
-    groove_sequences = model.decode(encoding, 32)
+    # TODO num_steps is 2 bars
+    groove_sequences = model.decode(encoding, num_steps_per_sample)
 
     # TODO merge with mm libs
     groove_sequence = mm.sequences_lib.concatenate_sequences(
-      groove_sequences, [4] * 10)
+      groove_sequences, [4] * num_output)
 
-    save_midi(groove_sequence, "groove", "music_vae-groove")
-    save_plot(groove_sequence, "groove", "music_vae-groove")
+    save_midi(groove_sequence, "groove", "music_vae")
+    save_plot(groove_sequence, "groove", "music_vae", total_bars)
 
     # TODO add hi hats
     pass
