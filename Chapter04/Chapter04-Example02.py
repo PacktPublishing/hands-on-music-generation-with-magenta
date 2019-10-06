@@ -1,5 +1,5 @@
 """
-TODO 01 example
+TODO 01 example SAME THING WITH MELODY
 """
 
 import os
@@ -247,7 +247,7 @@ def app(unused_argv):
   num_output = 6
 
   # Number of bar per sample, also giving the size of the interpolation splits
-  num_bar_per_sample = 2
+  num_bar_per_sample = 3
 
   # Number of steps per sample and interpolation splits
   num_steps_per_sample = num_bar_per_sample * DEFAULT_STEPS_PER_BAR
