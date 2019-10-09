@@ -22,6 +22,6 @@ def plot_wav(file):
 
 if __name__ == "__main__":
   for wav_file in sys.argv[1:]:
-    print("Plotting wav file " + wav_file)
+    print(f"Plotting wav file {wav_file}")
     plot_wav(wav_file)
   sys.exit(0)

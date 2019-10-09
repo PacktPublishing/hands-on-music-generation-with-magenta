@@ -153,12 +153,8 @@ def generate(bundle_name: str,
                          + primer_end_adjust)
 
   # Showtime
-  print("Primer time: ["
-        + str(primer_start_time) + ", "
-        + str(primer_end_time) + "]")
-  print("Generation time: ["
-        + str(generation_start_time) + ", "
-        + str(generation_end_time) + "]")
+  print(f"Primer time: [{primer_start_time}, {primer_end_time}]")
+  print(f"Generation time: [{generation_start_time}, {generation_end_time}]")
 
   # Pass the given parameters, the generator options are common for all models,
   # except for condition_on_primer and no_inject_primer_during_generation
@@ -186,7 +182,7 @@ def generate(bundle_name: str,
                                     date_and_time)
   midi_path = os.path.join("output", midi_filename)
   mm.midi_io.note_sequence_to_midi_file(sequence, midi_path)
-  print("Generated midi file: " + str(os.path.abspath(midi_path)))
+  print(f"Generated midi file: {os.path.abspath(midi_path)}")
 
   # Writes the resulting plot file to the output directory
   date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
@@ -197,7 +193,7 @@ def generate(bundle_name: str,
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter(plot_max_length_time=64)
   plotter.save(pretty_midi, plot_path)
-  print("Generated plot file: " + str(os.path.abspath(plot_path)))
+  print(f"Generated plot file: {os.path.abspath(plot_path)}")
 
   return sequence
 

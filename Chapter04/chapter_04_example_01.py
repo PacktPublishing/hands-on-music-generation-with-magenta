@@ -77,7 +77,7 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
     filename = "%s_%02d_%s.mid" % (prefix, index, date_and_time)
     path = os.path.join(output_dir, filename)
     mm.midi_io.note_sequence_to_midi_file(sequence, path)
-    print("Generated midi file: " + str(os.path.abspath(path)))
+    print(f"Generated midi file: {os.path.abspath(path)}")
 
 
 # TODO sift to chapter 03
@@ -107,7 +107,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     plotter = Plotter(plot_max_length_bar=plot_max_length_bar,
                       show_velocity=True)
     plotter.save(midi, path)
-    print("Generated plot file: " + str(os.path.abspath(path)))
+    print(f"Generated plot file: {os.path.abspath(path)}")
 
 
 def sample(model_name: str,
@@ -270,8 +270,8 @@ def app(unused_argv):
                                      num_output,
                                      total_bars)
 
-  print("Generated groove sequence total time: ",
-        str(generated_groove_sequence.total_time))
+  print(f"Generated groove sequence total time: "
+        f"{generated_groove_sequence.total_time}")
 
   return 0
 

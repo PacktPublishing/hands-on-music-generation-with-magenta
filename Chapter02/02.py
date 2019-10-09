@@ -52,7 +52,7 @@ def generate(unused_argv):
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
-  print("Generated plot file: " + str(os.path.abspath(plot_file)))
+  print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
   # We find the proper input port for the software synth,
   # this should work on all platforms (if you followed the
@@ -61,10 +61,9 @@ def generate(unused_argv):
                  if "VirtualMIDISynth" in name
                  or "FLUID Synth" in name]
   if not input_ports:
-    print("Cannot find proper input port in "
-          + str(mido.get_output_names()))
-  print("Playing generated MIDI in input port names: "
-        + str(input_ports))
+    raise Exception(f"Cannot find proper input port in: "
+                    f"{mido.get_output_names()}")
+  print(f"Playing generated MIDI in input port names: {input_ports}")
 
   # Start a new MIDI hub on that port (incoming only)
   midi_hub = mh.MidiHub([], input_ports, None)

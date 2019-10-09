@@ -52,16 +52,15 @@ def generate(unused_argv):
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
-  print("Generated plot file: " + str(os.path.abspath(plot_file)))
+  print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
   input_ports = [name for name in mido.get_output_names()
                  if "VirtualMIDISynth" in name
                  or "FLUID Synth" in name]
   if not input_ports:
-    print("Cannot find proper input port in "
-          + str(mido.get_output_names()))
-  print("Playing generated MIDI in input port names: "
-        + str(input_ports))
+    raise Exception(f"Cannot find proper input port in: "
+                    f"{mido.get_output_names()}")
+  print(f"Playing generated MIDI in input port names: {input_ports}")
 
   midi_hub = mh.MidiHub([], input_ports, None)
 
@@ -73,7 +72,7 @@ def generate(unused_argv):
   # We calculate the length of the generated sequence in seconds,
   # which gives up the loop time in seconds
   loop_time = generation_end_time - primer_start_time
-  print("Loop time is " + str(loop_time))
+  print(f"Loop time is {loop_time}")
 
   # We get the current wall time before the loop starts
   wall_start_time = time.time()
@@ -99,10 +98,10 @@ def generate(unused_argv):
       # executing and arriving here, then we'll sleep only 5.6 seconds to wake
       # up with proper timing.
       sleep_time = loop_time - (tick_start_time % loop_time)
-      print("Sleeping for " + str(sleep_time))
+      print(f"Sleeping for {sleep_time}")
       time.sleep(sleep_time)
     except KeyboardInterrupt:
-      print("Stoping")
+      print(f"Stopping")
       return 0
 
 if __name__ == "__main__":

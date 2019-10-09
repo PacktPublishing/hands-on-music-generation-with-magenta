@@ -20,8 +20,8 @@ Installing Magenta using Conda is easier. First
 [install Miniconda](https://conda.io/en/latest/miniconda.html), then:
 
 ```bash
-# Create a new environment for Magenta with Python 3.5.x as interpreter
-conda create --name magenta python=3.5
+# Create a new environment for Magenta with Python 3.6.x as interpreter
+conda create --name magenta python=3.6
 
 # Then activate it
 conda activate magenta

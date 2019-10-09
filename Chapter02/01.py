@@ -42,8 +42,8 @@ def generate(unused_argv):
   # the generation time
   seconds_per_bar = num_steps_per_bar * seconds_per_step
 
-  print("Seconds per step: " + str(seconds_per_step))
-  print("Seconds per bar: " + str(seconds_per_bar))
+  print(f"Seconds per step: {seconds_per_step}")
+  print(f"Seconds per bar: {seconds_per_bar}")
 
   # Creates a primer sequence that is fed into the model for the generator,
   # which will generate a sequence based on this one
@@ -69,19 +69,17 @@ def generate(unused_argv):
   generation_start_time = primer_end_time
   generation_end_time = generation_start_time + (seconds_per_bar * num_bars)
 
-  print("Primer start and end: ["
-        + str(primer_start_time) + ", "
-        + str(primer_end_time) + "]")
-  print("Generation start and end: ["
-        + str(generation_start_time) + ", "
-        + str(generation_end_time) + "]")
+  print(f"Primer start and end:"
+        f"[{primer_start_time}, {primer_end_time}]")
+  print(f"Generation start and end:"
+        f"[{generation_start_time}, {generation_end_time}]")
 
   # The generator interface is common for all models
   generator_options = generator_pb2.GeneratorOptions()
 
   # Add a bit of temperature for more flavor
   temperature = 1.1
-  print("Temperature: " + str(temperature))
+  print(f"Temperature: {temperature}")
   generator_options.args['temperature'].float_value = temperature
 
   # Defines the generation section
@@ -96,14 +94,14 @@ def generate(unused_argv):
   # Write the resulting midi file to the output directory
   midi_file = os.path.join("output", "out.mid")
   mm.midi_io.note_sequence_to_midi_file(sequence, midi_file)
-  print("Generated midi file: " + str(os.path.abspath(midi_file)))
+  print(f"Generated midi file: {os.path.abspath(midi_file)}")
 
   # Write the resulting plot file to the output directory
   plot_file = os.path.join("output", "out.html")
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
-  print("Generated plot file: " + str(os.path.abspath(plot_file)))
+  print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
   return 0
 
