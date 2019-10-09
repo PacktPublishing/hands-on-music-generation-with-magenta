@@ -11,7 +11,7 @@ expressive timing.
 
 ## Code
 
-### [Example 1](01.py) or [notebook](notebook.ipynb)
+### [Example 1](chapter_03_example_01.py) or [notebook](notebook.ipynb)
 
 This example shows a melody (monophonic) generation using the Melody RNN model
 and 3 configurations: basic, lookback and attention. For
@@ -19,7 +19,7 @@ the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs 3 melody rnn generation using the basic, lookback and attention config
-python 01.py
+python chapter_03_example_01.py
 ```
 
 For the Jupyter notebook:
@@ -28,7 +28,7 @@ For the Jupyter notebook:
 jupyter notebook notebook.ipynb
 ```
 
-### [Example 2](02.py)
+### [Example 2](chapter_03_example_02.py)
 
 This example shows polyphonic generations with the Polyphony RNN model. For
 the Python script, while in the Magenta environment
@@ -37,10 +37,10 @@ the Python script, while in the Magenta environment
 ```bash
 # Runs 4 polyphonic generations using polyphony rnn and
 # different configurations
-python 02.py
+python chapter_03_example_02.py
 ```
 
-### [Example 3](03.py)
+### [Example 3](chapter_03_example_03.py)
 
 This example shows polyphonic generations with the Performance RNN model. For
 the Python script, while in the Magenta environment
@@ -49,5 +49,5 @@ the Python script, while in the Magenta environment
 ```bash
 # Runs 3 polyphonic generations using performance rnn and 
 # different configurations
-python 03.py
+python chapter_03_example_03.py
 ```
