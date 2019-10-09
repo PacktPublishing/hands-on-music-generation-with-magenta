@@ -31,8 +31,8 @@ def download_checkpoint(model_name: str,
   checkpoint_target = os.path.join(target_dir, checkpoint_name)
   if not os.path.exists(checkpoint_target):
     response = urllib.request.urlopen(
-      "https://storage.googleapis.com/magentadata/models/"
-      "%s/checkpoints/%s" % (model_name, checkpoint_name))
+      f"https://storage.googleapis.com/magentadata/models/"
+      f"{model_name}/checkpoints/{checkpoint_name}")
     data = response.read()
     local_file = open(checkpoint_target, 'wb')
     local_file.write(data)
@@ -46,13 +46,13 @@ def get_model(name: str):
       :param name: the model name
   """
   checkpoint = name + ".tar"
-  download_checkpoint("music_vae", checkpoint, "bundles")
+  download_checkpoint("music_vae", checkpoint, "checkpoints")
   return TrainedModel(
     # Removes the .lohl in some training checkpoint which shares the same config
     configs.CONFIG_MAP[name.split(".")[0] if "." in name else name],
     # The batch size will affect the z size for a sequence
     batch_size=8,
-    checkpoint_dir_or_path=os.path.join("bundles", checkpoint))
+    checkpoint_dir_or_path=os.path.join("checkpoints", checkpoint))
 
 
 # TODO sift to chapter 03
@@ -73,8 +73,8 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
   if not isinstance(sequences, list):
     sequences = [sequences]
   for (index, sequence) in enumerate(sequences):
-    date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
-    filename = "%s_%02d_%s.mid" % (prefix, index, date_and_time)
+    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
+    filename = f"{prefix}_{index:02}_{date_and_time}.html"
     path = os.path.join(output_dir, filename)
     mm.midi_io.note_sequence_to_midi_file(sequence, path)
     print(f"Generated midi file: {os.path.abspath(path)}")
@@ -100,8 +100,8 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
   if not isinstance(sequences, list):
     sequences = [sequences]
   for (index, sequence) in enumerate(sequences):
-    date_and_time = time.strftime('%Y-%m-%d_%H%M%S')
-    filename = "%s_%02d_%s.html" % (prefix, index, date_and_time)
+    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
+    filename = f"{prefix}_{index:02}_{date_and_time}.html"
     path = os.path.join(output_dir, filename)
     midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
     plotter = Plotter(plot_max_length_bar=plot_max_length_bar,

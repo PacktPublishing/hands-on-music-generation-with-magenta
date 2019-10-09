@@ -4,8 +4,9 @@
 # vim swap files
 *.swp
 
-# bundle and output folder per chapter
+# bundle, checkout and output folder
 bundles
+checkpoints
 output
 
 # python cache
