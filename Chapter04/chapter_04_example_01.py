@@ -1,5 +1,5 @@
 """
-TODO 01 example SAME THING WITH MELODY
+TODO 01 example
 """
 
 import os
@@ -84,7 +84,7 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
 def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
               output_dir: Optional[str] = None,
               prefix: str = "sequence",
-              total_bar: int = 2):
+              plot_max_length_bar: int = 8):
   """
   Writes the sequences as HTML plot files to the "output" directory, with the
   filename pattern "<prefix>_<index>_<date_time>" and "html" as extension.
@@ -92,7 +92,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
       :param sequences: a NoteSequence or list of NoteSequence to be saved
       :param output_dir: an optional subdirectory in the output directory
       :param prefix: an optional prefix for each file
-      :param total_bar: an int for the number of bars to show in the plot
+      :param plot_max_length_bar: an int for the number of bars to show in the plot
   """
   output_dir = os.path.join("output", output_dir) if output_dir else "output"
   if not os.path.exists(output_dir):
@@ -104,47 +104,37 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     filename = "%s_%02d_%s.html" % (prefix, index, date_and_time)
     path = os.path.join(output_dir, filename)
     midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-    if total_bar <= 2:
-      # For small sequences, alternate bar fill each 2 bars instead of 1 bar
-      bar_fill_alphas = [0.25, 0.25, 0.05, 0.05]
-    else:
-      # For long sequences, mark the first and last 2 bars in a darker fill
-      # and alternate fills in between (each 2 bars)
-      bar_fill_alphas = [0.5, 0.5] \
-                        + [0.20, 0.20, 0.00, 0.00] * int((total_bar - 4) / 4) \
-                        + [0.5, 0.5]
-    plotter = Plotter(plot_max_length_bar=total_bar,
-                      bar_fill_alphas=bar_fill_alphas,
+    plotter = Plotter(plot_max_length_bar=plot_max_length_bar,
                       show_velocity=True)
     plotter.save(midi, path)
     print("Generated plot file: " + str(os.path.abspath(path)))
 
 
-def sample(num_steps_per_sample: int) -> List[NoteSequence]:
+def sample(model_name: str,
+           num_steps_per_sample: int) -> List[NoteSequence]:
   """
-  Samples 2 sequences using the 'cat-drums_2bar_small.lokl' model, which
-  is optimized for sampling.
+  Samples 2 sequences using the given model.
   """
-  model = get_model("cat-drums_2bar_small.lokl")
+  model = get_model(model_name)
 
   # Uses the model to sample 2 sequences,
   # with the number of steps and default temperature
   sample_sequences = model.sample(2, num_steps_per_sample)
 
   # Saves the midi and the plot in the sample folder
-  save_midi(sample_sequences, "sample", "music_vae")
-  save_plot(sample_sequences, "sample", "music_vae")
+  save_midi(sample_sequences, "sample", model_name)
+  save_plot(sample_sequences, "sample", model_name)
 
   return sample_sequences
 
 
-def interpolate(sample_sequences: List[NoteSequence],
+def interpolate(model_name: str,
+                sample_sequences: List[NoteSequence],
                 num_steps_per_sample: int,
                 num_output: int,
                 total_bars: int) -> NoteSequence:
   """
-  Interpolates between 2 sequences using the 'cat-drums_2bar_small.hikl'
-  model, which is optimized for interpolating.
+  Interpolates between 2 sequences using the given model.
   """
   if len(sample_sequences) != 2:
     raise Exception("Wrong number of sequences, expected: 2, actual: "
@@ -155,7 +145,7 @@ def interpolate(sample_sequences: List[NoteSequence],
                     + ", sequence 2 length: "
                     + str(len(sample_sequences[1].notes)))
 
-  model = get_model("cat-drums_2bar_small.hikl")
+  model = get_model(model_name)
 
   # Use the model to interpolate between the 2 input sequences,
   # with the number of output (counting the start and end sequence),
@@ -171,8 +161,8 @@ def interpolate(sample_sequences: List[NoteSequence],
     num_steps_per_sample)
 
   # Saves the midi and the plot in the interpolate folder
-  save_midi(interpolate_sequences, "interpolate", "music_vae")
-  save_plot(interpolate_sequences, "interpolate", "music_vae")
+  save_midi(interpolate_sequences, "interpolate", model_name)
+  save_plot(interpolate_sequences, "interpolate", model_name)
 
   # Concatenates the resulting sequences (of length num_output) into one
   # single sequence.
@@ -185,21 +175,22 @@ def interpolate(sample_sequences: List[NoteSequence],
 
   # Saves the midi and the plot in the merge folder,
   # with the plot having total_bars size
-  save_midi(interpolate_sequence, "merge", "music_vae")
-  save_plot(interpolate_sequence, "merge", "music_vae", total_bars)
+  save_midi(interpolate_sequence, "merge", model_name)
+  save_plot(interpolate_sequence, "merge", model_name, total_bars)
 
   return interpolate_sequence
 
 
-def groove(interpolate_sequence: NoteSequence,
+def groove(model_name: str,
+           interpolate_sequence: NoteSequence,
            num_steps_per_sample: int,
            num_output: int,
            total_bars: int) -> NoteSequence:
   """
   Adds groove to the given sequence by splitting it in manageable sequences
-  and using the 'groovae_2bar_humanize' model to humanize it.
+  and using the given model to humanize it.
   """
-  model = get_model("groovae_2bar_humanize")
+  model = get_model(model_name)
 
   # Split the sequences in chunks of 4 seconds (which is 2 bars at 120 qpm),
   # which is necessary since the model is trained for 2 bars
@@ -219,6 +210,8 @@ def groove(interpolate_sequence: NoteSequence,
   # split sequences (should correspond to num_output), and b is the encoding
   # size (should correspond to num_steps_per_sample * model.batch_size).
   #
+  # TODO check this
+  #
   # This might throw a NoExtractedExamplesError exception if the
   # sequences are not properly formed (for example if the sequences
   # are not quantized, a sequence is empty or not of the proper length).
@@ -236,8 +229,11 @@ def groove(interpolate_sequence: NoteSequence,
 
   # Saves the midi and the plot in the groove folder,
   # with the plot having total_bars size
-  save_midi(groove_sequence, "groove", "music_vae")
-  save_plot(groove_sequence, "groove", "music_vae", total_bars)
+  save_midi(groove_sequence, "groove", model_name)
+  save_plot(groove_sequence, "groove", model_name, total_bars)
+
+  # TOOD compress velocities
+  pass
 
   return groove_sequence
 
@@ -247,7 +243,7 @@ def app(unused_argv):
   num_output = 6
 
   # Number of bar per sample, also giving the size of the interpolation splits
-  num_bar_per_sample = 3
+  num_bar_per_sample = 2
 
   # Number of steps per sample and interpolation splits
   num_steps_per_sample = num_bar_per_sample * DEFAULT_STEPS_PER_BAR
@@ -255,17 +251,21 @@ def app(unused_argv):
   # The total number of bars
   total_bars = num_output * num_bar_per_sample
 
-  # Samples 2 new sequences
-  generated_sample_sequences = sample(num_steps_per_sample)
+  # Samples 2 new sequences with "lokl" model which is optimized for sampling
+  generated_sample_sequences = sample("cat-drums_2bar_small.lokl",
+                                      num_steps_per_sample)
 
-  # Interpolates between the 2 sequences, return 1 sequence
-  generated_interpolate_sequence = interpolate(generated_sample_sequences,
+  # Interpolates between the 2 sequences, returns 1 sequence
+  # with "hikl" which is optimized for sampling
+  generated_interpolate_sequence = interpolate("cat-drums_2bar_small.hikl",
+                                               generated_sample_sequences,
                                                num_steps_per_sample,
                                                num_output,
                                                total_bars)
 
   # Adds groove to the whole sequence
-  generated_groove_sequence = groove(generated_interpolate_sequence,
+  generated_groove_sequence = groove("groovae_2bar_humanize",
+                                     generated_interpolate_sequence,
                                      num_steps_per_sample,
                                      num_output,
                                      total_bars)
