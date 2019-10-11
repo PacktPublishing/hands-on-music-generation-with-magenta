@@ -1,10 +1,10 @@
 """
-TODO 01 example
+This example shows how to sample and interpolate a melody sequence
+using MusicVAE and various configurations.
 """
 
 import os
-import time
-from typing import List, Union, Optional
+from typing import List
 
 import magenta.music as mm
 import tensorflow as tf
@@ -12,7 +12,8 @@ from magenta.models.music_vae import TrainedModel, configs
 from magenta.music import DEFAULT_STEPS_PER_BAR
 from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
-from visual_midi import Plotter
+
+from Common.utils import save_midi, save_plot
 
 
 def download_checkpoint(model_name: str,
@@ -55,59 +56,6 @@ def get_model(name: str):
     checkpoint_dir_or_path=os.path.join("checkpoints", checkpoint))
 
 
-# TODO sift to chapter 03
-def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
-              output_dir: Optional[str] = None,
-              prefix: str = "sequence"):
-  """
-  Writes the sequences as MIDI files to the "output" directory, with the
-  filename pattern "<prefix>_<index>_<date_time>" and "mid" as extension.
-
-      :param sequences: a NoteSequence or list of NoteSequence to be saved
-      :param output_dir: an optional subdirectory in the output directory
-      :param prefix: an optional prefix for each file
-  """
-  output_dir = os.path.join("output", output_dir) if output_dir else "output"
-  os.makedirs(output_dir, exist_ok=True)
-  if not isinstance(sequences, list):
-    sequences = [sequences]
-  for (index, sequence) in enumerate(sequences):
-    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
-    filename = f"{prefix}_{index:02}_{date_and_time}.mid"
-    path = os.path.join(output_dir, filename)
-    mm.midi_io.note_sequence_to_midi_file(sequence, path)
-    print(f"Generated midi file: {os.path.abspath(path)}")
-
-
-# TODO sift to chapter 03
-def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
-              output_dir: Optional[str] = None,
-              prefix: str = "sequence",
-              plot_max_length_bar: int = 8):
-  """
-  Writes the sequences as HTML plot files to the "output" directory, with the
-  filename pattern "<prefix>_<index>_<date_time>" and "html" as extension.
-
-      :param sequences: a NoteSequence or list of NoteSequence to be saved
-      :param output_dir: an optional subdirectory in the output directory
-      :param prefix: an optional prefix for each file
-      :param plot_max_length_bar: an int for the number of bars to show in the plot
-  """
-  output_dir = os.path.join("output", output_dir) if output_dir else "output"
-  os.makedirs(output_dir, exist_ok=True)
-  if not isinstance(sequences, list):
-    sequences = [sequences]
-  for (index, sequence) in enumerate(sequences):
-    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
-    filename = f"{prefix}_{index:02}_{date_and_time}.html"
-    path = os.path.join(output_dir, filename)
-    midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-    plotter = Plotter(plot_max_length_bar=plot_max_length_bar,
-                      show_velocity=True)
-    plotter.save(midi, path)
-    print(f"Generated plot file: {os.path.abspath(path)}")
-
-
 def sample(model_name: str,
            num_steps_per_sample: int) -> List[NoteSequence]:
   """
@@ -117,7 +65,7 @@ def sample(model_name: str,
 
   # Uses the model to sample 2 sequences,
   # with the number of steps and default temperature
-  sample_sequences = model.sample(2, num_steps_per_sample)
+  sample_sequences = model.sample(n=2, length=num_steps_per_sample)
 
   # Saves the midi and the plot in the sample folder
   save_midi(sample_sequences, "sample", model_name)
@@ -153,10 +101,10 @@ def interpolate(model_name: str,
   # sequences are not properly formed (for example if the sequences
   # are not quantized, a sequence is empty or not of the proper length).
   interpolate_sequences = model.interpolate(
-    sample_sequences[0],
-    sample_sequences[1],
-    num_output,
-    num_steps_per_sample)
+    start_sequence=sample_sequences[0],
+    end_sequence=sample_sequences[1],
+    num_steps=num_output,
+    length=num_steps_per_sample)
 
   # Saves the midi and the plot in the interpolate folder
   save_midi(interpolate_sequences, "interpolate", model_name)
@@ -174,7 +122,8 @@ def interpolate(model_name: str,
   # Saves the midi and the plot in the merge folder,
   # with the plot having total_bars size
   save_midi(interpolate_sequence, "merge", model_name)
-  save_plot(interpolate_sequence, "merge", model_name, total_bars)
+  save_plot(interpolate_sequence, "merge", model_name,
+            plot_max_length_bar=total_bars)
 
   return interpolate_sequence
 

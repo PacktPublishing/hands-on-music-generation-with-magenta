@@ -1,10 +1,57 @@
 # Chapter 04 - Latent space interpolation with Music VAE 
 
-TODO
+In this chapter we’ll learn about the importance of continuous latent space 
+brought by Variational Autoencoders (VAE) and its importance in music generation
+compared to standard Autoencoders (AE). We’ll use the MusicVAE model, a 
+hierarchical recurrent VAE, from Magenta, to sample sequences and then 
+interpolate between them, effectively morphing smoothly from one to another. 
+We'll then see how to add groove, or humanization, to an existing sequence, 
+using the GrooVAE model. We’ll finish by looking at the Tensorflow code used 
+to build the VAE model.
 
-## Run
+## Code
 
-TODO
+### [Example 1](chapter_04_example_01.py) or [notebook](notebook.ipynb)
+
+This example shows how to sample, interpolate and humanize a drums sequence
+using MusicVAE and various configurations. For the Python script, 
+while in the Magenta environment (`conda activate magenta`):
+
+```bash
+# Runs the example, the output files (plot, midi) will be in the "output" folder
+python chapter_04_example_01.py
+```
+
+For the Jupyter notebook:
+
+```bash
+jupyter notebook notebook.ipynb
+```
+
+### [Example 2](chapter_04_example_02.py)
+
+This example shows how to sample and interpolate a melody sequence
+using MusicVAE and various configurations. For the Python script, 
+while in the Magenta environment (`conda activate magenta`):
+
+```bash
+# Runs the example, the output files (plot, midi) will be in the "output" folder
+python chapter_04_example_02.py
+```
+
+### [Example 3](chapter_04_example_03.py)
+
+This example shows how to sample a trio (drums, melody, bass) sequence
+using MusicVAE and various configurations. For the Python script,
+while in the Magenta environment
+(`conda activate magenta`):
+
+```bash
+# Runs the example, the output files (plot, midi) will be in the "output" folder
+python chapter_04_example_03.py
+```
+
+## TODO
 
 ```bash
 # On linux

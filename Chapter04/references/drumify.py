@@ -3,16 +3,12 @@ TODO 01 example
 """
 
 import os
-import time
-from typing import List, Union, Optional
 
-import magenta.music as mm
 import tensorflow as tf
 from magenta.models.music_vae import TrainedModel, configs, Config
 from magenta.music import midi_file_to_note_sequence
 from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
-from visual_midi import Plotter
 
 
 def download_checkpoint(model_name: str,
@@ -57,59 +53,6 @@ def get_model(name: str) -> TrainedModel:
     # The batch size changes the number of sequences to be processed together
     batch_size=8,
     checkpoint_dir_or_path=os.path.join("checkpoints", checkpoint))
-
-
-# TODO sift to chapter 03
-def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
-              output_dir: Optional[str] = None,
-              prefix: str = "sequence"):
-  """
-  Writes the sequences as MIDI files to the "output" directory, with the
-  filename pattern "<prefix>_<index>_<date_time>" and "mid" as extension.
-
-      :param sequences: a NoteSequence or list of NoteSequence to be saved
-      :param output_dir: an optional subdirectory in the output directory
-      :param prefix: an optional prefix for each file
-  """
-  output_dir = os.path.join("output", output_dir) if output_dir else "output"
-  os.makedirs(output_dir, exist_ok=True)
-  if not isinstance(sequences, list):
-    sequences = [sequences]
-  for (index, sequence) in enumerate(sequences):
-    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
-    filename = f"{prefix}_{index:02}_{date_and_time}.mid"
-    path = os.path.join(output_dir, filename)
-    mm.midi_io.note_sequence_to_midi_file(sequence, path)
-    print(f"Generated midi file: {os.path.abspath(path)}")
-
-
-# TODO sift to chapter 03
-def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
-              output_dir: Optional[str] = None,
-              prefix: str = "sequence",
-              plot_max_length_bar: int = 8):
-  """
-  Writes the sequences as HTML plot files to the "output" directory, with the
-  filename pattern "<prefix>_<index>_<date_time>" and "html" as extension.
-
-      :param sequences: a NoteSequence or list of NoteSequence to be saved
-      :param output_dir: an optional subdirectory in the output directory
-      :param prefix: an optional prefix for each file
-      :param plot_max_length_bar: an int for the number of bars to show in the plot
-  """
-  output_dir = os.path.join("output", output_dir) if output_dir else "output"
-  os.makedirs(output_dir, exist_ok=True)
-  if not isinstance(sequences, list):
-    sequences = [sequences]
-  for (index, sequence) in enumerate(sequences):
-    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
-    filename = f"{prefix}_{index:02}_{date_and_time}.html"
-    path = os.path.join(output_dir, filename)
-    midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-    plotter = Plotter(plot_max_length_bar=plot_max_length_bar,
-                      show_velocity=True)
-    plotter.save(midi, path)
-    print(f"Generated plot file: {os.path.abspath(path)}")
 
 
 # TODO quick method for turning a drumbeat into a tapped rhythm
