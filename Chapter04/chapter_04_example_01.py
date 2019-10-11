@@ -50,7 +50,8 @@ def get_model(name: str):
   return TrainedModel(
     # Removes the .lohl in some training checkpoint which shares the same config
     configs.CONFIG_MAP[name.split(".")[0] if "." in name else name],
-    # The batch size will affect the z size for a sequence
+    # The batch size changes the number of sequences to be processed together,
+    # we'll be working with maximum 6 sequences (during groove)
     batch_size=8,
     checkpoint_dir_or_path=os.path.join("checkpoints", checkpoint))
 
@@ -68,13 +69,12 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
       :param prefix: an optional prefix for each file
   """
   output_dir = os.path.join("output", output_dir) if output_dir else "output"
-  if not os.path.exists(output_dir):
-    os.mkdir(output_dir)
+  os.makedirs(output_dir, exist_ok=True)
   if not isinstance(sequences, list):
     sequences = [sequences]
   for (index, sequence) in enumerate(sequences):
     date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
-    filename = f"{prefix}_{index:02}_{date_and_time}.html"
+    filename = f"{prefix}_{index:02}_{date_and_time}.mid"
     path = os.path.join(output_dir, filename)
     mm.midi_io.note_sequence_to_midi_file(sequence, path)
     print(f"Generated midi file: {os.path.abspath(path)}")
@@ -95,8 +95,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
       :param plot_max_length_bar: an int for the number of bars to show in the plot
   """
   output_dir = os.path.join("output", output_dir) if output_dir else "output"
-  if not os.path.exists(output_dir):
-    os.mkdir(output_dir)
+  os.makedirs(output_dir, exist_ok=True)
   if not isinstance(sequences, list):
     sequences = [sequences]
   for (index, sequence) in enumerate(sequences):

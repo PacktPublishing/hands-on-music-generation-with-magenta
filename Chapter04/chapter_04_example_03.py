@@ -121,90 +121,24 @@ def sample(model_name: str,
 
   # Saves the midi and the plot in the sample folder
   save_midi(sample_sequences, "sample", model_name)
-  save_plot(sample_sequences, "sample", model_name)
+  save_plot(sample_sequences, "sample", model_name, 16)
 
   return sample_sequences
 
 
-def interpolate(model_name: str,
-                sample_sequences: List[NoteSequence],
-                num_steps_per_sample: int,
-                num_output: int,
-                total_bars: int) -> NoteSequence:
-  """
-  Interpolates between 2 sequences using the given model.
-  """
-  if len(sample_sequences) != 2:
-    raise Exception("Wrong number of sequences, expected: 2, actual: "
-                    + str(len(sample_sequences)))
-  if not sample_sequences[0].notes or not sample_sequences[1].notes:
-    raise Exception("Empty note sequences, sequence 1 length: "
-                    + str(len(sample_sequences[0].notes))
-                    + ", sequence 2 length: "
-                    + str(len(sample_sequences[1].notes)))
-
-  model = get_model(model_name)
-
-  # Use the model to interpolate between the 2 input sequences,
-  # with the number of output (counting the start and end sequence),
-  # number of steps per sample and default temperature
-  #
-  # This might throw a NoExtractedExamplesError exception if the
-  # sequences are not properly formed (for example if the sequences
-  # are not quantized, a sequence is empty or not of the proper length).
-  interpolate_sequences = model.interpolate(
-    sample_sequences[0],
-    sample_sequences[1],
-    num_output,
-    num_steps_per_sample)
-
-  # Saves the midi and the plot in the interpolate folder
-  save_midi(interpolate_sequences, "interpolate", model_name)
-  save_plot(interpolate_sequences, "interpolate", model_name)
-
-  # Concatenates the resulting sequences (of length num_output) into one
-  # single sequence.
-  # The second parameter is a list containing the number of seconds
-  # for each input sequence. This is useful if some of the input
-  # sequences do not have notes at the end (for example the last
-  # note ends at 3.5 seconds instead of 4)
-  interpolate_sequence = mm.sequences_lib.concatenate_sequences(
-    interpolate_sequences, [4] * num_output)
-
-  # Saves the midi and the plot in the merge folder,
-  # with the plot having total_bars size
-  save_midi(interpolate_sequence, "merge", model_name)
-  save_plot(interpolate_sequence, "merge", model_name, total_bars)
-
-  return interpolate_sequence
-
-
 def app(unused_argv):
-  # Number of interpolated sequences (counting the start and end sequences)
-  num_output = 10
-
   # Number of bar per sample, also giving the size of the interpolation splits
-  num_bar_per_sample = 2
+  num_bar_per_sample = 16
 
   # Number of steps per sample and interpolation splits
   num_steps_per_sample = num_bar_per_sample * DEFAULT_STEPS_PER_BAR
 
-  # The total number of bars
-  total_bars = num_output * num_bar_per_sample
-
   # Samples 2 new sequences
-  generated_sample_sequences = sample("cat-mel_2bar_big",
+  generated_sample_sequences = sample("hierdec-trio_16bar",
                                       num_steps_per_sample)
 
-  # Interpolates between the 2 sequences, returns 1 sequence
-  generated_interpolate_sequence = interpolate("cat-mel_2bar_big",
-                                               generated_sample_sequences,
-                                               num_steps_per_sample,
-                                               num_output,
-                                               total_bars)
-
-  print(f"Generated interpolate sequence total time: "
-        f"{generated_interpolate_sequence.total_time}")
+  print(f"Generated sample sequence total time: "
+        f"{generated_sample_sequences[0].total_time}")
 
   return 0
 

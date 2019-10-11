@@ -8,8 +8,8 @@ from typing import List, Union, Optional
 
 import magenta.music as mm
 import tensorflow as tf
-from magenta.models.music_vae import TrainedModel, configs
-from magenta.music import DEFAULT_STEPS_PER_BAR
+from magenta.models.music_vae import TrainedModel, configs, Config
+from magenta.music import midi_file_to_note_sequence
 from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 from visual_midi import Plotter
@@ -39,7 +39,11 @@ def download_checkpoint(model_name: str,
     local_file.close()
 
 
-def get_model(name: str):
+def get_config(name: str) -> Config:
+  return configs.CONFIG_MAP[name.split(".")[0] if "." in name else name]
+
+
+def get_model(name: str) -> TrainedModel:
   """
   Returns the model instance from its name.
 
@@ -49,7 +53,7 @@ def get_model(name: str):
   download_checkpoint("music_vae", checkpoint, "checkpoints")
   return TrainedModel(
     # Removes the .lohl in some training checkpoint which shares the same config
-    configs.CONFIG_MAP[name.split(".")[0] if "." in name else name],
+    get_config(name),
     # The batch size changes the number of sequences to be processed together
     batch_size=8,
     checkpoint_dir_or_path=os.path.join("checkpoints", checkpoint))
@@ -108,103 +112,35 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     print(f"Generated plot file: {os.path.abspath(path)}")
 
 
-def sample(model_name: str,
-           num_steps_per_sample: int) -> List[NoteSequence]:
+# TODO quick method for turning a drumbeat into a tapped rhythm
+def get_tapped_2bar(sequence):
+  model_tap = get_config("groovae_2bar_tap_fixed_velocity")
+  data_converter_tap = model_tap.data_converter
+  sequence_tap = data_converter_tap.to_notesequences(
+    data_converter_tap.to_tensors(sequence).inputs)[0]
+  # new_s = change_tempo(new_s, sequence.tempos[0].qpm)
+  for note in sequence_tap.notes:
+    note.velocity = 100
+    note.pitch = 42
+  return sequence_tap
+
+
+def drumify(model_name: str, sequence: NoteSequence) -> NoteSequence:
   """
-  Samples 2 sequences using the given model.
+  Adds groove to the given sequence by splitting it in manageable sequences
+  and using the given model to humanize it.
   """
   model = get_model(model_name)
 
-  # Uses the model to sample 2 sequences,
-  # with the number of steps and default temperature
-  sample_sequences = model.sample(2, num_steps_per_sample)
-
-  # Saves the midi and the plot in the sample folder
-  save_midi(sample_sequences, "sample", model_name)
-  save_plot(sample_sequences, "sample", model_name)
-
-  return sample_sequences
-
-
-def interpolate(model_name: str,
-                sample_sequences: List[NoteSequence],
-                num_steps_per_sample: int,
-                num_output: int,
-                total_bars: int) -> NoteSequence:
-  """
-  Interpolates between 2 sequences using the given model.
-  """
-  if len(sample_sequences) != 2:
-    raise Exception("Wrong number of sequences, expected: 2, actual: "
-                    + str(len(sample_sequences)))
-  if not sample_sequences[0].notes or not sample_sequences[1].notes:
-    raise Exception("Empty note sequences, sequence 1 length: "
-                    + str(len(sample_sequences[0].notes))
-                    + ", sequence 2 length: "
-                    + str(len(sample_sequences[1].notes)))
-
-  model = get_model(model_name)
-
-  # Use the model to interpolate between the 2 input sequences,
-  # with the number of output (counting the start and end sequence),
-  # number of steps per sample and default temperature
-  #
-  # This might throw a NoExtractedExamplesError exception if the
-  # sequences are not properly formed (for example if the sequences
-  # are not quantized, a sequence is empty or not of the proper length).
-  interpolate_sequences = model.interpolate(
-    sample_sequences[0],
-    sample_sequences[1],
-    num_output,
-    num_steps_per_sample)
-
-  # Saves the midi and the plot in the interpolate folder
-  save_midi(interpolate_sequences, "interpolate", model_name)
-  save_plot(interpolate_sequences, "interpolate", model_name)
-
-  # Concatenates the resulting sequences (of length num_output) into one
-  # single sequence.
-  # The second parameter is a list containing the number of seconds
-  # for each input sequence. This is useful if some of the input
-  # sequences do not have notes at the end (for example the last
-  # note ends at 3.5 seconds instead of 4)
-  interpolate_sequence = mm.sequences_lib.concatenate_sequences(
-    interpolate_sequences, [4] * num_output)
-
-  # Saves the midi and the plot in the merge folder,
-  # with the plot having total_bars size
-  save_midi(interpolate_sequence, "merge", model_name)
-  save_plot(interpolate_sequence, "merge", model_name, total_bars)
-
-  return interpolate_sequence
+  # TODO make that a tapped sequence
+  pass
 
 
 def app(unused_argv):
-  # Number of interpolated sequences (counting the start and end sequences)
-  num_output = 10
+  sequence = midi_file_to_note_sequence(
+    os.path.join("primers", "52_jazz_125_beat_4-4.mid"))
 
-  # Number of bar per sample, also giving the size of the interpolation splits
-  num_bar_per_sample = 2
-
-  # Number of steps per sample and interpolation splits
-  num_steps_per_sample = num_bar_per_sample * DEFAULT_STEPS_PER_BAR
-
-  # The total number of bars
-  total_bars = num_output * num_bar_per_sample
-
-  # Samples 2 new sequences
-  generated_sample_sequences = sample("cat-mel_2bar_big",
-                                      num_steps_per_sample)
-
-  # Interpolates between the 2 sequences, returns 1 sequence
-  generated_interpolate_sequence = interpolate("cat-mel_2bar_big",
-                                               generated_sample_sequences,
-                                               num_steps_per_sample,
-                                               num_output,
-                                               total_bars)
-
-  print(f"Generated interpolate sequence total time: "
-        f"{generated_interpolate_sequence.total_time}")
+  tapped_sequence = get_tapped_2bar(sequence)
 
   return 0
 
