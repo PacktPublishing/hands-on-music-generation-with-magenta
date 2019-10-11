@@ -1,4 +1,4 @@
-# Chapter 07 - Training an existing model on a specific style
+# Chapter 7 - Training an existing model on a specific style
 
 TODO
 

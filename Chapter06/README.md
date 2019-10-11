@@ -1,4 +1,4 @@
-# Chapter 06 - Data preparation and pipelines
+# Chapter 6 - Data preparation and pipelines
 
 TODO
 

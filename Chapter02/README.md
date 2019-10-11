@@ -1,4 +1,4 @@
-# Chapter 02 - Generating drum sequences with DrumsRNN
+# Chapter 2 - Generating drum sequences with DrumsRNN
 
 In this chapter, you'll learn what many consider the foundation of music:
 percussion. We'll show the importance of Recurrent Neural Network (RNN) for

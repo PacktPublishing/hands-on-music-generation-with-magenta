@@ -1,4 +1,4 @@
-# Chapter 05 - Audio generation with GANSynth
+# Chapter 5 - Audio generation with GANSynth
 
 TODO
 

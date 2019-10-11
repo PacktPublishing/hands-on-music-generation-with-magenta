@@ -1,4 +1,4 @@
-# Chapter 04 - Latent space interpolation with Music VAE 
+# Chapter 4 - Latent space interpolation with MusicVAE 
 
 In this chapter we’ll learn about the importance of continuous latent space 
 brought by Variational Autoencoders (VAE) and its importance in music generation

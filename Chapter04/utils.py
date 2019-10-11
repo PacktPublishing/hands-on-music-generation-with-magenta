@@ -38,6 +38,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
               output_dir: Optional[str] = None,
               prefix: str = "sequence",
               plot_max_length_bar: int = 8,
+              bar_fill_alphas: List[float] = None,
               coloring: Coloring = Coloring.PITCH,
               show_velocity: bool = False):
   """
@@ -49,6 +50,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
       :param prefix: an optional prefix for each file
       :param plot_max_length_bar: an int for the number of bars
       to show in the plot
+      :param bar_fill_alphas: a bar fill alpha array for the plot background
       :param coloring: a coloring for the plot note colors
       :param show_velocity: a boolean for the showing of the velocity
   """
@@ -62,6 +64,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     path = os.path.join(output_dir, filename)
     midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
     plotter = Plotter(plot_max_length_bar=plot_max_length_bar,
+                      bar_fill_alphas=bar_fill_alphas,
                       coloring=coloring,
                       show_velocity=show_velocity)
     plotter.save(midi, path)

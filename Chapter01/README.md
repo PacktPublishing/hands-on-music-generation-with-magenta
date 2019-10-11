@@ -1,4 +1,4 @@
-# Chapter 01 - Introduction on Magenta and generative art
+# Chapter 1 - Introduction on Magenta and generative art
 
 In this chapter, you'll learn the basics of generative artwork and what already
 exists. You'll learn about the new techniques of artwork generation, like

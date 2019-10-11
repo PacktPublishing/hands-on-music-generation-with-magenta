@@ -13,7 +13,7 @@ from magenta.music import DEFAULT_STEPS_PER_BAR
 from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 
-from Common.utils import save_midi, save_plot
+from .utils import save_midi, save_plot
 
 
 def download_checkpoint(model_name: str,
@@ -83,13 +83,12 @@ def interpolate(model_name: str,
   Interpolates between 2 sequences using the given model.
   """
   if len(sample_sequences) != 2:
-    raise Exception("Wrong number of sequences, expected: 2, actual: "
-                    + str(len(sample_sequences)))
+    raise Exception(f"Wrong number of sequences, "
+                    f"expected: 2, actual: {len(sample_sequences)}")
   if not sample_sequences[0].notes or not sample_sequences[1].notes:
-    raise Exception("Empty note sequences, sequence 1 length: "
-                    + str(len(sample_sequences[0].notes))
-                    + ", sequence 2 length: "
-                    + str(len(sample_sequences[1].notes)))
+    raise Exception(f"Empty note sequences, "
+                    f"sequence 1 length: {len(sample_sequences[0].notes)}, "
+                    f"sequence 2 length: {len(sample_sequences[1].notes)}")
 
   model = get_model(model_name)
 
@@ -123,7 +122,8 @@ def interpolate(model_name: str,
   # with the plot having total_bars size
   save_midi(interpolate_sequence, "merge", model_name)
   save_plot(interpolate_sequence, "merge", model_name,
-            plot_max_length_bar=total_bars)
+            plot_max_length_bar=total_bars,
+            bar_fill_alphas=[0.50, 0.50, 0.05, 0.05])
 
   return interpolate_sequence
 

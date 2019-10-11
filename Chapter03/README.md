@@ -1,4 +1,4 @@
-# Chapter 03 - Generating polyphonic melodies
+# Chapter 3 - Generating polyphonic melodies
 
 Building on the last chapter where we created a drum sequence, we can now
 proceed to create the heart of music: its melody. In this chapter, you'll learn
