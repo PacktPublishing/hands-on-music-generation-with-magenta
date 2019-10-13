@@ -8,7 +8,7 @@ from typing import Union, List, Optional
 
 import magenta.music as mm
 from magenta.protobuf.music_pb2 import NoteSequence
-from visual_midi import Plotter, Coloring
+from visual_midi import Plotter
 
 
 def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
@@ -37,10 +37,7 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
 def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
               output_dir: Optional[str] = None,
               prefix: str = "sequence",
-              plot_max_length_bar: int = 8,
-              bar_fill_alphas: List[float] = None,
-              coloring: Coloring = Coloring.PITCH,
-              show_velocity: bool = False):
+              **kwargs):
   """
   Writes the sequences as HTML plot files to the "output" directory, with the
   filename pattern "<prefix>_<index>_<date_time>" and "html" as extension.
@@ -48,11 +45,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
       :param sequences: a NoteSequence or list of NoteSequence to be saved
       :param output_dir: an optional subdirectory in the output directory
       :param prefix: an optional prefix for each file
-      :param plot_max_length_bar: an int for the number of bars
-      to show in the plot
-      :param bar_fill_alphas: a bar fill alpha array for the plot background
-      :param coloring: a coloring for the plot note colors
-      :param show_velocity: a boolean for the showing of the velocity
+      :param kwargs: the keyword arguments to pass to the Plotter instance
   """
   output_dir = os.path.join("output", output_dir) if output_dir else "output"
   os.makedirs(output_dir, exist_ok=True)
@@ -63,9 +56,6 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     filename = f"{prefix}_{index:02}_{date_and_time}.html"
     path = os.path.join(output_dir, filename)
     midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-    plotter = Plotter(plot_max_length_bar=plot_max_length_bar,
-                      bar_fill_alphas=bar_fill_alphas,
-                      coloring=coloring,
-                      show_velocity=show_velocity)
+    plotter = Plotter(**kwargs)
     plotter.save(midi, path)
     print(f"Generated plot file: {os.path.abspath(path)}")

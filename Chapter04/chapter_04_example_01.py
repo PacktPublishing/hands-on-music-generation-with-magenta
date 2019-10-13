@@ -13,7 +13,7 @@ from magenta.music import DEFAULT_STEPS_PER_BAR
 from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 
-from .utils import save_midi, save_plot
+from utils import save_midi, save_plot
 
 
 def download_checkpoint(model_name: str,
