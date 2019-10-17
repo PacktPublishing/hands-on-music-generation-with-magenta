@@ -1,3 +1,6 @@
+"""
+TODO
+"""
 import os
 
 import magenta.music as mm
@@ -10,7 +13,6 @@ from magenta.models.gansynth.lib.generate_util import get_z_notes
 from magenta.models.gansynth.lib.generate_util import load_midi
 from magenta.models.gansynth.lib.generate_util import save_wav
 
-# TODO get checkpoint https://storage.googleapis.com/magentadata/models/gansynth/acoustic_only.zip
 from audio_utils import save_spectogram_plot
 
 FLAGS = tf.app.flags.FLAGS
@@ -22,6 +24,9 @@ tf.app.flags.DEFINE_string(
 
 
 def app(unused_argv):
+  # TODO get checkpoint https://storage.googleapis.com/magentadata/models/gansynth/acoustic_only.zip
+  pass
+
   # TODO midi
   notes = get_midi()
 
