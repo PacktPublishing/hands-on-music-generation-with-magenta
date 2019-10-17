@@ -8,9 +8,13 @@ import numpy as np
 
 
 # TODO better plot https://strikingmoose.com/2017/07/31/exploring-librosa-and-its-visualizations/
+# TODO https://en.wikipedia.org/wiki/Constant-Q_transform
+# We display CQTs witha pitch range of 24-96 (C2-C8), hop size of 256, 40 binsper octave, and a filter scale of 0.8.
+
 
 def save_spectogram_plot(audio,
                          sample_rate: int = 16000,
+                         filename: str = None,
                          output_dir: str = "output") -> None:
   """
   TODO
@@ -38,8 +42,9 @@ def save_spectogram_plot(audio,
     librosa.amplitude_to_db(constant_q_transform, ref=np.max),
     sr=sample_rate,
     x_axis='time')
-  date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
-  filename = f"{date_and_time}.png"
+  if not filename:
+    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
+    filename = f"{date_and_time}.png"
   path = os.path.join(output_dir, filename)
   plt.savefig(fname=path, dpi=600)
 
