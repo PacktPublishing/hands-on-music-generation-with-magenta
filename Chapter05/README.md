@@ -8,3 +8,5 @@ TODO
 - https://magenta.tensorflow.org/blog/2017/09/12/outside-hacks/
 - https://magenta.tensorflow.org/nsynth-fastgen
 - https://magenta.tensorflow.org/nsynth
+
+The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).

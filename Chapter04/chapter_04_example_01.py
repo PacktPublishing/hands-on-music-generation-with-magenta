@@ -147,7 +147,7 @@ def groove(model_name: str,
 
   if len(split_interpolate_sequences) != num_output:
     raise Exception(f"Wrong number of interpolate size, "
-                    f"expected: 10, actual: {split_interpolate_sequences}")
+                    f"expected: 10, actual: {len(split_interpolate_sequences)}")
 
   # Uses the model to encode the list of sequences, returning the encoding
   # (also called z or latent vector) which will the used in the decoding,
