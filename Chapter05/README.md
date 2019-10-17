@@ -1,12 +1,13 @@
 # Chapter 5 - Audio generation with GANSynth
 
+TODO The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).
+
+## Copyrights
+
 TODO
 
-- https://magenta.tensorflow.org/nsynth-instrument
-- https://magenta.tensorflow.org/gansynth
-- https://magenta.tensorflow.org/nsynth-super
-- https://magenta.tensorflow.org/blog/2017/09/12/outside-hacks/
-- https://magenta.tensorflow.org/nsynth-fastgen
-- https://magenta.tensorflow.org/nsynth
-
-The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).
+- http://www.jsbach.net/midi/cs1-1pre.mid
+- 83249__zgump__bass-0205__crop.wav
+- 160045__jorickhoofd__metal-hit-with-metal-bar-resonance__crop.wav
+- 412017__skymary__cat-meow-short__crop.wav
+- 427567__maria-mannone__flute__crop.wav
