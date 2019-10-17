@@ -11,7 +11,13 @@ import numpy as np
 
 def save_spectogram_plot(audio,
                          sample_rate: int = 16000,
-                         output_dir: str = "output"):
+                         output_dir: str = "output") -> None:
+  """
+  TODO
+  :param audio: TODO
+  :param sample_rate: TODO
+  :param output_dir: TODO
+  """
   os.makedirs(output_dir, exist_ok=True)
   pitch_min = np.min(36)
   pitch_max = np.max(84)
