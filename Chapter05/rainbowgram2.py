@@ -8,6 +8,8 @@ from scipy.io.wavfile import read as readwav
 
 
 def plot_notes(path):
+  print(f"proc {path}")
+
   peak = 70
   fig, ax = plt.subplots()
 
@@ -36,7 +38,14 @@ def plot_notes(path):
 
   my_mask = matplotlib.colors.LinearSegmentedColormap('MyMask', cdict)
   plt.register_cmap(cmap=my_mask)
-
+  # plt.tick_params(
+  #   axis='x',  # changes apply to the x-axis
+  #   which='both',  # both major and minor ticks are affected
+  #   bottom=False,  # ticks along the bottom edge are off
+  #   top=False,  # ticks along the top edge are off
+  #   labelbottom=False)  # labels along the bottom edge are off
+  plt.axis('off')
+  
   # Add several samples together
   if isinstance(path, list):
     for i, p in enumerate(path):
@@ -47,7 +56,7 @@ def plot_notes(path):
     sr, audio = readwav(path)
   audio = audio.astype(np.float32)
   C = librosa.cqt(audio,
-                  sr=sr,
+                  sr=SR,
                   hop_length=hop_length,
                   bins_per_octave=int(notes_per_octave * over_sample),
                   n_bins=int(octaves * notes_per_octave * over_sample),
@@ -70,5 +79,7 @@ def plot_notes(path):
 
 
 if __name__ == "__main__":
-  for filename in glob.glob("output/nsynth/*.wav"):
+  # for filename in glob.glob("output/nsynth/*.wav"):
+  #   plot_notes(filename)
+  for filename in glob.glob("sounds/*.wav"):
     plot_notes(filename)

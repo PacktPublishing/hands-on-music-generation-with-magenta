@@ -47,7 +47,7 @@ def note_specgram(path, ax, peak=70.0, use_cqt=True):
   audio = audio.astype(np.float32)
   if use_cqt:
     C = librosa.cqt(audio,
-                    sr=sr,
+                    sr=SR,
                     hop_length=hop_length,
                     bins_per_octave=int(notes_per_octave * over_sample),
                     n_bins=int(octaves * notes_per_octave * over_sample),
