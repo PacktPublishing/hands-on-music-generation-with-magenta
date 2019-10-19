@@ -17,7 +17,6 @@ from magenta.models.gansynth.lib.generate_util import save_wav
 from six.moves import urllib
 
 from audio_utils import save_spectogram_plot
-from note_sequence_utils import save_plot, save_midi
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -28,7 +27,7 @@ tf.app.flags.DEFINE_string(
 
 
 def download_checkpoint(checkpoint_name: str,
-                        target_dir: str = "checkpoints"):
+                        target_dir: str = "checkpoints") -> None:
   """
   Downloads a Magenta checkpoint to target directory and extracts it.
 
@@ -52,7 +51,7 @@ def download_checkpoint(checkpoint_name: str,
       zip.extractall(target_dir)
 
 
-def get_midi(midi_filename: str = "cs1-1pre-short.mid") -> dict:
+def get_midi_notes(midi_filename: str = "cs1-1pre-short.mid") -> dict:
   """
   Returns a notes information dictionary for the gansynth lib.
 
@@ -61,8 +60,6 @@ def get_midi(midi_filename: str = "cs1-1pre-short.mid") -> dict:
   """
   midi_path = os.path.join("midi", midi_filename)
   note_sequence, notes = load_midi(midi_path)
-  save_midi(note_sequence, "midi")
-  save_plot(note_sequence, "midi")
   return notes
 
 
@@ -107,8 +104,7 @@ def generate_audio(notes: dict,
   return audio_clip
 
 
-def save_audio(audio_clip: np.ndarray) \
-    -> None:
+def save_audio(audio_clip: np.ndarray) -> None:
   """
   Writes the audio clip to disk as a spectogram plot (constant Q transform)
   and wav file. See audio_utils.save_spectogram_plot.
@@ -131,7 +127,7 @@ def app(unused_argv):
   download_checkpoint("acoustic_only")
 
   # Loads the midi file and get the notes dictionary
-  notes = get_midi()
+  notes = get_midi_notes()
 
   # Generates the audio clip from the notes dictionary
   audio_clip = generate_audio(notes)

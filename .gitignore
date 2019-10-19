@@ -4,10 +4,9 @@
 # vim swap files
 *.swp
 
-# magenta input and output folders
+# magenta work folders
 bundles
 checkpoints
-encodings
 output
 
 # python cache
