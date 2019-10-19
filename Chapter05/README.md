@@ -2,6 +2,10 @@
 
 TODO The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).
 
+## Refs
+
+- rainbowgram adapted from https://gist.github.com/jesseengel/e223622e255bd5b8c9130407397a0494
+
 ## Copyrights
 
 TODO
