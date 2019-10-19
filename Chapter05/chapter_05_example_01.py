@@ -61,7 +61,8 @@ def encode(wav_filenames: List[str],
   using fastgen to encode them, saving the resulting embeddings in the
   "encodings" folder, and then returning the result.
 
-  :param wav_filenames: the list of filenames to encode
+  :param wav_filenames: the list of filenames to encode, they need to be
+  present in the "sound" folder
   :param checkpoint: the checkpoint folder
   :param sample_length: the sample length, can be calculated by multiplying
   the desired number of seconds by 16000

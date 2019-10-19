@@ -17,6 +17,7 @@ from magenta.models.gansynth.lib.generate_util import save_wav
 from six.moves import urllib
 
 from audio_utils import save_spectogram_plot
+from note_sequence_utils import save_plot, save_midi
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -55,10 +56,13 @@ def get_midi(midi_filename: str = "cs1-1pre-short.mid") -> dict:
   """
   Returns a notes information dictionary for the gansynth lib.
 
-  :param midi_filename: the midi filename to load
+  :param midi_filename: the midi filename to load, it needs to be present
+  in the "midi" folder
   """
   midi_path = os.path.join("midi", midi_filename)
   note_sequence, notes = load_midi(midi_path)
+  save_midi(note_sequence, "midi")
+  save_plot(note_sequence, "midi")
   return notes
 
 

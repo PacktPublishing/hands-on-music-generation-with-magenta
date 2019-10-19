@@ -2,6 +2,17 @@
 
 TODO The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).
 
+## Timing
+
+ex1:
+
+- GPU 1060 with encodings --- 231.81045055389404 seconds ---
+- GPU 1060 without encodings --- 234.3661847114563 seconds ---
+
+ex2:
+
+- GPU 1060: --- 37.21484565734863 seconds ---
+
 ## Code
 
 How to use scripts/tile.sh:

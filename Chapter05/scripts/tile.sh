@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO requires imagemagick
+
 for filename in $( ls *.png )
 do
     echo "Processing file $filename"

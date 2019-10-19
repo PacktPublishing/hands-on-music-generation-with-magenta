@@ -13,7 +13,7 @@ from magenta.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 from visual_midi import Coloring
 
-from utils import save_midi, save_plot
+from note_sequence_utils import save_midi, save_plot
 
 
 def download_checkpoint(model_name: str,
