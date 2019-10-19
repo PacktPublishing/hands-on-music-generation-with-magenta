@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO requires imagemagick
+# TODO doc and arguments
 
 for filename in $( ls *.png )
 do
