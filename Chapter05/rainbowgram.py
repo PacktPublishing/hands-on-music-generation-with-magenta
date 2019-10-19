@@ -72,7 +72,15 @@ def save_rainbowgram(path: str,
 
 
 if __name__ == "__main__":
-  # for filename in glob.glob("output/nsynth/*.wav"):
-  #   save_rainbowgram(filename, os.path.join("output", "rainbowgrams"))
+  for filename in glob.glob("output/gansynth/*.wav"):
+    save_rainbowgram(filename, os.path.join("output",
+                                            "rainbowgrams",
+                                            "gansynth"))
+  for filename in glob.glob("output/nsynth/*.wav"):
+    save_rainbowgram(filename, os.path.join("output",
+                                            "rainbowgrams",
+                                            "nsynth"))
   for filename in glob.glob("sounds/*.wav"):
-    save_rainbowgram(filename, os.path.join("output", "rainbowgrams"))
+    save_rainbowgram(filename, os.path.join("output",
+                                            "rainbowgrams",
+                                            "sounds"))

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for filename in $( ls *__2.png )
+for filename in $( ls *.png )
 do
     echo "Processing file $filename"
 
