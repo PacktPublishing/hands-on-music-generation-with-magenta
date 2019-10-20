@@ -57,3 +57,7 @@ python chapter_04_example_03.py
 # On linux
 fluidsynth -a pulseaudio -g 1 -n -i /usr/share/sounds/sf2/FluidR3_GM.sf2 $( ls -t output/groove/*.mid | head -n1 )
 ```
+
+## Utils
+
+TODO add call examples for the utils note_sequence_utils.py functions

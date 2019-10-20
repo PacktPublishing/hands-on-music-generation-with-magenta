@@ -16,7 +16,7 @@ from magenta.models.gansynth.lib.generate_util import load_midi
 from magenta.models.gansynth.lib.generate_util import save_wav
 from six.moves import urllib
 
-from audio_utils import save_spectogram_plot
+from audio_utils import save_spectrogram_plot
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -112,8 +112,8 @@ def save_audio(audio_clip: np.ndarray) -> None:
   :param audio_clip: the audio clip to save
   """
   # Saves the CQT Spectrogram on disk
-  save_spectogram_plot(audio_clip,
-                       output_dir=os.path.join("output", "gansynth"))
+  save_spectrogram_plot(audio_clip,
+                        output_dir=os.path.join("output", "gansynth"))
 
   # Saves the wav file on disk
   date_and_time = time.strftime("%Y-%m-%d_%H%M%S")

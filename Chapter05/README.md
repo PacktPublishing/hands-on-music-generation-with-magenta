@@ -2,6 +2,24 @@
 
 TODO The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).
 
+## Utils
+
+```python
+import os
+import librosa
+import glob
+from audio_utils import save_rainbowgram_plot
+
+for path in glob.glob("output/nsynth/*.wav"):
+  audio, _ = librosa.load(path, 16000)
+  filename = os.path.basename(path)
+  output_dir = os.path.join("output", "nsynth", "plots")
+  print(f"Writing rainbowgram for {path} in {output_dir}")
+  save_rainbowgram_plot(audio,
+                        filename=filename.replace(".wav", "_rainbowgram.png"),
+                        output_dir=output_dir)
+```
+
 ## Timing
 
 ex1:
@@ -13,14 +31,13 @@ ex2:
 
 - GPU 1060: --- 37.21484565734863 seconds ---
 
-## Code
+## Scripts
 
-How to use scripts/tile.sh:
+scripts/tile.sh:
 
 ```bash
-# The result will be in tile.png
-cd output/nsynth
-../../../scripts/tile.sh
+# The result will be in output/nsynth/plots/tile.png
+./scripts/tile_images.sh output/nsynth/plots
 ```
 
 ## Refs

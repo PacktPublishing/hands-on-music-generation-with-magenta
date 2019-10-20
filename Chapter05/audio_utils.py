@@ -1,6 +1,6 @@
-import glob
 import os
 import time
+from typing import Optional, Any
 
 import librosa
 import librosa.display
@@ -9,18 +9,25 @@ import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
 
 
-def save_spectogram_plot(audio,
-                         sample_rate: int = 16000,
-                         filename: str = None,
-                         output_dir: str = "output") -> None:
+def save_spectrogram_plot(audio: Any,
+                          sample_rate: int = 16000,
+                          filename: Optional[str] = None,
+                          output_dir: str = "output") -> None:
   """
-  TODO
-  :param audio: TODO
-  :param sample_rate: TODO
-  :param filename: TODO
-  :param output_dir: TODO
+  Saves the spectrogram plot of the given audio to the given filename in
+  the given output_dir. The resulting plot is a Constant-Q transform (CQT)
+  spectrogram with the vertical axis being the amplitude converted to
+  dB-scale.
+
+  :param audio: the audio content, as a floating point time series
+  :param sample_rate: the sampling rate of the file
+  :param filename: the optional filename, set to "%Y-%m-%d_%H%M%S".png if None
+  :param output_dir: the output dir
   """
   os.makedirs(output_dir, exist_ok=True)
+
+  # Pitch min and max corresponds to the pitch min and max
+  # of the wavenet training checkpoint
   pitch_min = np.min(36)
   pitch_max = np.max(84)
   frequency_min = librosa.midi_to_hz(pitch_min)
@@ -37,17 +44,17 @@ def save_spectogram_plot(audio,
     n_bins=num_bins,
     bins_per_octave=bins_per_octave)
   plt.figure()
+  plt.axis("off")
   librosa.display.specshow(
     librosa.amplitude_to_db(constant_q_transform, ref=np.max),
-    sr=sample_rate,
-    x_axis="time")
+    sr=sample_rate)
 
   if not filename:
     date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
     filename = f"{date_and_time}.png"
   path = os.path.join(output_dir, filename)
   plt.savefig(fname=path, dpi=600)
-  plt.clf()
+  plt.close()
 
 
 def save_rainbowgram_plot(audio,
@@ -55,12 +62,18 @@ def save_rainbowgram_plot(audio,
                           filename: str = None,
                           output_dir: str = "output") -> None:
   """
-  TODO
-  :param audio:
-  :param sample_rate:
-  :param filename:
-  :param output_dir:
-  :return:
+  Saves the spectrogram plot of the given audio to the given filename in
+  the given output_dir. The resulting plot is a Constant-Q transform (CQT)
+  spectrogram with the vertical axis being the amplitude converted to
+  dB-scale, and the intensity of lines proportional to the log magnitude of
+  the power spectrum and the color given by the derivative of the phase,
+  making the phase visible as "rainbow colors", hence the affective name
+  "rainbowgrams" (given by the Magenta team).
+
+  :param audio: the audio content, as a floating point time series
+  :param sample_rate: the sampling rate of the file
+  :param filename: the optional filename, set to "%Y-%m-%d_%H%M%S".png if None
+  :param output_dir: the output dir
   """
   os.makedirs(output_dir, exist_ok=True)
 
@@ -104,10 +117,10 @@ def save_rainbowgram_plot(audio,
   phase_unwrapped = np.unwrap(phase_angle)
   dphase = phase_unwrapped[:, 1:] - phase_unwrapped[:, :-1]
   dphase = np.concatenate([phase_unwrapped[:, 0:1], dphase], axis=1) / np.pi
-  mag = (librosa.power_to_db(mag ** 2,
-                             amin=1e-13,
-                             top_db=peak,
-                             ref=np.max) / peak) + 1
+  mag = (librosa.amplitude_to_db(mag,
+                                 amin=1e-13,
+                                 top_db=peak,
+                                 ref=np.max) / peak) + 1
   ax.matshow(dphase[::-1, :], cmap=plt.cm.rainbow)
   ax.matshow(mag[::-1, :], cmap=color_mask)
 
@@ -116,15 +129,4 @@ def save_rainbowgram_plot(audio,
     filename = f"{date_and_time}.png"
   path = os.path.join(output_dir, filename)
   plt.savefig(fname=path, dpi=600)
-  plt.clf()
-
-
-if __name__ == "__main__":
-  for path in glob.glob("output/nsynth/*.wav"):
-    audio, _ = librosa.load(path, 16000)
-    filename = os.path.basename(path)
-    output_dir = os.path.join("output", "nsynth", "plots")
-    print(f"Writing rainbowgram for {path}  in {output_dir}")
-    save_rainbowgram_plot(audio,
-                          filename=filename.replace(".wav", "_rainbowgram.png"),
-                          output_dir=output_dir)
+  plt.close(fig)
