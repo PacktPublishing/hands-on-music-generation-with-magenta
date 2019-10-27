@@ -1,12 +1,91 @@
 import os
 import time
-from typing import Optional, Any
+from typing import Optional, Any, List
 
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
+from skimage.transform import resize
+
+
+def timestretch(encodings: np.ndarray,
+                factor: float) -> np.ndarray:
+  """
+  Returns the given encodings timestretch by the given factor.
+
+  :param encodings: the encodings
+  :param factor: the timestretch factor, bigger is faster, 1 is idempotent
+  :return:
+  """
+  min_encodings, max_encodings = encodings.min(), encodings.max()
+  encodings_norms = (encodings - min_encodings) / (
+      max_encodings - min_encodings)
+  timestretches = []
+  for encodings_norm in encodings_norms:
+    timestretch = resize(encodings_norm,
+                         (int(encodings_norm.shape[0] * factor),
+                          encodings_norm.shape[1]),
+                         mode='reflect')
+    timestretch = ((timestretch * (max_encodings - min_encodings))
+                   + min_encodings)
+    timestretches.append(timestretch)
+  return np.array(timestretches)
+
+
+def save_encoding(encodings: List[np.ndarray],
+                  filenames: List[str],
+                  output_dir: str = "encodings") -> None:
+  """
+  Saves the given encodings in the given output_dir with
+  their corresponding filenames.
+
+  :param encodings: the list of encodings to save
+  :param filenames: the list of filename to save the encodings with,
+  will add ".npy" if not present
+  :param output_dir: the output dir
+  """
+  os.makedirs(output_dir, exist_ok=True)
+  for encoding, filename in zip(encodings, filenames):
+    filename = filename if filename.endswith(".npy") else filename + ".npy"
+    np.save(os.path.join(output_dir, filename), encoding)
+
+
+def load_encodings(filenames: List[str],
+                   input_dir: str = "encodings") -> List[np.ndarray]:
+  """
+  Loads the encodings from the given filenames and the given input_dir.
+
+  :param filenames: the list of filename to load the encodings from
+  :param input_dir: the input dir
+  """
+  encodings = []
+  for filename in filenames:
+    encoding = np.load(os.path.join(input_dir, filename))
+    encodings.append(encoding)
+  return encodings
+
+
+def save_encoding_plot(encoding: np.ndarray,
+                       filename: Optional[str] = None,
+                       output_dir: str = "output") -> None:
+  """
+  Save the encoding plot of the given encoding to the given filename in the
+  given output_dir.
+
+  :param encoding: the encoding to save
+  :param filename: the optional filename, set to "%Y-%m-%d_%H%M%S".png if None
+  :param output_dir: the output dir
+  """
+  plt.figure()
+  plt.plot(encoding[0])
+  if not filename:
+    date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
+    filename = f"{date_and_time}.png"
+  path = os.path.join(output_dir, filename)
+  plt.savefig(fname=path, dpi=300)
+  plt.close()
 
 
 def save_spectrogram_plot(audio: Any,

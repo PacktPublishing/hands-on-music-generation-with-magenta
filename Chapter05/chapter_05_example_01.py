@@ -1,6 +1,7 @@
 """
-TODO
+This example shows how to use NSynth to interpolate between pairs of sounds.
 """
+
 import os
 import tarfile
 from typing import List, Tuple

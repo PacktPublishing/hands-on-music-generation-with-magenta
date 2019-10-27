@@ -1,55 +1,45 @@
-# Chapter 5 - Audio generation with GANSynth
+# Chapter 5 - Audio generation with NSynth and GANSynth
 
-TODO The length in samples of the output wave files (can be calculated by multiplying the desired number of seconds by 16000).
+In this chapter, we'll be looking into audio generation. We'll first provide an
+overview of WaveNet, an existing model for audio generation, especially
+efficient in text to speech applications. In Magenta, we'll use NSynth, a
+Wavenet Autoencoder model, to generate small audio clips, that can serve as
+instruments for a backing MIDI score, and can also be transformed by scaling,
+time stretching and mixing them. We'll also use GANSynth, a faster approach
+based on Generative Adversarial Network (GAN).
 
 ## Utils
 
-```python
-import os
-import librosa
-import glob
-from audio_utils import save_rainbowgram_plot
+There are some audio utilities in the [audio_utils.py](./audio_utils.py) file,
+useful for saving and loading the encodings (`save_encoding` and 
+`load_encodings`), time stretching (`timestretch`) them and saving
+spectrogram plots (`save_spectrogram_plot` and `save_rainbowgram_plot`).
 
-for path in glob.glob("output/nsynth/*.wav"):
-  audio, _ = librosa.load(path, 16000)
-  filename = os.path.basename(path)
-  output_dir = os.path.join("output", "nsynth", "plots")
-  print(f"Writing rainbowgram for {path} in {output_dir}")
-  save_rainbowgram_plot(audio,
-                        filename=filename.replace(".wav", "_rainbowgram.png"),
-                        output_dir=output_dir)
-```
+## Sounds and MIDI
 
-## Timing
+We provide some sound samples and MIDI files for the examples.
 
-ex1:
+- [midi/cs1-1pre-short.mid](./midi/cs1-1pre-short.mid) (from http://www.jsbach.net/midi/cs1-1pre.mid")
+- [sounds/83249__zgump__bass-0205__crop.wav](./sounds/83249__zgump__bass-0205__crop.wav) (from https://freesound.org/people/zgump/sounds/83249/)
+- [sounds/160045__jorickhoofd__metal-hit-with-metal-bar-resonance__crop.wav](./sounds/160045__jorickhoofd__metal-hit-with-metal-bar-resonance__crop.wav) (from https://freesound.org/people/jorickhoofd/sounds/160045/)
+- [sounds/412017__skymary__cat-meow-short__crop.wav](./sounds/412017__skymary__cat-meow-short__crop.wav) (from https://freesound.org/people/skymary/sounds/412017/)
+- [sounds/427567__maria-mannone__flute__crop.wav](./sounds/427567__maria-mannone__flute__crop.wav) (from https://freesound.org/people/Maria_Mannone/sounds/427567/)
 
-- GPU 1060 with encodings --- 231.81045055389404 seconds ---
-- GPU 1060 without encodings --- 234.3661847114563 seconds ---
+### [Example 1](chapter_05_example_01.py)
 
-ex2:
-
-- GPU 1060: --- 37.21484565734863 seconds ---
-
-## Scripts
-
-scripts/tile.sh:
+This example shows how to use NSynth to interpolate between pairs of sounds.
 
 ```bash
-# The result will be in output/nsynth/plots/tile.png
-./scripts/tile_images.sh output/nsynth/plots
+# Runs the example, the output audio will be in the "output/nsynth" folder
+python chapter_05_example_01.py
 ```
 
-## Refs
+### [Example 2](chapter_05_example_02.py)
 
-- rainbowgram adapted from https://gist.github.com/jesseengel/e223622e255bd5b8c9130407397a0494
+This example shows how to use GANSynth to generate intruments for a backing
+score from a MIDI file.
 
-## Copyrights
-
-TODO
-
-- http://www.jsbach.net/midi/cs1-1pre.mid
-- 83249__zgump__bass-0205__crop.wav
-- 160045__jorickhoofd__metal-hit-with-metal-bar-resonance__crop.wav
-- 412017__skymary__cat-meow-short__crop.wav
-- 427567__maria-mannone__flute__crop.wav
+```bash
+# Runs the example, the output audio will be in the "output/gansynth" folder
+python chapter_05_example_02.py
+```

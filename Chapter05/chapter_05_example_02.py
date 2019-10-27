@@ -1,6 +1,8 @@
 """
-TODO
+This example shows how to use GANSynth to generate intruments for a backing
+score from a MIDI file.
 """
+
 import os
 import time
 import zipfile
@@ -92,7 +94,6 @@ def generate_audio(notes: dict,
   z_notes = get_z_notes(notes["start_times"], z_instruments, t_instruments)
 
   # Generate audio for each note
-  print(f"Generating {len(z_notes)} samples...")
   audio_notes = model.generate_samples_from_z(z_notes, notes["pitches"])
 
   # Make a single audio clip

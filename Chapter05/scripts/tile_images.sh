@@ -20,7 +20,7 @@ fi
 
 function tile_images() {
   for filename in *.png; do
-    echo "Processing file $filename"
+    echo "Processing file ${filename}"
 
     # Trims the white space around the plot
     filename_trim="${filename%.*}_trim.png"
@@ -31,6 +31,7 @@ function tile_images() {
     convert -border 5x5 "${filename_trim}" "${filename_border}"
   done
 
+  # Tiles the images together in a horizontal manner
   filenames=$(ls *_border.png)
   filename_tile="tile.png"
   echo "Tiling in ${filename_tile} files:"
