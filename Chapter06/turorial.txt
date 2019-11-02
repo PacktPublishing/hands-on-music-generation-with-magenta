@@ -1,0 +1,16 @@
+C:\Users\Claire\Miniconda3\envs\dreambank2\python.exe C:/Users/Claire/Projects/hands-on-music-generation-with-magenta/Chapter06/tutorial5.py
+100%|█████████▉| 31026/31034 [02:16<00:00, 217.22it/s]
+total
+scores: 31034
+tracks: 12286
+100%|██████████| 31034/31034 [02:16<00:00, 227.23it/s]
+  0%|          | 2/12286 [00:00<37:44,  5.43it/s]C:\Users\Claire\Miniconda3\envs\dreambank2\lib\site-packages\pretty_midi\pretty_midi.py:100: RuntimeWarning: Tempo, Key or Time signature change events found on non-zero tracks.  This is not a valid type 0 or type 1 MIDI file.  Tempo, Key or Time Signature may be wrong.
+  RuntimeWarning)
+100%|█████████▉| 12285/12286 [48:42<00:00,  4.57it/s]
+100%|██████████| 12286/12286 [48:42<00:00,  3.78it/s]
+midi
+count_invalid_drums: 1524
+count_pretty_midi_errors: 121
+count_drums: 10641
+
+Process finished with exit code 0

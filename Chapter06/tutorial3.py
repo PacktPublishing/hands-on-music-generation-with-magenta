@@ -41,7 +41,7 @@ with open(SCORE_FILE) as f:
   scores = json.load(f)
 
 # Grab a Million Song Dataset ID from the scores dictionary
-# scores = random.sample(list(scores), 1000)
+# scores = random.sample(list(scores_matches), 1000)
 scores = list(scores)
 
 possible_categories = {"jazz", "blues", "funk"}
@@ -94,8 +94,9 @@ for key, values in tracks_echo_nest.items():
   tracks_echo_nest_count = tracks_echo_nest_count + len(values)
 for key, values in tracks_music_brains.items():
   tracks_music_brains_count = tracks_music_brains_count + len(values)
-print(f"tracks_echo_nest_count:{tracks_echo_nest_count}")
-print(f"tracks_music_brains_count:{tracks_music_brains_count}")
+print(f"scores: {len(scores)}")
+print(f"tracks_echo_nest_count: {tracks_echo_nest_count}")
+print(f"tracks_music_brains_count: {tracks_music_brains_count}")
 
 print()
 print("intersection")

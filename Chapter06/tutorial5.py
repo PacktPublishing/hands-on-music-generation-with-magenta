@@ -1,7 +1,10 @@
+import copy
 import json
 import os
+import shutil
 
 import tables
+from pretty_midi import PrettyMIDI, Instrument
 from tqdm import tqdm
 
 # Local path constants
@@ -9,6 +12,8 @@ DATA_PATH = 'D:\\Users\\Claire\\Data\\datasets\\lakh_midi_dataset\\lmd_matched'
 RESULTS_PATH = 'D:\\Users\\Claire\\Data\\datasets\\lakh_midi_dataset'
 # Path to the file match_scores.json distributed with the LMD
 SCORE_FILE = os.path.join(RESULTS_PATH, 'match_scores.json')
+DATASET_DIR = "D:\\Users\\Claire\\Data\\datasets\\jazz_midi_dataset\\v1"
+shutil.rmtree(DATASET_DIR, ignore_errors=True)
 
 
 # Utility functions for retrieving paths
@@ -44,7 +49,7 @@ with open(SCORE_FILE) as f:
 # scores = random.sample(list(scores_matches), 1000)
 scores = list(scores_matches)
 
-possible_categories = {"jazz", "blues", "funk"}
+possible_categories = {"jazz"}
 tracks = set()
 for msd_id in tqdm(scores):
   with tables.open_file(msd_id_to_h5(msd_id)) as h5:
@@ -69,9 +74,15 @@ print()
 print("total")
 print(f"scores: {len(scores)}")
 print(f"tracks: {len(tracks)}")
+
+os.makedirs(DATASET_DIR, exist_ok=True)
+count_invalid_drums = 0
+count_pretty_midi_errors = 0
+count_drums = 0
 with open("tutorial4_tracks.csv", "w") as file:
   file.write(f"msd_id,midi_path\n")
-  for msd_id in tracks:
+  for msd_id in tqdm(tracks):
+    # Find best midi match
     max_score = 0
     matched_midi_md5 = None
     score_matches = scores_matches[msd_id]
@@ -82,4 +93,34 @@ with open("tutorial4_tracks.csv", "w") as file:
     if not matched_midi_md5:
       print(f"not matched {msd_id} {score_matches}")
     midi_path = get_midi_path(msd_id, matched_midi_md5, "matched")
+
+    # Copy the drum track to new midi
+    try:
+      pm = PrettyMIDI(midi_path)
+    except Exception:
+      count_pretty_midi_errors = count_pretty_midi_errors + 1
+      continue
+    pm_copy = copy.deepcopy(pm)
+    pm_copy.instruments = []
+    for instrument in pm.instruments:
+      if instrument.is_drum:
+        instrument_copy = Instrument(program=0, is_drum=True)
+        for note in instrument.notes:
+          instrument_copy.notes.append(note)
+        pm_copy.instruments.append(instrument_copy)
+        break
+    if len(pm_copy.instruments) != 1:
+      count_invalid_drums = count_invalid_drums + 1
+      continue
+    count_drums = count_drums + 1
+
+    # Write
     file.write(f"{msd_id},{midi_path}\n")
+    pm_copy.write(os.path.join(DATASET_DIR, f"{msd_id}.mid"))
+    # copy(midi_path, "D:\\Users\\Claire\\Data\\datasets\\jazz_midi_dataset\\v1")
+
+print()
+print("midi")
+print(f"count_invalid_drums: {count_invalid_drums}")
+print(f"count_pretty_midi_errors: {count_pretty_midi_errors}")
+print(f"count_drums: {count_drums}")
