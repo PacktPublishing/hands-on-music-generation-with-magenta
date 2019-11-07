@@ -28,7 +28,7 @@ def get_midi_path(msd_id: str,
 
   :param msd_id:
   :param midi_md5:
-  :param kind:
+  :param kind: TODO REMOVE
   :param dataset_path:
   :return:
   """
@@ -61,3 +61,21 @@ def get_msd_score_matches(match_scores_path: str) -> Dict:
   """
   with open(match_scores_path) as f:
     return json.load(f)
+
+def get_matched_midi_md5(msd_id:str, msd_score_matches:dict):
+  """
+  TODO
+
+  :param msd_id:
+  :param msd_score_matches:
+  :return:
+  """
+  max_score = 0
+  matched_midi_md5 = None
+  for midi_md5, score in msd_score_matches[msd_id].items():
+    if score > max_score:
+      max_score = score
+      matched_midi_md5 = midi_md5
+  if not matched_midi_md5:
+    raise Exception(f"Not matched {msd_id}: {msd_score_matches[msd_id]}")
+  return matched_midi_md5

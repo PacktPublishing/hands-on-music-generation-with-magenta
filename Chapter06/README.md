@@ -18,14 +18,13 @@ GOAL: jazz music instruments (MSD match required)
 GOAL: jazz music instruments (bass and piano)
 
 - why matched lakh: because we can get artist and release
-- how to stats artists (chapter_06_example_02.py)
-- how to stats genres with lastfm (chapter_06_example_06.py)
-- how to stats instruments (chapter_06_example_04.py)
-- how to extract and save drums (chapter_06_example_08.py)
-- how to extract and save piano (TODO)
-- put it all together
-    - genres: jazz, blues, country
-    - instrument drums: extract and save to dir
-    - instrument piano: extract and save to dir
+- how to stats artists (DONE: chapter_06_example_01.py)
+- how to stats genres with lastfm (DONE: chapter_06_example_02.py)
+- how to filter genres with lastfm (DONE: chapter_06_example_03.py)
+- how to stats instruments (DONE: chapter_06_example_04.py)
+- how to extract and save drums (DONE: chapter_06_example_05.py)
+- how to extract and save piano (DONE: chapter_06_example_06.py)
+- how to stats polyphonic stuff for piano
+- put it all together with jazz blues country
 - how to detect musical structure (four on the floor)
 - put it all together with techno example

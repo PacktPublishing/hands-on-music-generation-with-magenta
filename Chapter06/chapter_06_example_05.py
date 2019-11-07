@@ -1,7 +1,8 @@
 """
-TODO threaded artist filter on lakh
+TODO how to stats artists
 """
 import argparse
+import collections
 import copy
 import os
 import random
@@ -10,17 +11,19 @@ import timeit
 from itertools import cycle
 from multiprocessing import Manager
 from multiprocessing.pool import Pool
-from typing import List
+from typing import List, Optional
 
 import matplotlib.pyplot as plt
 import tables
-from pretty_midi import PrettyMIDI, Instrument
+from pretty_midi import PrettyMIDI, program_to_instrument_name, Instrument
 
-from lakh_utils import msd_id_to_h5, get_midi_path, get_msd_score_matches
+from lakh_utils import get_msd_score_matches, get_midi_path, \
+  get_matched_midi_md5
+from lakh_utils import msd_id_to_h5
 from threading_utils import Counter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, default=100)
+parser.add_argument("--sample_size", type=int, default=1000)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
@@ -29,23 +32,11 @@ args = parser.parse_args()
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 
 
-def get_midi_path_matched(msd_id: str):
-  max_score = 0
-  matched_midi_md5 = None
-  for midi_md5, score in MSD_SCORE_MATCHES[msd_id].items():
-    if score > max_score:
-      max_score = score
-      matched_midi_md5 = midi_md5
-  if not matched_midi_md5:
-    raise Exception(f"Not matched {msd_id}: {MSD_SCORE_MATCHES[msd_id]}")
-  midi_path = get_midi_path(
-    msd_id, matched_midi_md5, "matched", args.path_dataset_dir)
-  return midi_path
-
-
-def extract_drums(msd_id: str):
+def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
   os.makedirs(args.path_output_dir, exist_ok=True)
-  pm = PrettyMIDI(get_midi_path_matched(msd_id))
+  midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
+  midi_path = get_midi_path(msd_id, midi_md5, "matched", args.path_dataset_dir)
+  pm = PrettyMIDI(midi_path)
   pm_drums = copy.deepcopy(pm)
   pm_drums.instruments = [instrument for instrument in pm_drums.instruments
                           if instrument.is_drum]
@@ -60,15 +51,15 @@ def extract_drums(msd_id: str):
     raise Exception(f"Invalid number of drums {msd_id}: "
                     f"{len(pm_drums.instruments)}")
   pm_drums.write(os.path.join(args.path_output_dir, f"{msd_id}.mid"))
-  return {"msd_id": msd_id, "pm_drums": pm_drums}
+  return pm_drums
 
 
-def process(msd_id: str, counter: Counter):
+def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
-      drums = extract_drums(msd_id)
       counter.increment()
-      return drums
+      pm_drums = extract_drums(msd_id)
+      return {"msd_id": msd_id, "pm_drums": pm_drums}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
@@ -103,14 +94,14 @@ def app(msd_ids: List[str]):
   plt.show()
 
   stop = timeit.default_timer()
-  print('Time: ', stop - start)
+  print("Time: ", stop - start)
 
 
 if __name__ == "__main__":
   if args.sample_size:
     # Process a sample of it
-    msd_ids = random.sample(list(MSD_SCORE_MATCHES), args.sample_size)
+    MSD_IDS = random.sample(list(MSD_SCORE_MATCHES), args.sample_size)
   else:
     # Process all the dataset
-    msd_ids = list(MSD_SCORE_MATCHES)
-  app(msd_ids)
+    MSD_IDS = list(MSD_SCORE_MATCHES)
+  app(MSD_IDS)
