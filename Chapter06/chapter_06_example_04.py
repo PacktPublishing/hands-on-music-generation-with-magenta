@@ -43,13 +43,13 @@ def get_programs(msd_id) -> Optional[list]:
 def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
-      counter.increment()
       programs = get_programs(msd_id)
       return {"msd_id": msd_id, "programs": programs}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
-
+  finally:
+    counter.increment()
 
 def app(msd_ids: List[str]):
   start = timeit.default_timer()

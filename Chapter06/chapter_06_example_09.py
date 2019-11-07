@@ -2,8 +2,8 @@
 TODO how to stats artists
 """
 import argparse
-import collections
 import copy
+import math
 import os
 import random
 import shutil
@@ -15,7 +15,7 @@ from typing import List, Optional
 
 import matplotlib.pyplot as plt
 import tables
-from pretty_midi import PrettyMIDI, program_to_instrument_name, Instrument
+from pretty_midi import PrettyMIDI, Instrument
 
 from lakh_utils import get_msd_score_matches, get_midi_path, \
   get_matched_midi_md5
@@ -32,45 +32,63 @@ args = parser.parse_args()
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 
 
-def extract_pianos(msd_id: str) -> List[PrettyMIDI]:
+def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
   os.makedirs(args.path_output_dir, exist_ok=True)
   midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
   midi_path = get_midi_path(msd_id, midi_md5, "matched", args.path_dataset_dir)
   pm = PrettyMIDI(midi_path)
-  pm.instruments = [instrument for instrument in pm.instruments
-                    if instrument.program == 0 and not instrument.is_drum]
-  pm_pianos = []
-  if len(pm.instruments) > 1:
-    for piano_instrument in pm.instruments:
-      pm_piano = copy.deepcopy(pm)
-      pm_piano_instrument = Instrument(program=0)
-      pm_piano.instruments = [pm_piano_instrument]
-      for note in piano_instrument.notes:
-        pm_piano_instrument.notes.append(note)
-      pm_pianos.append(pm_piano)
-  else:
-    pm_pianos.append(pm)
-  for index, pm_piano in enumerate(pm_pianos):
-    if len(pm_piano.instruments) != 1:
-      raise Exception(f"Invalid number of piano {msd_id}: "
-                      f"{len(pm_piano.instruments)}")
-    if pm_piano.get_end_time() > 2000:
-      raise Exception(f"Piano track too long {msd_id}: "
-                      f"{pm_piano.get_end_time()}")
-    pm_piano.write(os.path.join(args.path_output_dir, f"{msd_id}_{index}.mid"))
-  return pm_pianos
+  pm_drums = copy.deepcopy(pm)
+  pm_drums.instruments = [instrument for instrument in pm_drums.instruments
+                          if instrument.is_drum]
+  if len(pm_drums.instruments) > 1:
+    # Some drum tracks are split, we can merge them
+    drums = Instrument(program=0, is_drum=True)
+    for instrument in pm_drums.instruments:
+      for note in instrument.notes:
+        drums.notes.append(note)
+    pm_drums.instruments = [drums]
+  if len(pm_drums.instruments) != 1:
+    raise Exception(f"Invalid number of drums {msd_id}: "
+                    f"{len(pm_drums.instruments)}")
+  return pm_drums
+
+
+def get_bd_on_beats(pm_drums: PrettyMIDI) -> float:
+  beats = pm_drums.get_beats()
+  bass_drums = [note.start for note in pm_drums.instruments[0].notes
+                if note.pitch == 35 or note.pitch == 36]
+  bass_drums_on_beat = []
+  for beat in beats:
+    beat_has_bass_drum = False
+    for bass_drum in bass_drums:
+      if math.isclose(beat, bass_drum):
+        beat_has_bass_drum = True
+        break
+    bass_drums_on_beat.append(True if beat_has_bass_drum else False)
+  num_bass_drums_on_beat = len([bd for bd in bass_drums_on_beat if bd])
+  bd_on_beats = (num_bass_drums_on_beat / len(bass_drums_on_beat) * 100)
+  return bd_on_beats
 
 
 def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
-      pm_pianos = extract_pianos(msd_id)
-      return {"msd_id": msd_id, "pm_pianos": pm_pianos}
+      pm_drums = extract_drums(msd_id)
+      bd_on_beats = get_bd_on_beats(pm_drums)
+      if bd_on_beats > 70:
+        # TODO move write in other example too to match method content
+        pm_drums.write(os.path.join(args.path_output_dir, f"{msd_id}.mid"))
+      else:
+        raise Exception(f"Not on beat {msd_id}: {bd_on_beats}")
+      return {"msd_id": msd_id,
+              "pm_drums": pm_drums,
+              "bd_on_beats": bd_on_beats}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
   finally:
     counter.increment()
+
 
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
@@ -93,13 +111,17 @@ def app(msd_ids: List[str]):
           f"({results_percentage}%)")
 
   # TODO histogram
-  pm_pianos_list = [result["pm_pianos"] for result in results]
-  pm_piano_lengths = [pm_piano.get_end_time()
-                      for pm_pianos in pm_pianos_list
-                      for pm_piano in pm_pianos]
-  plt.hist(pm_piano_lengths, bins=100)
+  pm_drums = [result["pm_drums"] for result in results]
+  pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
+  plt.hist(pm_drums_lengths, bins=100)
   plt.ylabel('length (sec)')
-  plt.title('Piano lengths')
+  plt.title('Drums lengths')
+  plt.show()
+
+  bd_on_beats = [result["bd_on_beats"] for result in results]
+  plt.hist(bd_on_beats, bins=100)
+  plt.ylabel('percentage')
+  plt.title('Bass drum on beat')
   plt.show()
 
   stop = timeit.default_timer()

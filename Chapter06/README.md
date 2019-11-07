@@ -17,14 +17,15 @@ GOAL: jazz music instruments (MSD match required)
 
 GOAL: jazz music instruments (bass and piano)
 
+- TODO merge 3 and 9 with argparse
 - why matched lakh: because we can get artist and release
 - how to stats artists (DONE: chapter_06_example_01.py)
 - how to stats genres with lastfm (DONE: chapter_06_example_02.py)
-- how to filter genres with lastfm (DONE: chapter_06_example_03.py)
+- how to filter jazz with lastfm (DONE: chapter_06_example_03.py)
 - how to stats instruments (DONE: chapter_06_example_04.py)
 - how to extract and save drums (DONE: chapter_06_example_05.py)
 - how to extract and save piano (DONE: chapter_06_example_06.py)
 - how to stats polyphonic stuff for piano
-- put it all together with jazz blues country
-- how to detect musical structure (four on the floor)
+- put it all together genre and drums (DONE: chapter_06_example_07.py)
+- how to detect musical structure (chapter_06_example_09.py)
 - put it all together with techno example

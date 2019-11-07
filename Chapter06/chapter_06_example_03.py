@@ -52,13 +52,13 @@ def get_tags(h5) -> Optional[list]:
 def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
-      counter.increment()
       tags = get_tags(h5)
       return {"msd_id": msd_id, "tags": tags}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
-
+  finally:
+    counter.increment()
 
 def app(msd_ids: List[str]):
   start = timeit.default_timer()

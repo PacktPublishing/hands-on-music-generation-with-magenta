@@ -2,8 +2,10 @@
 TODO how to stats artists
 """
 import argparse
-import collections
+import copy
+import os
 import random
+import shutil
 import timeit
 from itertools import cycle
 from multiprocessing import Manager
@@ -13,8 +15,10 @@ from typing import List, Optional
 import matplotlib.pyplot as plt
 import requests
 import tables
+from pretty_midi import PrettyMIDI, Instrument
 
-from lakh_utils import get_msd_score_matches
+from lakh_utils import get_msd_score_matches, get_midi_path, \
+  get_matched_midi_md5
 from lakh_utils import msd_id_to_h5
 from threading_utils import Counter
 
@@ -22,6 +26,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=1000)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
+parser.add_argument("--path_output_dir", type=str, required=True)
 parser.add_argument("--last_fm_api_key", type=str, required=True)
 args = parser.parse_args()
 
@@ -50,19 +55,52 @@ def get_tags(h5) -> Optional[list]:
   return tags
 
 
+def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
+  os.makedirs(args.path_output_dir, exist_ok=True)
+  midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
+  midi_path = get_midi_path(msd_id, midi_md5, "matched", args.path_dataset_dir)
+  pm = PrettyMIDI(midi_path)
+  pm_drums = copy.deepcopy(pm)
+  pm_drums.instruments = [instrument for instrument in pm_drums.instruments
+                          if instrument.is_drum]
+  if len(pm_drums.instruments) > 1:
+    # Some drum tracks are split, we can merge them
+    drums = Instrument(program=0, is_drum=True)
+    for instrument in pm_drums.instruments:
+      for note in instrument.notes:
+        drums.notes.append(note)
+    pm_drums.instruments = [drums]
+  if len(pm_drums.instruments) != 1:
+    raise Exception(f"Invalid number of drums {msd_id}: "
+                    f"{len(pm_drums.instruments)}")
+  pm_drums.write(os.path.join(args.path_output_dir, f"{msd_id}.mid"))
+  return pm_drums
+
+
 def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
+      possible_tags = ["jazz", "blues", "country"]
       tags = get_tags(h5)
-      return {"msd_id": msd_id, "tags": tags}
+      matching_tags = [tag for tag in tags if tag in possible_tags]
+      if not matching_tags:
+        return
+      pm_drums = extract_drums(msd_id)
+      return {"msd_id": msd_id,
+              "pm_drums": pm_drums,
+              "tags": matching_tags}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
   finally:
     counter.increment()
 
+
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
+
+  # TODO cleanup
+  shutil.rmtree(args.path_output_dir, ignore_errors=True)
 
   # TODO info
   with Pool(4) as pool:
@@ -79,14 +117,18 @@ def app(msd_ids: List[str]):
           f"({results_percentage}%)")
 
   # TODO histogram
-  tags = [result["tags"][0] for result in results if result["tags"]]
-  most_common_tags = collections.Counter(tags).most_common(20)
-  print(f"Most common tags: {most_common_tags}")
-  plt.bar([tag for tag, _ in most_common_tags],
-          [count for _, count in most_common_tags])
-  plt.title("Tags count")
-  plt.xticks(rotation=30, ha="right")
-  plt.ylabel("count")
+  pm_drums = [result["pm_drums"] for result in results]
+  pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
+  plt.hist(pm_drums_lengths, bins=100)
+  plt.ylabel('length (sec)')
+  plt.title('Drums lengths')
+  plt.show()
+
+  tags_list = [result["tags"] for result in results]
+  tags = [tag for tags in tags_list for tag in tags]
+  plt.hist(tags, bins=10)
+  plt.ylabel('count')
+  plt.title('Tags count')
   plt.show()
 
   stop = timeit.default_timer()
