@@ -1,6 +1,7 @@
 import copy
 import json
 import os
+import random
 import shutil
 
 import tables
@@ -46,8 +47,8 @@ with open(SCORE_FILE) as f:
   scores_matches = json.load(f)
 
 # Grab a Million Song Dataset ID from the scores dictionary
-# scores = random.sample(list(scores_matches), 1000)
-scores = list(scores_matches)
+scores = random.sample(list(scores_matches), 100)
+# scores = list(scores_matches)
 
 possible_categories = {"jazz"}
 tracks = set()
@@ -79,7 +80,7 @@ os.makedirs(DATASET_DIR, exist_ok=True)
 count_invalid_drums = 0
 count_pretty_midi_errors = 0
 count_drums = 0
-with open("tutorial4_tracks.csv", "w") as file:
+with open("tutorial5_tracks.csv", "w") as file:
   file.write(f"msd_id,midi_path\n")
   for msd_id in tqdm(tracks):
     # Find best midi match

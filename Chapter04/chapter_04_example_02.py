@@ -152,7 +152,7 @@ def app(unused_argv):
                                                num_output,
                                                total_bars)
 
-  print(f"Generated interpolate sequence total time: "
+  print(f"Generated interpolate sequence total time: "time
         f"{generated_interpolate_sequence.total_time}")
 
   return 0
