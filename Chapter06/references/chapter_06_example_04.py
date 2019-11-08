@@ -16,7 +16,7 @@ import tables
 # Local path constants
 from pretty_midi import PrettyMIDI, Instrument, program_to_instrument_name
 
-from threading_utils import AtomicCounter
+from multiprocessing_utils import AtomicCounter
 
 RESULTS_PATH = 'D:\\project\\dataset\\lakh'
 # Path to the file match_scores.json distributed with the LMD

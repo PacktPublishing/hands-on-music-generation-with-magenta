@@ -20,7 +20,7 @@ from lakh_utils import get_matched_midi_md5
 from lakh_utils import get_midi_path
 from lakh_utils import get_msd_score_matches
 from lakh_utils import msd_id_to_h5
-from threading_utils import AtomicCounter
+from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=1000)

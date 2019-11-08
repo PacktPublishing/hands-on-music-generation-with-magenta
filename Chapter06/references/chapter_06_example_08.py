@@ -17,7 +17,7 @@ import tables
 from pretty_midi import PrettyMIDI, Instrument
 
 from lakh_utils import msd_id_to_h5, get_midi_path, get_msd_score_matches
-from threading_utils import AtomicCounter
+from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=100)

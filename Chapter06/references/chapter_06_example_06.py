@@ -12,7 +12,7 @@ import requests
 import tables
 
 # Local path constants
-from threading_utils import AtomicCounter
+from multiprocessing_utils import AtomicCounter
 
 RESULTS_PATH = 'D:\\project\\dataset\\lakh'
 # Path to the file match_scores.json distributed with the LMD

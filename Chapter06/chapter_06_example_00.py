@@ -3,6 +3,7 @@ Extract techno (four on the floor) drum rhythms.
 """
 import argparse
 import copy
+import glob
 import math
 import os
 import random
@@ -15,32 +16,25 @@ from typing import List
 from typing import Optional
 
 import matplotlib.pyplot as plt
-import tables
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
 
-from lakh_utils import get_matched_midi_md5
-from lakh_utils import get_midi_path
-from lakh_utils import get_msd_score_matches
-from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=1000)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
-parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
 parser.add_argument("--bass_drums_on_beat_threshold", type=float, required=True,
                     default=0)
 args = parser.parse_args()
 
-MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
+MIDI_PATHS = glob.glob(os.path.join(args.path_dataset_dir, "**", "*.mid"),
+                       recursive=True)
 
 
-def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
+def extract_drums(midi_path: str) -> Optional[PrettyMIDI]:
   os.makedirs(args.path_output_dir, exist_ok=True)
-  midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
-  midi_path = get_midi_path(msd_id, midi_md5, args.path_dataset_dir)
   pm = PrettyMIDI(midi_path)
   pm_drums = copy.deepcopy(pm)
   pm_drums.instruments = [instrument for instrument in pm_drums.instruments
@@ -53,7 +47,7 @@ def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
         drums.notes.append(note)
     pm_drums.instruments = [drums]
   if len(pm_drums.instruments) != 1:
-    raise Exception(f"Invalid number of drums {msd_id}: "
+    raise Exception(f"Invalid number of drums {midi_path}: "
                     f"{len(pm_drums.instruments)}")
   return pm_drums
 
@@ -74,25 +68,25 @@ def get_bass_drums_on_beat(pm_drums: PrettyMIDI) -> float:
   return num_bass_drums_on_beat / len(bass_drums_on_beat)
 
 
-def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
+def process(midi_path: str, counter: AtomicCounter) -> Optional[dict]:
   try:
-    with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
-      pm_drums = extract_drums(msd_id)
-      bass_drums_on_beat = get_bass_drums_on_beat(pm_drums)
-      if bass_drums_on_beat >= args.bass_drums_on_beat_threshold:
-        pm_drums.write(os.path.join(args.path_output_dir, f"{msd_id}.mid"))
-      else:
-        raise Exception(f"Not on beat {msd_id}: {bass_drums_on_beat}")
-      return {"msd_id": msd_id,
-              "pm_drums": pm_drums,
-              "bass_drums_on_beat": bass_drums_on_beat}
+    pm_drums = extract_drums(midi_path)
+    bass_drums_on_beat = get_bass_drums_on_beat(pm_drums)
+    if bass_drums_on_beat >= args.bass_drums_on_beat_threshold:
+      midi_filename = os.path.basename(midi_path)
+      pm_drums.write(os.path.join(args.path_output_dir, f"{midi_filename}.mid"))
+    else:
+      raise Exception(f"Not on beat {midi_path}: {bass_drums_on_beat}")
+    return {"midi_path": midi_path,
+            "pm_drums": pm_drums,
+            "bass_drums_on_beat": bass_drums_on_beat}
   except Exception as e:
-    print(f"Exception during processing of {msd_id}: {e}")
+    print(f"Exception during processing of {midi_path}: {e}")
   finally:
     counter.increment()
 
 
-def app(msd_ids: List[str]):
+def app(midi_paths: List[str]):
   start = timeit.default_timer()
 
   # TODO cleanup
@@ -101,14 +95,14 @@ def app(msd_ids: List[str]):
   # TODO info
   with Pool(4) as pool:
     manager = Manager()
-    counter = AtomicCounter(manager, len(msd_ids))
+    counter = AtomicCounter(manager, len(midi_paths))
     print("START")
-    results = pool.starmap(process, zip(msd_ids, cycle([counter])))
+    results = pool.starmap(process, zip(midi_paths, cycle([counter])))
     results = [result for result in results if result]
     print("END")
-    results_percentage = len(results) / len(msd_ids) * 100
-    print(f"Number of tracks: {len(MSD_SCORE_MATCHES)}, "
-          f"number of tracks in sample: {len(msd_ids)}, "
+    results_percentage = len(results) / len(midi_paths) * 100
+    print(f"Number of tracks: {len(MIDI_PATHS)}, "
+          f"number of tracks in sample: {len(midi_paths)}, "
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
@@ -133,8 +127,8 @@ def app(msd_ids: List[str]):
 if __name__ == "__main__":
   if args.sample_size:
     # Process a sample of it
-    MSD_IDS = random.sample(list(MSD_SCORE_MATCHES), args.sample_size)
+    MIDI_PATHS_SAMPLE = random.sample(list(MIDI_PATHS), args.sample_size)
   else:
     # Process all the dataset
-    MSD_IDS = list(MSD_SCORE_MATCHES)
-  app(MSD_IDS)
+    MIDI_PATHS_SAMPLE = list(MIDI_PATHS)
+  app(MIDI_PATHS_SAMPLE)

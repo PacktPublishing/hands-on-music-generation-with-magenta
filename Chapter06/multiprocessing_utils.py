@@ -1,5 +1,7 @@
 import math
+from itertools import cycle
 from multiprocessing import Manager
+from multiprocessing.pool import Pool
 from typing import Optional
 
 
@@ -32,3 +34,25 @@ class AtomicCounter(object):
   def value(self):
     with self._lock:
       return self._value.value
+
+
+def _process(x: int, counter: AtomicCounter):
+  try:
+    # Process here, you can return None
+    pass
+  except Exception as e:
+    print(f"Exception during processing of {x}: {e}")
+  finally:
+    counter.increment()
+
+
+if __name__ == "__main__":
+  with Pool(4) as pool:
+    # Add elements to process here
+    elements = []
+    manager = Manager()
+    counter = AtomicCounter(manager, len(elements))
+    print("START")
+    results = pool.starmap(_process, zip(elements, cycle([counter])))
+    results = [result for result in results if result]
+    print("END")
