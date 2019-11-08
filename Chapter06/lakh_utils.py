@@ -20,22 +20,19 @@ def msd_id_to_dirs(msd_id: str) -> str:
 
 def get_midi_path(msd_id: str,
                   midi_md5: str,
-                  kind: str,
                   dataset_path: str) -> str:
   """
   Given an MSD ID and MIDI MD5, return path to a MIDI file.
-  kind should be one of 'matched' or 'aligned'.
 
   :param msd_id:
   :param midi_md5:
-  :param kind: TODO REMOVE
   :param dataset_path:
   :return:
   """
   return os.path.join(dataset_path,
-                      'lmd_{}'.format(kind),
+                      "lmd_matched",
                       msd_id_to_dirs(msd_id),
-                      midi_md5 + '.mid')
+                      midi_md5 + ".mid")
 
 
 def msd_id_to_h5(msd_id: str,
@@ -48,8 +45,8 @@ def msd_id_to_h5(msd_id: str,
   :return:
   """
   return os.path.join(dataset_path,
-                      'lmd_matched_h5',
-                      msd_id_to_dirs(msd_id) + '.h5')
+                      "lmd_matched_h5",
+                      msd_id_to_dirs(msd_id) + ".h5")
 
 
 def get_msd_score_matches(match_scores_path: str) -> Dict:
@@ -62,7 +59,8 @@ def get_msd_score_matches(match_scores_path: str) -> Dict:
   with open(match_scores_path) as f:
     return json.load(f)
 
-def get_matched_midi_md5(msd_id:str, msd_score_matches:dict):
+
+def get_matched_midi_md5(msd_id: str, msd_score_matches: dict):
   """
   TODO
 

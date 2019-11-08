@@ -3,7 +3,7 @@ from multiprocessing import Manager
 from typing import Optional
 
 
-class Counter(object):
+class AtomicCounter(object):
 
   def __init__(self,
                manager: Manager,

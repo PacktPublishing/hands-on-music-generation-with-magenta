@@ -12,7 +12,7 @@ import requests
 import tables
 
 # Local path constants
-from threading_utils import Counter
+from threading_utils import AtomicCounter
 
 RESULTS_PATH = 'D:\\project\\dataset\\lakh'
 # Path to the file match_scores.json distributed with the LMD
@@ -101,7 +101,7 @@ def get_drums_tracks(possible_genres=None):
   # TODO track genres
   with Pool(4) as pool:
     manager = Manager()
-    counter = Counter(manager, len(scores))
+    counter = AtomicCounter(manager, len(scores))
     print("START")
     track_genres = pool.starmap(get_genres, zip(scores, cycle([counter])))
     track_genres = [track_genre for track_genre in track_genres if track_genre]

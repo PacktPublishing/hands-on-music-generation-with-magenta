@@ -16,7 +16,7 @@ import tables
 # Local path constants
 from pretty_midi import PrettyMIDI, Instrument, program_to_instrument_name
 
-from threading_utils import Counter
+from threading_utils import AtomicCounter
 
 RESULTS_PATH = 'D:\\project\\dataset\\lakh'
 # Path to the file match_scores.json distributed with the LMD
@@ -94,7 +94,7 @@ def get_drums_tracks():
   # TODO track info
   with Pool(4) as pool:
     manager = Manager()
-    counter = Counter(manager, len(scores))
+    counter = AtomicCounter(manager, len(scores))
     print("START")
     track_programs = pool.starmap(get_programs,
                                   zip(scores, cycle([counter])))

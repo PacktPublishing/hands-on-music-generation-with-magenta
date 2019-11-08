@@ -17,7 +17,7 @@ import tables
 from pretty_midi import PrettyMIDI, Instrument
 
 from lakh_utils import msd_id_to_h5, get_midi_path, get_msd_score_matches
-from threading_utils import Counter
+from threading_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=100)
@@ -63,7 +63,7 @@ def extract_drums(msd_id: str):
   return {"msd_id": msd_id, "pm_drums": pm_drums}
 
 
-def process(msd_id: str, counter: Counter):
+def process(msd_id: str, counter: AtomicCounter):
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       drums = extract_drums(msd_id)
@@ -83,7 +83,7 @@ def app(msd_ids: List[str]):
   # TODO info
   with Pool(4) as pool:
     manager = Manager()
-    counter = Counter(manager, len(msd_ids))
+    counter = AtomicCounter(manager, len(msd_ids))
     print("START")
     results = pool.starmap(process, zip(msd_ids, cycle([counter])))
     results = [result for result in results if result]
@@ -92,14 +92,14 @@ def app(msd_ids: List[str]):
     print(f"Number of tracks: {len(MSD_SCORE_MATCHES)}, "
           f"number of tracks in sample: {len(msd_ids)}, "
           f"number of results: {len(results)} "
-          f"({results_percentage}%)")
+          f"({results_percentage:.2f}%)")
 
   # TODO histogram
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
   plt.hist(pm_drums_lengths, bins=100)
-  plt.ylabel('length (sec)')
   plt.title('Drums lengths')
+  plt.ylabel('length (sec)')
   plt.show()
 
   stop = timeit.default_timer()

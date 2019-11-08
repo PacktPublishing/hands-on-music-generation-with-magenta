@@ -1,14 +1,16 @@
 """
-TODO how to stats artists
+Lists most common genres from the Last.fm API using the LAKHs dataset
+matched with the MSD dataset.
 """
 import argparse
-import collections
 import random
 import timeit
+from collections import Counter
 from itertools import cycle
 from multiprocessing import Manager
 from multiprocessing.pool import Pool
-from typing import List, Optional
+from typing import List
+from typing import Optional
 
 import matplotlib.pyplot as plt
 import requests
@@ -16,7 +18,7 @@ import tables
 
 from lakh_utils import get_msd_score_matches
 from lakh_utils import msd_id_to_h5
-from threading_utils import Counter
+from threading_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=1000)
@@ -50,24 +52,23 @@ def get_tags(h5) -> Optional[list]:
   return tags
 
 
-def process(msd_id: str, counter: Counter) -> Optional[dict]:
+def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       tags = get_tags(h5)
       return {"msd_id": msd_id, "tags": tags}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
-    return
   finally:
     counter.increment()
+
 
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
-  # TODO info
   with Pool(4) as pool:
     manager = Manager()
-    counter = Counter(manager, len(msd_ids))
+    counter = AtomicCounter(manager, len(msd_ids))
     print("START")
     results = pool.starmap(process, zip(msd_ids, cycle([counter])))
     results = [result for result in results if result]
@@ -76,15 +77,15 @@ def app(msd_ids: List[str]):
     print(f"Number of tracks: {len(MSD_SCORE_MATCHES)}, "
           f"number of tracks in sample: {len(msd_ids)}, "
           f"number of results: {len(results)} "
-          f"({results_percentage}%)")
+          f"({results_percentage:.2f}%)")
 
-  # TODO histogram
   tags = [result["tags"][0] for result in results if result["tags"]]
-  most_common_tags = collections.Counter(tags).most_common(20)
-  print(f"Most common tags: {most_common_tags}")
-  plt.bar([tag for tag, _ in most_common_tags],
-          [count for _, count in most_common_tags])
-  plt.title("Tags count")
+  most_common_tags_20 = Counter(tags).most_common(20)
+  most_common_tags_100 = Counter(tags).most_common(100)
+  print(f"Most common tags (100): {most_common_tags_100}")
+  plt.bar([tag for tag, _ in most_common_tags_20],
+          [count for _, count in most_common_tags_20])
+  plt.title("Most common tags (20)")
   plt.xticks(rotation=30, horizontalalignment="right")
   plt.ylabel("count")
   plt.show()
