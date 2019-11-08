@@ -61,7 +61,7 @@ def app(msd_ids: List[str]):
   plt.bar([artist for artist, _ in most_common_artists],
           [count for _, count in most_common_artists])
   plt.title("Artist song count")
-  plt.xticks(rotation=30, ha="right")
+  plt.xticks(rotation=30, horizontalalignment="right")
   plt.ylabel("count")
   plt.show()
 

@@ -94,7 +94,7 @@ def get_tracks_by_artist(possible_artists: Optional[List[str]] = None):
   plt.bar([a for a, b in most_common_artists],
           [b for a, b in most_common_artists])
   plt.ylabel('count')
-  plt.xticks(rotation=30, ha="right")
+  plt.xticks(rotation=30, horizontalalignment="right")
   plt.title('Artist song count')
   plt.show()
 

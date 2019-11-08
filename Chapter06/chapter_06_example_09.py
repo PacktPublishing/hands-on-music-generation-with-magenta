@@ -53,7 +53,7 @@ def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
   return pm_drums
 
 
-def get_bd_on_beats(pm_drums: PrettyMIDI) -> float:
+def get_bass_drums_on_beat(pm_drums: PrettyMIDI) -> float:
   beats = pm_drums.get_beats()
   bass_drums = [note.start for note in pm_drums.instruments[0].notes
                 if note.pitch == 35 or note.pitch == 36]
@@ -66,23 +66,23 @@ def get_bd_on_beats(pm_drums: PrettyMIDI) -> float:
         break
     bass_drums_on_beat.append(True if beat_has_bass_drum else False)
   num_bass_drums_on_beat = len([bd for bd in bass_drums_on_beat if bd])
-  bd_on_beats = (num_bass_drums_on_beat / len(bass_drums_on_beat) * 100)
-  return bd_on_beats
+  return num_bass_drums_on_beat / len(bass_drums_on_beat) * 100
 
 
 def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       pm_drums = extract_drums(msd_id)
-      bd_on_beats = get_bd_on_beats(pm_drums)
-      if bd_on_beats > 70:
+      bass_drums_on_beat = get_bass_drums_on_beat(pm_drums)
+      # TODO argparse
+      if bass_drums_on_beat > 70:
         # TODO move write in other example too to match method content
         pm_drums.write(os.path.join(args.path_output_dir, f"{msd_id}.mid"))
       else:
-        raise Exception(f"Not on beat {msd_id}: {bd_on_beats}")
+        raise Exception(f"Not on beat {msd_id}: {bass_drums_on_beat}")
       return {"msd_id": msd_id,
               "pm_drums": pm_drums,
-              "bd_on_beats": bd_on_beats}
+              "bass_drums_on_beat": bass_drums_on_beat}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
@@ -118,10 +118,10 @@ def app(msd_ids: List[str]):
   plt.title('Drums lengths')
   plt.show()
 
-  bd_on_beats = [result["bd_on_beats"] for result in results]
-  plt.hist(bd_on_beats, bins=100)
-  plt.ylabel('percentage')
-  plt.title('Bass drum on beat')
+  bass_drums_on_beat = [result["bass_drums_on_beat"] for result in results]
+  plt.hist(bass_drums_on_beat, bins=100)
+  plt.ylabel('count')
+  plt.title('Bass drums on beat')
   plt.show()
 
   stop = timeit.default_timer()

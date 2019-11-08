@@ -11,10 +11,12 @@ from multiprocessing.pool import Pool
 from typing import List, Optional
 
 import matplotlib.pyplot as plt
-import requests
 import tables
+from pretty_midi import PrettyMIDI, program_to_instrument_name, \
+  program_to_instrument_class
 
-from lakh_utils import get_msd_score_matches
+from lakh_utils import get_msd_score_matches, get_midi_path, \
+  get_matched_midi_md5
 from lakh_utils import msd_id_to_h5
 from threading_utils import Counter
 
@@ -22,44 +24,35 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=1000)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
-parser.add_argument("--last_fm_api_key", type=str, required=True)
 args = parser.parse_args()
 
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 
 
-def get_tags(h5) -> Optional[list]:
-  title = h5.root.metadata.songs.cols.title[0].decode("utf-8")
-  artist = h5.root.metadata.songs.cols.artist_name[0].decode("utf-8")
-  request = (f"https://ws.audioscrobbler.com/2.0/"
-             f"?method=track.gettoptags"
-             f"&artist={artist}"
-             f"&track={title}"
-             f"&api_key={args.last_fm_api_key}"
-             f"&format=json")
-  response = requests.get(request, timeout=10)
-  json = response.json()
-  if "error" in json:
-    raise Exception(f"Error in request for '{artist}' - '{title}': "
-                    f"'{json['message']}'")
-  if "toptags" not in json:
-    raise Exception(f"Error in request for '{artist}' - '{title}': "
-                    f"no top tags")
-  tags = [tag["name"] for tag in json["toptags"]["tag"]]
-  tags = [tag.lower().strip() for tag in tags if tag]
-  return tags
+def get_instrument_classes(msd_id) -> Optional[list]:
+  midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
+  midi_path = get_midi_path(msd_id, midi_md5, "matched", args.path_dataset_dir)
+  pm = PrettyMIDI(midi_path)
+  instrument_classes = [program_to_instrument_class(instrument.program)
+                        for instrument in pm.instruments
+                        if not instrument.is_drum]
+  drums = ["Drums" for instrument in pm.instruments if instrument.is_drum]
+  if not instrument_classes and not drums:
+    return
+  return instrument_classes + drums
 
 
 def process(msd_id: str, counter: Counter) -> Optional[dict]:
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
-      tags = get_tags(h5)
-      return {"msd_id": msd_id, "tags": tags}
+      instrument_classes = get_instrument_classes(msd_id)
+      return {"msd_id": msd_id, "instrument_classes": instrument_classes}
   except Exception as e:
     print(f"Exception during processing of {msd_id}: {e}")
     return
   finally:
     counter.increment()
+
 
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
@@ -79,14 +72,16 @@ def app(msd_ids: List[str]):
           f"({results_percentage}%)")
 
   # TODO histogram
-  tags = [result["tags"][0] for result in results if result["tags"]]
-  most_common_tags = collections.Counter(tags).most_common(20)
-  print(f"Most common tags: {most_common_tags}")
-  plt.bar([tag for tag, _ in most_common_tags],
-          [count for _, count in most_common_tags])
-  plt.title("Tags count")
+  instrument_classes = [result["instrument_classes"] for result in results]
+  instrument_classes = [instrument
+                        for instrument_class in instrument_classes
+                        for instrument in instrument_class]
+  most_common_classes = collections.Counter(instrument_classes).most_common()
+  plt.bar([intrument_class for intrument_class, _ in most_common_classes],
+          [count for _, count in most_common_classes])
+  plt.title('Instrument classes')
   plt.xticks(rotation=30, horizontalalignment="right")
-  plt.ylabel("count")
+  plt.ylabel('count')
   plt.show()
 
   stop = timeit.default_timer()

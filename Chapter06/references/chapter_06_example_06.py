@@ -133,7 +133,7 @@ def get_drums_tracks(possible_genres=None):
   # TODO histogram
   plt.hist(genres_count, bins=len(possible_genres))
   plt.ylabel('count')
-  # plt.xticks(rotation=30, ha="right")
+  # plt.xticks(rotation=30, horizontalalignment="right")
   plt.title('Genre count')
   plt.show()
 
