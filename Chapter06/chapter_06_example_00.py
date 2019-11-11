@@ -4,7 +4,6 @@ Extract techno (four on the floor) drum rhythms.
 import argparse
 import copy
 import glob
-import math
 import os
 import random
 import shutil
@@ -15,6 +14,7 @@ from multiprocessing.pool import Pool
 from typing import List
 from typing import Optional
 
+import math
 import matplotlib.pyplot as plt
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
@@ -22,7 +22,9 @@ from pretty_midi import PrettyMIDI
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--sample_size", type=int, required=True, default=1000)
+parser.add_argument("--pool_size", type=int, required=True, default=4)
+parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
 parser.add_argument("--bass_drums_on_beat_threshold", type=float, required=True,
@@ -81,7 +83,8 @@ def process(midi_path: str, counter: AtomicCounter) -> Optional[dict]:
             "pm_drums": pm_drums,
             "bass_drums_on_beat": bass_drums_on_beat}
   except Exception as e:
-    print(f"Exception during processing of {midi_path}: {e}")
+    pass
+    # print(f"Exception during processing of {midi_path}: {e}")
   finally:
     counter.increment()
 
@@ -93,9 +96,9 @@ def app(midi_paths: List[str]):
   shutil.rmtree(args.path_output_dir, ignore_errors=True)
 
   # TODO info
-  with Pool(4) as pool:
+  with Pool(args.pool_size) as pool:
     manager = Manager()
-    counter = AtomicCounter(manager, len(midi_paths))
+    counter = AtomicCounter(manager, len(midi_paths), 1000)
     print("START")
     results = pool.starmap(process, zip(midi_paths, cycle([counter])))
     results = [result for result in results if result]

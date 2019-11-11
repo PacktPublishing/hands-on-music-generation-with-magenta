@@ -2,9 +2,9 @@
 Artist extraction using LAKHs dataset matched with the MSD dataset.
 """
 import argparse
-import collections
 import random
 import timeit
+from collections import Counter
 from itertools import cycle
 from multiprocessing import Manager
 from multiprocessing.pool import Pool
@@ -19,7 +19,8 @@ from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--sample_size", type=int, required=True, default=1000)
+parser.add_argument("--pool_size", type=int, required=True, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 args = parser.parse_args()
@@ -41,7 +42,7 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
-  with Pool(4) as pool:
+  with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
     print("START")
@@ -56,7 +57,7 @@ def app(msd_ids: List[str]):
 
   # TODO histogram
   artists = [result["artist"] for result in results]
-  most_common_artists = collections.Counter(artists).most_common(50)
+  most_common_artists = Counter(artists).most_common(50)
   print(f"Most common artists: {most_common_artists}")
   plt.bar([artist for artist, _ in most_common_artists],
           [count for _, count in most_common_artists])

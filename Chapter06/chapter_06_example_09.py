@@ -3,7 +3,6 @@ Extract techno (four on the floor) drum rhythms.
 """
 import argparse
 import copy
-import math
 import os
 import random
 import shutil
@@ -14,6 +13,7 @@ from multiprocessing.pool import Pool
 from typing import List
 from typing import Optional
 
+import math
 import matplotlib.pyplot as plt
 import tables
 from pretty_midi import Instrument
@@ -26,7 +26,8 @@ from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--sample_size", type=int, required=True, default=1000)
+parser.add_argument("--pool_size", type=int, required=True, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
@@ -99,7 +100,7 @@ def app(msd_ids: List[str]):
   shutil.rmtree(args.path_output_dir, ignore_errors=True)
 
   # TODO info
-  with Pool(4) as pool:
+  with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
     print("START")

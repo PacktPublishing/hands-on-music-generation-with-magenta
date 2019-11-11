@@ -14,13 +14,17 @@ from typing import List
 
 import matplotlib.pyplot as plt
 import tables
-from pretty_midi import PrettyMIDI, Instrument
+from pretty_midi import Instrument
+from pretty_midi import PrettyMIDI
 
-from lakh_utils import msd_id_to_h5, get_midi_path, get_msd_score_matches
+from lakh_utils import get_midi_path
+from lakh_utils import get_msd_score_matches
+from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, default=100)
+parser.add_argument("--sample_size", type=int, required=True, default=100)
+parser.add_argument("--pool_size", type=int, required=True, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
@@ -38,8 +42,7 @@ def get_midi_path_matched(msd_id: str):
       matched_midi_md5 = midi_md5
   if not matched_midi_md5:
     raise Exception(f"Not matched {msd_id}: {MSD_SCORE_MATCHES[msd_id]}")
-  midi_path = get_midi_path(
-    msd_id, matched_midi_md5, "matched", args.path_dataset_dir)
+  midi_path = get_midi_path(msd_id, matched_midi_md5, args.path_dataset_dir)
   return midi_path
 
 

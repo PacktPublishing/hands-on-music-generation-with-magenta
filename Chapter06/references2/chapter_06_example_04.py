@@ -8,19 +8,23 @@ import timeit
 from itertools import cycle
 from multiprocessing import Manager
 from multiprocessing.pool import Pool
-from typing import List, Optional
+from typing import List
+from typing import Optional
 
 import matplotlib.pyplot as plt
 import tables
-from pretty_midi import PrettyMIDI, program_to_instrument_name
+from pretty_midi import PrettyMIDI
+from pretty_midi import program_to_instrument_name
 
-from lakh_utils import get_msd_score_matches, get_midi_path, \
-  get_matched_midi_md5
+from lakh_utils import get_matched_midi_md5
+from lakh_utils import get_midi_path
+from lakh_utils import get_msd_score_matches
 from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--sample_size", type=int, required=True, default=1000)
+parser.add_argument("--pool_size", type=int, required=True, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 args = parser.parse_args()
@@ -50,6 +54,7 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
     return
   finally:
     counter.increment()
+
 
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
