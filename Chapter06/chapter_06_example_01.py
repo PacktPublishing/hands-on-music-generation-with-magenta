@@ -13,14 +13,15 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import tables
+from bokeh.colors.groups import purple as colors
 
 from lakh_utils import get_msd_score_matches
 from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, required=True, default=1000)
-parser.add_argument("--pool_size", type=int, required=True, default=4)
+parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--pool_size", type=int, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 args = parser.parse_args()
@@ -42,6 +43,7 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
+  # TODO info
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
@@ -57,10 +59,13 @@ def app(msd_ids: List[str]):
 
   # TODO histogram
   artists = [result["artist"] for result in results]
-  most_common_artists = Counter(artists).most_common(50)
+  most_common_artists = Counter(artists).most_common(25)
   print(f"Most common artists: {most_common_artists}")
+  plt.figure(num=None, figsize=(10, 8), dpi=500)
   plt.bar([artist for artist, _ in most_common_artists],
-          [count for _, count in most_common_artists])
+          [count for _, count in most_common_artists],
+          color=[color.name for color in colors
+                 if color.name != "lavender"])
   plt.title("Artist song count")
   plt.xticks(rotation=30, horizontalalignment="right")
   plt.ylabel("count")

@@ -1,0 +1,606 @@
+I1112 19:12:39.606203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:12:42.140203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:12:44.457203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:12:44.457203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:12:44
+I1112 19:13:36.796287  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:13:37.806202  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4156
+I1112 19:13:37.807204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:13:37.809204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4156
+I1112 19:13:37.877202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:13:37.892203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:13:37.915204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:13:37
+I1112 19:13:40.683203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4156, Loss = 0.0, Perplexity = 1.0
+I1112 19:13:40.683203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:13:43.263203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:13:45.644202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:13:45.645203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:13:45
+I1112 19:14:37.806327  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:14:37.812205  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4195
+I1112 19:14:37.813203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:14:37.816203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4195
+I1112 19:14:37.878202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:14:37.896203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:14:37.922204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:14:37
+I1112 19:14:40.711204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4195, Loss = 0.0, Perplexity = 1.0
+I1112 19:14:40.712204  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:14:43.286203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:14:45.624203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:14:45.625203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:14:45
+I1112 19:15:37.814203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:15:38.824203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4234
+I1112 19:15:38.825204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:15:38.827203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4234
+I1112 19:15:38.887203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:15:38.901203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:15:38.924203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:15:38
+I1112 19:15:41.752203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4234, Loss = 0.0, Perplexity = 1.0
+I1112 19:15:41.752203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:15:44.173203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:15:46.469202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:15:46.469202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:15:46
+I1112 19:16:38.825233  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:16:39.835203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4273
+I1112 19:16:39.836203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:16:39.838203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4273
+I1112 19:16:39.894203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:16:39.908203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:16:39.931203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:16:39
+I1112 19:16:42.720202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4273, Loss = 0.0, Perplexity = 1.0
+I1112 19:16:42.720202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:16:45.175203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:16:47.515203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:16:47.516203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:16:47
+I1112 19:17:39.835234  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:17:39.842205  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4312
+I1112 19:17:39.843234  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:17:39.846203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4312
+I1112 19:17:39.916204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:17:39.934203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:17:39.959203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:17:39
+I1112 19:17:42.806203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4312, Loss = 0.0, Perplexity = 1.0
+I1112 19:17:42.806203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:17:45.245203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:17:47.590203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:17:47.590203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:17:47
+I1112 19:18:39.843334  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:18:40.853204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4351
+I1112 19:18:40.854203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:18:40.856203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4351
+I1112 19:18:40.912204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:18:40.932203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:18:40.957203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:18:40
+I1112 19:18:43.747204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4351, Loss = 0.0, Perplexity = 1.0
+I1112 19:18:43.748203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:18:46.191204  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:18:48.501203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:18:48.501203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:18:48
+I1112 19:19:40.855203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:19:40.862204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4390
+I1112 19:19:40.863203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:19:40.866203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4390
+I1112 19:19:40.930203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:19:40.945202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:19:40.968204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:19:40
+I1112 19:19:43.781203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4390, Loss = 0.0, Perplexity = 1.0
+I1112 19:19:43.781203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:19:46.245203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:19:48.547203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:19:48.547203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:19:48
+I1112 19:20:40.864203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:20:41.873203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4429
+I1112 19:20:41.874204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:20:41.876203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4429
+I1112 19:20:41.938203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:20:41.953203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:20:41.976203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:20:41
+I1112 19:20:44.719204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4429, Loss = 0.0, Perplexity = 1.0
+I1112 19:20:44.719204  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:20:47.137202  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:20:49.418203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:20:49.418203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:20:49
+I1112 19:21:41.874203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:21:41.881203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4468
+I1112 19:21:41.882204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:21:41.885204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4468
+I1112 19:21:41.948203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:21:41.962203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:21:41.985203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:21:41
+I1112 19:21:44.741203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4468, Loss = 0.0, Perplexity = 1.0
+I1112 19:21:44.742202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:21:47.235203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:21:49.576203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:21:49.576203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:21:49
+I1112 19:22:41.881326  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:22:42.892203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4507
+I1112 19:22:42.893203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:22:42.895203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4507
+I1112 19:22:42.953203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:22:42.968202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:22:42.991203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:22:42
+I1112 19:22:45.737203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4507, Loss = 0.0, Perplexity = 1.0
+I1112 19:22:45.737203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:22:48.175202  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:22:50.522203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:22:50.523204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:22:50
+I1112 19:23:42.892203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:23:42.899203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4546
+I1112 19:23:42.900202  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:23:42.903204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4546
+I1112 19:23:42.961204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:23:42.976204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:23:43.001203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:23:43
+I1112 19:23:45.775203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4546, Loss = 0.0, Perplexity = 1.0
+I1112 19:23:45.775203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:23:48.266203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:23:50.601202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:23:50.602203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:23:50
+I1112 19:24:42.900203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:24:43.910203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4585
+I1112 19:24:43.911202  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:24:43.913203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4585
+I1112 19:24:43.968203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:24:43.983204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:24:44.006203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:24:44
+I1112 19:24:46.753202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4585, Loss = 0.0, Perplexity = 1.0
+I1112 19:24:46.753202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:24:49.225203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:24:51.500203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:24:51.500203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:24:51
+I1112 19:25:43.910204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:25:43.916203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4624
+I1112 19:25:43.917203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:25:43.919203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4624
+I1112 19:25:43.977203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:25:43.992202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:25:44.015203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:25:44
+I1112 19:25:46.777203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4624, Loss = 0.0, Perplexity = 1.0
+I1112 19:25:46.777203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:25:49.237203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:25:51.548202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:25:51.548202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:25:51
+I1112 19:26:43.917329  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:26:44.928205  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4663
+I1112 19:26:44.929203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:26:44.931203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4663
+I1112 19:26:44.990202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:26:45.006202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:26:45.029203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:26:45
+I1112 19:26:47.791203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4663, Loss = 0.0, Perplexity = 1.0
+I1112 19:26:47.792203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:26:50.292203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:26:52.617203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:26:52.617203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:26:52
+I1112 19:27:44.929204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:27:44.936203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4702
+I1112 19:27:44.937204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:27:44.940203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4702
+I1112 19:27:45.003203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:27:45.018203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:27:45.040203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:27:45
+I1112 19:27:47.822203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4702, Loss = 0.0, Perplexity = 1.0
+I1112 19:27:47.823203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:27:50.275203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:27:52.587203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:27:52.587203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:27:52
+I1112 19:28:44.937203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:28:45.947203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4741
+I1112 19:28:45.948203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:28:45.950203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4741
+I1112 19:28:46.005203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:28:46.020203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:28:46.044204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:28:46
+I1112 19:28:48.809202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4741, Loss = 0.0, Perplexity = 1.0
+I1112 19:28:48.809202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:28:51.254203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:28:53.611203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:28:53.612202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:28:53
+I1112 19:29:45.949202  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:29:45.957204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4780
+I1112 19:29:45.958203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:29:45.961204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4780
+I1112 19:29:46.023203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:29:46.042203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:29:46.067203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:29:46
+I1112 19:29:48.801203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4780, Loss = 0.0, Perplexity = 1.0
+I1112 19:29:48.802203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:29:51.280204  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:29:53.645203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:29:53.646203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:29:53
+I1112 19:30:45.958326  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:30:46.969202  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4819
+I1112 19:30:46.970205  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:30:46.972204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4819
+I1112 19:30:47.030203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:30:47.045203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:30:47.068203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:30:47
+I1112 19:30:49.841203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4819, Loss = 0.0, Perplexity = 1.0
+I1112 19:30:49.841203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:30:52.304203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:30:54.625203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:30:54.625203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:30:54
+I1112 19:31:46.970202  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:31:46.976204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4858
+I1112 19:31:46.977203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:31:46.980205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4858
+I1112 19:31:47.037203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:31:47.052203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:31:47.076203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:31:47
+I1112 19:31:49.828203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4858, Loss = 0.0, Perplexity = 1.0
+I1112 19:31:49.828203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:31:52.299203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:31:54.639203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:31:54.639203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:31:54
+I1112 19:32:46.978206  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:32:47.989204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4897
+I1112 19:32:47.990204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:32:47.993204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4897
+I1112 19:32:48.055202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:32:48.070203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:32:48.092203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:32:48
+I1112 19:32:50.846203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4897, Loss = 0.0, Perplexity = 1.0
+I1112 19:32:50.846203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:32:53.286203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:32:55.593203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:32:55.593203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:32:55
+I1112 19:33:47.991203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:33:47.997203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4936
+I1112 19:33:47.998204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:33:48.001203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4936
+I1112 19:33:48.066204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:33:48.086203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:33:48.112204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:33:48
+I1112 19:33:50.846204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4936, Loss = 0.0, Perplexity = 1.0
+I1112 19:33:50.846204  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:33:53.347203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:33:55.748204  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:33:55.748204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:33:55
+I1112 19:34:47.998203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:34:49.007203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-4975
+I1112 19:34:49.008232  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:34:49.011204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-4975
+I1112 19:34:49.066233  5768 session_manager.py:500] Running local_init_op.
+I1112 19:34:49.081202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:34:49.103232  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:34:49
+I1112 19:34:51.844202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 4975, Loss = 0.0, Perplexity = 1.0
+I1112 19:34:51.845203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:34:54.323203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:34:56.706203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:34:56.706203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:34:56
+I1112 19:35:49.008203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:35:50.017203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5014
+I1112 19:35:50.019203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:35:50.021203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5014
+I1112 19:35:50.083203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:35:50.099204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:35:50.124204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:35:50
+I1112 19:35:52.959203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5014, Loss = 0.0, Perplexity = 1.0
+I1112 19:35:52.960203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:35:55.484208  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:35:57.938203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:35:57.939204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:35:57
+I1112 19:36:50.019203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:36:51.028203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5053
+I1112 19:36:51.029231  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:36:51.032203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5053
+I1112 19:36:51.091203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:36:51.106203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:36:51.128203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:36:51
+I1112 19:36:53.861203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5053, Loss = 0.0, Perplexity = 1.0
+I1112 19:36:53.861203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:36:56.318203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:36:58.661204  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:36:58.661204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:36:58
+I1112 19:37:51.029202  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:37:52.038203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5092
+I1112 19:37:52.039234  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:37:52.042205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5092
+I1112 19:37:52.110203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:37:52.129204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:37:52.155204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:37:52
+I1112 19:37:54.913204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5092, Loss = 0.0, Perplexity = 1.0
+I1112 19:37:54.913204  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:37:57.376203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:37:59.732203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:37:59.732203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:37:59
+I1112 19:38:52.039203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:38:53.047204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5131
+I1112 19:38:53.048203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:38:53.050203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5131
+I1112 19:38:53.107205  5768 session_manager.py:500] Running local_init_op.
+I1112 19:38:53.123203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:38:53.146202  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:38:53
+I1112 19:38:55.880205  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5131, Loss = 0.0, Perplexity = 1.0
+I1112 19:38:55.881203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:38:58.393204  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:39:00.732203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:39:00.733203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:39:00
+I1112 19:39:53.048203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:39:54.057203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5170
+I1112 19:39:54.058204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:39:54.060203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5170
+I1112 19:39:54.121204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:39:54.143203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:39:54.172204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:39:54
+I1112 19:39:56.944203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5170, Loss = 0.0, Perplexity = 1.0
+I1112 19:39:56.944203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:39:59.475203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:40:01.853203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:40:01.854203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:40:01
+I1112 19:40:54.058203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:40:55.066203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5209
+I1112 19:40:55.067203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:40:55.069204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5209
+I1112 19:40:55.133203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:40:55.148204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:40:55.171203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:40:55
+I1112 19:40:57.933203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5209, Loss = 0.0, Perplexity = 1.0
+I1112 19:40:57.933203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:41:00.433203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:41:02.842203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:41:02.843203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:41:02
+I1112 19:41:55.066203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:41:56.073204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5248
+I1112 19:41:56.074203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:41:56.077204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5248
+I1112 19:41:56.133203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:41:56.148202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:41:56.171204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:41:56
+I1112 19:41:58.921202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5248, Loss = 0.0, Perplexity = 1.0
+I1112 19:41:58.921202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:42:01.421203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:42:03.773203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:42:03.773203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:42:03
+I1112 19:42:56.074227  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:42:56.081203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5287
+I1112 19:42:56.083204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:42:56.085203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5287
+I1112 19:42:56.142232  5768 session_manager.py:500] Running local_init_op.
+I1112 19:42:56.157232  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:42:56.181204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:42:56
+I1112 19:42:58.908203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5287, Loss = 0.0, Perplexity = 1.0
+I1112 19:42:58.909203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:43:01.354202  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:43:03.687204  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:43:03.687204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:43:03
+I1112 19:43:56.083203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:43:57.093204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5326
+I1112 19:43:57.094204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:43:57.096203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5326
+I1112 19:43:57.156203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:43:57.171203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:43:57.194203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:43:57
+I1112 19:43:59.946203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5326, Loss = 0.0, Perplexity = 1.0
+I1112 19:43:59.946203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:44:02.452203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:44:04.772202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:44:04.773204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:44:04
+I1112 19:44:57.094202  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:44:57.102203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5365
+I1112 19:44:57.103205  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:44:57.107203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5365
+I1112 19:44:57.171204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:44:57.189203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:44:57.214203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:44:57
+I1112 19:44:59.957204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5365, Loss = 0.0, Perplexity = 1.0
+I1112 19:44:59.958202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:45:02.429203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:45:04.747203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:45:04.747203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:45:04
+I1112 19:45:57.103204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:45:58.114204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5404
+I1112 19:45:58.115203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:45:58.117205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5404
+I1112 19:45:58.175203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:45:58.189202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:45:58.212203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:45:58
+I1112 19:46:00.987203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5404, Loss = 0.0, Perplexity = 1.0
+I1112 19:46:00.987203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:46:03.463203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:46:05.812203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:46:05.813203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:46:05
+I1112 19:46:58.115233  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:46:58.122204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5443
+I1112 19:46:58.123233  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:46:58.126205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5443
+I1112 19:46:58.192203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:46:58.210203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:46:58.235204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:46:58
+I1112 19:47:00.944203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5443, Loss = 0.0, Perplexity = 1.0
+I1112 19:47:00.944203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:47:03.383203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:47:05.720203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:47:05.720203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:47:05
+I1112 19:47:58.123203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:47:59.133203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5482
+I1112 19:47:59.134204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:47:59.136203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5482
+I1112 19:47:59.195203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:47:59.211203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:47:59.235204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:47:59
+I1112 19:48:02.005203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5482, Loss = 0.0, Perplexity = 1.0
+I1112 19:48:02.005203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:48:04.466203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:48:06.787203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:48:06.787203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:48:06
+I1112 19:48:59.134326  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:49:00.143203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5521
+I1112 19:49:00.144204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:49:00.147204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5521
+I1112 19:49:00.219202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:49:00.235203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:49:00.258204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:49:00
+I1112 19:49:03.038203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5521, Loss = 0.0, Perplexity = 1.0
+I1112 19:49:03.038203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:49:05.471203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:49:07.819202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:49:07.819202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:49:07
+I1112 19:50:00.143237  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:50:00.151206  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5560
+I1112 19:50:00.152204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:50:00.155203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5560
+I1112 19:50:00.217204  5768 session_manager.py:500] Running local_init_op.
+I1112 19:50:00.233203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:50:00.257203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:50:00
+I1112 19:50:03.005206  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5560, Loss = 0.0, Perplexity = 1.0
+I1112 19:50:03.005206  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:50:05.466203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:50:07.828203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:50:07.829202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:50:07
+I1112 19:51:00.152203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:51:01.161204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5599
+I1112 19:51:01.162203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:51:01.165205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5599
+I1112 19:51:01.223203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:51:01.238203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:51:01.260204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:51:01
+I1112 19:51:04.049202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5599, Loss = 0.0, Perplexity = 1.0
+I1112 19:51:04.049202  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:51:06.516203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:51:08.833202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:51:08.833202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:51:08
+I1112 19:52:01.162204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:52:01.170203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5638
+I1112 19:52:01.171204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:52:01.175205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5638
+I1112 19:52:01.240203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:52:01.257203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:52:01.281203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:52:01
+I1112 19:52:04.023203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5638, Loss = 0.0, Perplexity = 1.0
+I1112 19:52:04.023203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:52:06.485203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:52:08.806203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:52:08.806203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:52:08
+I1112 19:53:01.170204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:53:02.180203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5677
+I1112 19:53:02.181203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:53:02.183203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5677
+I1112 19:53:02.240202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:53:02.255204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:53:02.279203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:53:02
+I1112 19:53:05.028204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5677, Loss = 0.0, Perplexity = 1.0
+I1112 19:53:05.029203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:53:07.492203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:53:09.855202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:53:09.855202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:53:09
+I1112 19:54:02.182204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:54:02.189206  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5716
+I1112 19:54:02.190204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:54:02.193203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5716
+I1112 19:54:02.258202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:54:02.274203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:54:02.296203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:54:02
+I1112 19:54:05.052203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5716, Loss = 0.0, Perplexity = 1.0
+I1112 19:54:05.052203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:54:07.490204  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:54:09.859203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:54:09.859203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:54:09
+I1112 19:55:02.190204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:55:03.199203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5755
+I1112 19:55:03.200203  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:55:03.202203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5755
+I1112 19:55:03.260205  5768 session_manager.py:500] Running local_init_op.
+I1112 19:55:03.275202  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:55:03.298203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:55:03
+I1112 19:55:06.071203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5755, Loss = 0.0, Perplexity = 1.0
+I1112 19:55:06.072203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:55:08.550202  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:55:10.900202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:55:10.900202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:55:10
+I1112 19:56:03.200203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:56:03.207204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5794
+I1112 19:56:03.208204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:56:03.211203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5794
+I1112 19:56:03.277203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:56:03.293203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:56:03.315203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:56:03
+I1112 19:56:06.059203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5794, Loss = 0.0, Perplexity = 1.0
+I1112 19:56:06.059203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:56:08.556203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:56:10.877202  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:56:10.878202  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:56:10
+I1112 19:57:03.208203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:57:04.217203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5833
+I1112 19:57:04.218230  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:57:04.220203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5833
+I1112 19:57:04.279202  5768 session_manager.py:500] Running local_init_op.
+I1112 19:57:04.294203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:57:04.317202  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:57:04
+I1112 19:57:07.091204  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5833, Loss = 0.0, Perplexity = 1.0
+I1112 19:57:07.091204  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:57:09.542203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:57:11.916203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:57:11.916203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:57:11
+I1112 19:58:04.218234  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:58:04.225204  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5872
+I1112 19:58:04.227204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:58:04.231205  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5872
+I1112 19:58:04.298203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:58:04.316204  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:58:04.341204  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:58:04
+I1112 19:58:07.111202  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5872, Loss = 0.0, Perplexity = 1.0
+I1112 19:58:07.112203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:58:09.544203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:58:11.985203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:58:11.985203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:58:11
+I1112 19:59:04.227204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 19:59:05.236203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5911
+I1112 19:59:05.238204  5768 monitored_session.py:240] Graph was finalized.
+I1112 19:59:05.240203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5911
+I1112 19:59:05.299203  5768 session_manager.py:500] Running local_init_op.
+I1112 19:59:05.314203  5768 session_manager.py:502] Done running local_init_op.
+I1112 19:59:05.336203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-18:59:05
+I1112 19:59:08.113203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5911, Loss = 0.0, Perplexity = 1.0
+I1112 19:59:08.113203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 19:59:10.576203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 19:59:12.994203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 19:59:12.994203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-18:59:12
+I1112 20:00:05.238204  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 20:00:05.244202  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5950
+I1112 20:00:05.246203  5768 monitored_session.py:240] Graph was finalized.
+I1112 20:00:05.249203  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5950
+I1112 20:00:05.313203  5768 session_manager.py:500] Running local_init_op.
+I1112 20:00:05.331204  5768 session_manager.py:502] Done running local_init_op.
+I1112 20:00:05.356203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-19:00:05
+I1112 20:00:08.085203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5950, Loss = 0.0, Perplexity = 1.0
+I1112 20:00:08.085203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 20:00:10.513204  5768 evaluation.py:167] Evaluation [2/3]
+I1112 20:00:12.930203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 20:00:12.931203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-19:00:12
+I1112 20:01:05.246203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 20:01:06.255203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-5989
+I1112 20:01:06.256203  5768 monitored_session.py:240] Graph was finalized.
+I1112 20:01:06.258204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-5989
+I1112 20:01:06.319202  5768 session_manager.py:500] Running local_init_op.
+I1112 20:01:06.335204  5768 session_manager.py:502] Done running local_init_op.
+I1112 20:01:06.358203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-19:01:06
+I1112 20:01:09.155203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 5989, Loss = 0.0, Perplexity = 1.0
+I1112 20:01:09.156203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 20:01:11.718203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 20:01:14.072204  5768 evaluation.py:167] Evaluation [3/3]
+I1112 20:01:14.072204  5768 evaluation.py:456] Finished evaluation at 2019-11-12-19:01:14
+I1112 20:02:06.256203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 20:02:06.262203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-6028
+I1112 20:02:06.263204  5768 monitored_session.py:240] Graph was finalized.
+I1112 20:02:06.265204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-6028
+I1112 20:02:06.322233  5768 session_manager.py:500] Running local_init_op.
+I1112 20:02:06.338205  5768 session_manager.py:502] Done running local_init_op.
+I1112 20:02:06.360229  5768 evaluation.py:450] Starting evaluation at 2019-11-12-19:02:06
+I1112 20:02:09.085203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 6028, Loss = 0.0, Perplexity = 1.0
+I1112 20:02:09.085203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 20:02:11.593203  5768 evaluation.py:167] Evaluation [2/3]
+I1112 20:02:13.948203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 20:02:13.948203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-19:02:13
+I1112 20:03:06.263203  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 20:03:07.273203  5768 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-6067
+I1112 20:03:07.274204  5768 monitored_session.py:240] Graph was finalized.
+I1112 20:03:07.276204  5768 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-6067
+I1112 20:03:07.333203  5768 session_manager.py:500] Running local_init_op.
+I1112 20:03:07.349203  5768 session_manager.py:502] Done running local_init_op.
+I1112 20:03:07.372203  5768 evaluation.py:450] Starting evaluation at 2019-11-12-19:03:07
+I1112 20:03:09.941203  5768 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 6067, Loss = 0.0, Perplexity = 1.0
+I1112 20:03:09.941203  5768 evaluation.py:167] Evaluation [1/3]
+I1112 20:03:12.365204  5768 evaluation.py:167] Evaluation [2/3]
+I1112 20:03:14.514203  5768 evaluation.py:167] Evaluation [3/3]
+I1112 20:03:14.514203  5768 evaluation.py:456] Finished evaluation at 2019-11-12-19:03:14
+I1112 20:04:07.273233  5768 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1112 20:09:07.222203  5768 evaluation.py:251] Timed-out waiting for a checkpoint.

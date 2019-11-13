@@ -16,14 +16,15 @@ from typing import Optional
 
 import math
 import matplotlib.pyplot as plt
+from bokeh.colors.groups import purple as colors
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
 
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, required=True, default=1000)
-parser.add_argument("--pool_size", type=int, required=True, default=4)
+parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--pool_size", type=int, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
@@ -112,7 +113,10 @@ def app(midi_paths: List[str]):
   # TODO histogram
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
-  plt.hist(pm_drums_lengths, bins=100)
+  plt.figure(num=None, figsize=(10, 8), dpi=500)
+  plt.hist(pm_drums_lengths, bins=100,
+           color=[color.name for color in colors
+                  if color.name != "lavender"])
   plt.title('Drums lengths')
   plt.ylabel('length (sec)')
   plt.show()

@@ -18,6 +18,7 @@ from typing import Optional
 import matplotlib.pyplot as plt
 import requests
 import tables
+from bokeh.colors.groups import purple as colors
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
 
@@ -28,8 +29,8 @@ from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, required=True, default=1000)
-parser.add_argument("--pool_size", type=int, required=True, default=4)
+parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--pool_size", type=int, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
@@ -125,7 +126,10 @@ def app(msd_ids: List[str]):
   # TODO histogram
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
-  plt.hist(pm_drums_lengths, bins=100)
+  plt.figure(num=None, figsize=(10, 8), dpi=500)
+  plt.hist(pm_drums_lengths, bins=100,
+           color=[color.name for color in colors
+                  if color.name != "lavender"])
   plt.title('Drums lengths')
   plt.ylabel('length (sec)')
   plt.show()
@@ -133,8 +137,11 @@ def app(msd_ids: List[str]):
   tags_list = [result["tags"] for result in results]
   tags = [tag for tags in tags_list for tag in tags]
   most_common_tags = Counter(tags).most_common()
+  plt.figure(num=None, figsize=(10, 8), dpi=500)
   plt.bar([tag for tag, _ in most_common_tags],
-          [count for _, count in most_common_tags])
+          [count for _, count in most_common_tags],
+          color=[color.name for color in colors
+                 if color.name != "lavender"])
   plt.title("Tags count for " + ",".join(TAGS))
   plt.xticks(rotation=30, horizontalalignment="right")
   plt.ylabel("count")

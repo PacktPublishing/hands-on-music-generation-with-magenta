@@ -1,8 +1,0 @@
-C:\Users\Claire\Miniconda3\envs\dreambank2\python.exe C:/Users/Claire/Projects/hands-on-music-generation-with-magenta/Chapter06/tutorial4.py
-100%|█████████▉| 31032/31034 [02:34<00:00, 201.38it/s]
-total
-scores: 31034
-tracks: 17224
-100%|██████████| 31034/31034 [02:34<00:00, 201.26it/s]
-
-Process finished with exit code 0

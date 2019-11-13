@@ -17,6 +17,7 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import tables
+from bokeh.colors.groups import purple as colors
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
 
@@ -27,8 +28,8 @@ from lakh_utils import msd_id_to_h5
 from multiprocessing_utils import AtomicCounter
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sample_size", type=int, required=True, default=1000)
-parser.add_argument("--pool_size", type=int, required=True, default=4)
+parser.add_argument("--sample_size", type=int, default=1000)
+parser.add_argument("--pool_size", type=int, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
@@ -106,7 +107,10 @@ def app(msd_ids: List[str]):
   pm_piano_lengths = [pm_piano.get_end_time()
                       for pm_pianos in pm_pianos_list
                       for pm_piano in pm_pianos]
-  plt.hist(pm_piano_lengths, bins=100)
+  plt.figure(num=None, figsize=(10, 8), dpi=500)
+  plt.hist(pm_piano_lengths, bins=100,
+           color=[color.name for color in colors
+                  if color.name != "lavender"])
   plt.title('Piano lengths')
   plt.ylabel('length (sec)')
   plt.show()

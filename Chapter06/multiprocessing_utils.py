@@ -8,6 +8,7 @@ import math
 
 
 class AtomicCounter(object):
+  """TODO"""
 
   def __init__(self,
                manager: Manager,
@@ -39,10 +40,11 @@ class AtomicCounter(object):
     print(f"Iteration count: {self._value.value}/{self._total_count} ("
           f"elapsed: {int(current_time)} sec, "
           f"remaining: {int(remaining_time)} sec, "
-          f"expected: {int(expected_time)} sec, "
+          f"total: {int(expected_time)} sec, "
           f"completion: {int(completed_percentage)}%)")
 
   def increment(self):
+    """TODO"""
     with self._lock:
       if self._value.value == 0:
         self._print()
@@ -51,6 +53,7 @@ class AtomicCounter(object):
         self._print()
 
   def value(self):
+    """TODO"""
     with self._lock:
       return self._value.value
 
