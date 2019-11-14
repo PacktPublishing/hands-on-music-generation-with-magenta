@@ -1,0 +1,36 @@
+
+
+...
+
+I1114 12:27:24.039132  9080 evaluation.py:450] Starting evaluation at 2019-11-14-11:27:24
+I1114 12:27:29.248131  9080 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 20075, Loss = 0.0, Perplexity = 1.0
+I1114 12:27:29.248131  9080 evaluation.py:167] Evaluation [1/3]
+I1114 12:27:34.234131  9080 evaluation.py:167] Evaluation [2/3]
+I1114 12:27:39.218132  9080 evaluation.py:167] Evaluation [3/3]
+I1114 12:27:39.218132  9080 evaluation.py:456] Finished evaluation at 2019-11-14-11:27:39
+I1114 12:28:23.884161  9080 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1114 12:28:25.897132  9080 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-20095
+I1114 12:28:25.898161  9080 monitored_session.py:240] Graph was finalized.
+I1114 12:28:25.900160  9080 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-20095
+I1114 12:28:25.996133  9080 session_manager.py:500] Running local_init_op.
+I1114 12:28:26.018131  9080 session_manager.py:502] Done running local_init_op.
+I1114 12:28:26.047133  9080 evaluation.py:450] Starting evaluation at 2019-11-14-11:28:26
+I1114 12:28:31.289132  9080 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 20095, Loss = 0.0, Perplexity = 1.0
+I1114 12:28:31.289132  9080 evaluation.py:167] Evaluation [1/3]
+I1114 12:28:36.362133  9080 evaluation.py:167] Evaluation [2/3]
+I1114 12:28:41.232131  9080 evaluation.py:167] Evaluation [3/3]
+I1114 12:28:41.233132  9080 evaluation.py:456] Finished evaluation at 2019-11-14-11:28:41
+I1114 12:29:25.898255  9080 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1114 12:29:25.905133  9080 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-20111
+I1114 12:29:25.906157  9080 monitored_session.py:240] Graph was finalized.
+I1114 12:29:25.909132  9080 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-20111
+I1114 12:29:25.999161  9080 session_manager.py:500] Running local_init_op.
+I1114 12:29:26.021131  9080 session_manager.py:502] Done running local_init_op.
+I1114 12:29:26.049161  9080 evaluation.py:450] Starting evaluation at 2019-11-14-11:29:26
+I1114 12:29:30.605132  9080 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 20111, Loss = 0.0, Perplexity = 1.0
+I1114 12:29:30.605132  9080 evaluation.py:167] Evaluation [1/3]
+I1114 12:29:34.948132  9080 evaluation.py:167] Evaluation [2/3]
+I1114 12:29:39.302131  9080 evaluation.py:167] Evaluation [3/3]
+I1114 12:29:39.302131  9080 evaluation.py:456] Finished evaluation at 2019-11-14-11:29:39
+I1114 12:30:25.906255  9080 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1114 12:35:25.849851  9080 evaluation.py:251] Timed-out waiting for a checkpoint.

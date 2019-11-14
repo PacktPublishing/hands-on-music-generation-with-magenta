@@ -1,10 +1,3 @@
-# Model diverged with loss nan
-
-```bash
-drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128,128]" --num_training_steps=20000
-```
-
-```
 I1112 17:25:35.547452 10460 basic_session_run_hooks.py:606] Saving checkpoints for 0 into logdir\run1\train\model.ckpt.
 I1112 17:25:39.727416 10460 basic_session_run_hooks.py:262] Accuracy = 0.0013636927, Global Step = 0, Loss = 6.241381, Perplexity = 513.5673
 I1112 17:26:09.920347 10460 basic_session_run_hooks.py:260] Accuracy = 0.46023715, Global Step = 10, Loss = 4.002368, Perplexity = 54.72759 (30.193 sec)
@@ -1474,4 +1467,3 @@ Traceback (most recent call last):
   File "c:\users\claire\appdata\local\programs\python\python35\lib\site-packages\tensorflow\python\training\basic_session_run_hooks.py", line 761, in after_run
     raise NanLossDuringTrainingError
 tensorflow.python.training.basic_session_run_hooks.NanLossDuringTrainingError: NaN loss during training.
-```

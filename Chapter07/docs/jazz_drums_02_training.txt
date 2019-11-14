@@ -1,0 +1,355 @@
+C:\Users\Claire>d:
+
+D:\Users\Claire\Data\training\jazz_drums>conda activate dreambank2
+
+(dreambank2) D:\Users\Claire\Data\training\jazz_drums>drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000
+WARNING: Logging before flag parsing goes to stderr.
+W1113 19:11:11.404379  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\pipelines\statistics.py:132: The name tf.logging.info is deprecated. Please use tf.compat.v1.logging.info instead.
+
+W1113 19:11:12.382349  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\music\note_sequence_io.py:60: The name tf.python_io.TFRecordWriter is deprecated. Please use tf.io.TFRecordWriter instead.
+
+W1113 19:11:12.868378  9360 lazy_loader.py:50]
+The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+  * https://github.com/tensorflow/io (for I/O related ops)
+If you depend on functionality not listed there, please file an issue.
+
+W1113 19:11:12.870384  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:138: The name tf.train.LoggingTensorHook is deprecated. Please use tf.estimator.LoggingTensorHook instead.
+
+W1113 19:11:12.871378  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\drums_rnn\drums_rnn_train.py:108: The name tf.app.run is deprecated. Please use tf.compat.v1.app.run instead.
+
+W1113 19:11:12.872381  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\drums_rnn\drums_rnn_train.py:65: The name tf.logging.set_verbosity is deprecated. Please use tf.compat.v1.logging.set_verbosity instead.
+
+W1113 19:11:12.872381  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\drums_rnn\drums_rnn_train.py:74: The name tf.gfile.Glob is deprecated. Please use tf.io.gfile.glob instead.
+
+I1113 19:11:12.874350  9360 events_rnn_graph.py:222] hparams = {'batch_size': 128, 'rnn_layer_sizes': [256, 256, 256], 'dropout_keep_prob': 0.5, 'attn_length': 32, 'clip_norm': 3, 'learning_rate': 0.0001, 'residual_connections': False, 'use_cudnn': False}
+I1113 19:11:12.874350  9360 drums_rnn_train.py:87] Train dir: logdir\run1\train
+W1113 19:11:12.875380  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:45: The name tf.train.replica_device_setter is deprecated. Please use tf.compat.v1.train.replica_device_setter instead.
+
+W1113 19:11:12.875380  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:66: string_input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(string_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+W1113 19:11:12.878383  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:278: input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(input_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+W1113 19:11:12.879392  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:190: limit_epochs (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensors(tensor).repeat(num_epochs)`.
+W1113 19:11:12.882351  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:199: QueueRunner.__init__ (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+W1113 19:11:12.883378  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:199: add_queue_runner (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+W1113 19:11:12.885378  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:67: TFRecordReader.__init__ (from tensorflow.python.ops.io_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.TFRecordDataset`.
+W1113 19:11:12.886383  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:71: The name tf.FixedLenSequenceFeature is deprecated. Please use tf.io.FixedLenSequenceFeature instead.
+
+W1113 19:11:12.889471  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:76: The name tf.parse_single_sequence_example is deprecated. Please use tf.io.parse_single_sequence_example instead.
+
+I1113 19:11:12.895380  9360 sequence_example_lib.py:121] Counting records in sequence_examples\training_drum_tracks.tfrecord.
+W1113 19:11:12.895380  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:122: tf_record_iterator (from tensorflow.python.lib.io.tf_record) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use eager execution and:
+`tf.data.TFRecordDataset(path)`
+I1113 19:11:13.029425  9360 sequence_example_lib.py:125] Number of records is at least 100.
+W1113 19:11:13.031425  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:27: The name tf.RandomShuffleQueue is deprecated. Please use tf.queue.RandomShuffleQueue instead.
+
+I1113 19:11:13.034454  9360 sequence_example_lib.py:99] [<tf.Tensor 'random_shuffle_queue_Dequeue:0' shape=(?, 518) dtype=float32>, <tf.Tensor 'random_shuffle_queue_Dequeue:1' shape=(?,) dtype=int64>, <tf.Tensor 'random_shuffle_queue_Dequeue:2' shape=() dtype=int32>]
+W1113 19:11:13.034454  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:106: batch (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.batch(batch_size)` (or `padded_batch(...)` if `dynamic_pad=True`).
+W1113 19:11:13.040449  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:52: BasicLSTMCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.LSTMCell, and will be replaced by that in Tensorflow 2.0.
+W1113 19:11:13.045454  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:65: MultiRNNCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.StackedRNNCells, and will be replaced by that in Tensorflow 2.0.
+W1113 19:11:13.068454  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:272: dynamic_rnn (from tensorflow.python.ops.rnn) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `keras.layers.RNN(cell)`, which is equivalent to this API
+W1113 19:11:13.570496  9360 deprecation.py:506] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\ops\init_ops.py:1251: calling VarianceScaling.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1113 19:11:13.576496  9360 deprecation.py:506] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\contrib\rnn\python\ops\core_rnn_cell.py:104: calling Constant.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1113 19:11:13.587496  9360 deprecation.py:506] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\ops\rnn_cell_impl.py:738: calling Zeros.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1113 19:11:13.946526  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\ops\rnn.py:244: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+W1113 19:11:14.157526  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:306: to_float (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+W1113 19:11:14.162528  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:319: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, there are two
+    options available in V2.
+    - tf.py_function takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    - tf.numpy_function maintains the semantics of the deprecated tf.py_func
+    (it is not differentiable, and manipulates numpy arrays). It drops the
+    stateful argument making all functions stateful.
+
+W1113 19:11:14.170533  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:335: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+W1113 19:11:14.826533  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:339: The name tf.add_to_collection is deprecated. Please use tf.compat.v1.add_to_collection instead.
+
+W1113 19:11:14.827563  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:377: The name tf.summary.scalar is deprecated. Please use tf.compat.v1.summary.scalar instead.
+
+W1113 19:11:14.833560  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:48: The name tf.train.get_or_create_global_step is deprecated. Please use tf.compat.v1.train.get_or_create_global_step instead.
+
+W1113 19:11:14.834561  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:49: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.
+
+W1113 19:11:14.837575  9360 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:61: The name tf.train.NanTensorHook is deprecated. Please use tf.estimator.NanTensorHook instead.
+
+I1113 19:11:14.866560  9360 events_rnn_train.py:75] Starting training loop...
+I1113 19:11:14.867560  9360 basic_session_run_hooks.py:541] Create CheckpointSaverHook.
+W1113 19:11:15.200532  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\training_util.py:236: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+I1113 19:11:15.273561  9360 monitored_session.py:240] Graph was finalized.
+2019-11-13 19:11:15.274144: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library nvcuda.dll
+2019-11-13 19:11:15.350087: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties:
+name: GeForce RTX 2060 major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:01:00.0
+2019-11-13 19:11:15.355822: I tensorflow/stream_executor/platform/default/dlopen_checker_stub.cc:25] GPU libraries are statically linked, skip dlopen check.
+2019-11-13 19:11:15.361288: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2019-11-13 19:11:15.364749: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2019-11-13 19:11:15.371124: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1640] Found device 0 with properties:
+name: GeForce RTX 2060 major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:01:00.0
+2019-11-13 19:11:15.376947: I tensorflow/stream_executor/platform/default/dlopen_checker_stub.cc:25] GPU libraries are statically linked, skip dlopen check.
+2019-11-13 19:11:15.383597: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1763] Adding visible gpu devices: 0
+2019-11-13 19:11:16.996471: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1181] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-11-13 19:11:17.001148: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1187]      0
+2019-11-13 19:11:17.003654: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1200] 0:   N
+2019-11-13 19:11:17.007060: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1326] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 4616 MB memory) -> physical GPU (device: 0, name: GeForce RTX 2060, pci bus id: 0000:01:00.0, compute capability: 7.5)
+W1113 19:11:17.021858  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\saver.py:1276: checkpoint_exists (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to check for files with this prefix.
+I1113 19:11:17.025856  9360 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-111
+W1113 19:11:17.285881  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\saver.py:1066: get_checkpoint_mtimes (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file utilities to get mtimes.
+I1113 19:11:17.349857  9360 session_manager.py:500] Running local_init_op.
+I1113 19:11:17.367887  9360 session_manager.py:502] Done running local_init_op.
+W1113 19:11:17.409889  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\monitored_session.py:875: start_queue_runners (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+I1113 19:11:18.106890  9360 basic_session_run_hooks.py:606] Saving checkpoints for 111 into logdir\run1\train\model.ckpt.
+I1113 19:11:25.474937  9360 basic_session_run_hooks.py:262] Accuracy = 0.4694283, Global Step = 111, Loss = 2.2534292, Perplexity = 9.520327
+I1113 19:11:59.133223  9360 basic_session_run_hooks.py:260] Accuracy = 0.46612585, Global Step = 121, Loss = 2.2085829, Perplexity = 9.102807 (33.658 sec)
+I1113 19:11:59.135225  9360 basic_session_run_hooks.py:692] global_step/sec: 0.297095
+I1113 19:12:21.535956  9360 basic_session_run_hooks.py:606] Saving checkpoints for 129 into logdir\run1\train\model.ckpt.
+W1113 19:12:21.889940  9360 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\saver.py:960: remove_checkpoint (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to delete files with this prefix.
+I1113 19:12:31.037959  9360 basic_session_run_hooks.py:260] Accuracy = 0.46294284, Global Step = 131, Loss = 2.2623742, Perplexity = 9.605867 (31.905 sec)
+I1113 19:12:31.038926  9360 basic_session_run_hooks.py:692] global_step/sec: 0.313443
+I1113 19:13:04.760938  9360 basic_session_run_hooks.py:260] Accuracy = 0.44497657, Global Step = 141, Loss = 2.3673716, Perplexity = 10.669312 (33.723 sec)
+I1113 19:13:04.760938  9360 basic_session_run_hooks.py:692] global_step/sec: 0.296542
+I1113 19:13:22.572954  9360 basic_session_run_hooks.py:606] Saving checkpoints for 148 into logdir\run1\train\model.ckpt.
+I1113 19:13:34.955926  9360 basic_session_run_hooks.py:260] Accuracy = 0.45810434, Global Step = 151, Loss = 2.283768, Perplexity = 9.813588 (30.195 sec)
+I1113 19:13:34.955926  9360 basic_session_run_hooks.py:692] global_step/sec: 0.331181
+I1113 19:14:07.973956  9360 basic_session_run_hooks.py:260] Accuracy = 0.43517423, Global Step = 161, Loss = 2.301351, Perplexity = 9.987667 (33.018 sec)
+I1113 19:14:07.974955  9360 basic_session_run_hooks.py:692] global_step/sec: 0.302856
+I1113 19:14:22.754452  9360 basic_session_run_hooks.py:606] Saving checkpoints for 167 into logdir\run1\train\model.ckpt.
+I1113 19:14:38.339554  9360 basic_session_run_hooks.py:260] Accuracy = 0.46491244, Global Step = 171, Loss = 2.2850866, Perplexity = 9.826537 (30.366 sec)
+I1113 19:14:38.339554  9360 basic_session_run_hooks.py:692] global_step/sec: 0.329331
+I1113 19:15:11.259556  9360 basic_session_run_hooks.py:260] Accuracy = 0.47403798, Global Step = 181, Loss = 2.2986705, Perplexity = 9.960931 (32.920 sec)
+I1113 19:15:11.260554  9360 basic_session_run_hooks.py:692] global_step/sec: 0.303757
+I1113 19:15:23.022554  9360 basic_session_run_hooks.py:606] Saving checkpoints for 186 into logdir\run1\train\model.ckpt.
+I1113 19:15:41.453554  9360 basic_session_run_hooks.py:260] Accuracy = 0.46404153, Global Step = 191, Loss = 2.3368263, Perplexity = 10.348342 (30.194 sec)
+I1113 19:15:41.453554  9360 basic_session_run_hooks.py:692] global_step/sec: 0.331203
+I1113 19:16:15.827594  9360 basic_session_run_hooks.py:260] Accuracy = 0.42960736, Global Step = 201, Loss = 2.2549772, Perplexity = 9.535076 (34.374 sec)
+I1113 19:16:15.828560  9360 basic_session_run_hooks.py:692] global_step/sec: 0.290909
+I1113 19:16:24.701565  9360 basic_session_run_hooks.py:606] Saving checkpoints for 205 into logdir\run1\train\model.ckpt.
+I1113 19:16:46.038536  9360 basic_session_run_hooks.py:692] global_step/sec: 0.311951
+I1113 19:16:46.039505  9360 basic_session_run_hooks.py:260] Accuracy = 0.4704384, Global Step = 211, Loss = 2.3354015, Perplexity = 10.333609 (30.212 sec)
+I1113 19:16:46.040506  9360 basic_session_run_hooks.py:692] global_step/sec: 0.330995
+I1113 19:17:19.468505  9360 basic_session_run_hooks.py:260] Accuracy = 0.4720269, Global Step = 221, Loss = 2.2498124, Perplexity = 9.485956 (33.429 sec)
+I1113 19:17:19.468505  9360 basic_session_run_hooks.py:692] global_step/sec: 0.29915
+I1113 19:17:25.450504  9360 basic_session_run_hooks.py:606] Saving checkpoints for 224 into logdir\run1\train\model.ckpt.
+I1113 19:17:49.855506  9360 basic_session_run_hooks.py:260] Accuracy = 0.46592146, Global Step = 231, Loss = 2.2713978, Perplexity = 9.692941 (30.387 sec)
+I1113 19:17:49.856506  9360 basic_session_run_hooks.py:692] global_step/sec: 0.329077
+I1113 19:18:22.919981  9360 basic_session_run_hooks.py:260] Accuracy = 0.44413844, Global Step = 241, Loss = 2.289275, Perplexity = 9.86778 (33.064 sec)
+I1113 19:18:22.920937  9360 basic_session_run_hooks.py:692] global_step/sec: 0.30244
+I1113 19:18:25.870975  9360 basic_session_run_hooks.py:606] Saving checkpoints for 243 into logdir\run1\train\model.ckpt.
+I1113 19:18:54.856937  9360 basic_session_run_hooks.py:260] Accuracy = 0.46223012, Global Step = 251, Loss = 2.375936, Perplexity = 10.761082 (31.937 sec)
+I1113 19:18:54.858937  9360 basic_session_run_hooks.py:692] global_step/sec: 0.313107
+I1113 19:19:26.679969  9360 basic_session_run_hooks.py:606] Saving checkpoints for 262 into logdir\run1\train\model.ckpt.
+I1113 19:19:27.182000  9360 basic_session_run_hooks.py:260] Accuracy = 0.43433934, Global Step = 261, Loss = 2.389981, Perplexity = 10.913287 (32.325 sec)
+I1113 19:19:27.182969  9360 basic_session_run_hooks.py:692] global_step/sec: 0.309367
+I1113 19:19:59.895513  9360 basic_session_run_hooks.py:260] Accuracy = 0.4776331, Global Step = 271, Loss = 2.2778964, Perplexity = 9.756136 (32.714 sec)
+I1113 19:19:59.897516  9360 basic_session_run_hooks.py:692] global_step/sec: 0.305674
+I1113 19:20:27.580512  9360 basic_session_run_hooks.py:606] Saving checkpoints for 281 into logdir\run1\train\model.ckpt.
+I1113 19:20:31.030541  9360 basic_session_run_hooks.py:260] Accuracy = 0.47068176, Global Step = 281, Loss = 2.2795067, Perplexity = 9.771859 (31.135 sec)
+I1113 19:20:31.031512  9360 basic_session_run_hooks.py:692] global_step/sec: 0.321192
+I1113 19:21:04.414511  9360 basic_session_run_hooks.py:260] Accuracy = 0.44117647, Global Step = 291, Loss = 2.4283001, Perplexity = 11.33959 (33.384 sec)
+I1113 19:21:04.415539  9360 basic_session_run_hooks.py:692] global_step/sec: 0.299544
+I1113 19:21:28.151536  9360 basic_session_run_hooks.py:606] Saving checkpoints for 300 into logdir\run1\train\model.ckpt.
+I1113 19:21:34.645538  9360 basic_session_run_hooks.py:260] Accuracy = 0.45806208, Global Step = 301, Loss = 2.2273648, Perplexity = 9.275392 (30.231 sec)
+I1113 19:21:34.646513  9360 basic_session_run_hooks.py:692] global_step/sec: 0.330787
+I1113 19:22:08.053542  9360 basic_session_run_hooks.py:692] global_step/sec: 0.310545
+I1113 19:22:08.054513  9360 basic_session_run_hooks.py:260] Accuracy = 0.4205364, Global Step = 311, Loss = 2.2420506, Perplexity = 9.412614 (33.409 sec)
+I1113 19:22:08.055511  9360 basic_session_run_hooks.py:692] global_step/sec: 0.299321
+I1113 19:22:28.843536  9360 basic_session_run_hooks.py:606] Saving checkpoints for 319 into logdir\run1\train\model.ckpt.
+I1113 19:22:38.238543  9360 basic_session_run_hooks.py:260] Accuracy = 0.44669792, Global Step = 321, Loss = 2.4178643, Perplexity = 11.221868 (30.184 sec)
+I1113 19:22:38.238543  9360 basic_session_run_hooks.py:692] global_step/sec: 0.331312
+I1113 19:23:11.609549  9360 basic_session_run_hooks.py:260] Accuracy = 0.45263767, Global Step = 331, Loss = 2.2457173, Perplexity = 9.447189 (33.371 sec)
+I1113 19:23:11.610511  9360 basic_session_run_hooks.py:692] global_step/sec: 0.299653
+I1113 19:23:29.631817  9360 basic_session_run_hooks.py:606] Saving checkpoints for 338 into logdir\run1\train\model.ckpt.
+I1113 19:23:42.183790  9360 basic_session_run_hooks.py:260] Accuracy = 0.4411748, Global Step = 341, Loss = 2.263268, Perplexity = 9.614458 (30.574 sec)
+I1113 19:23:42.184788  9360 basic_session_run_hooks.py:692] global_step/sec: 0.327072
+I1113 19:24:15.628787  9360 basic_session_run_hooks.py:260] Accuracy = 0.46903506, Global Step = 351, Loss = 2.3734088, Perplexity = 10.73392 (33.445 sec)
+I1113 19:24:15.629790  9360 basic_session_run_hooks.py:692] global_step/sec: 0.298998
+I1113 19:24:30.425789  9360 basic_session_run_hooks.py:606] Saving checkpoints for 357 into logdir\run1\train\model.ckpt.
+I1113 19:24:45.800819  9360 basic_session_run_hooks.py:260] Accuracy = 0.44708547, Global Step = 361, Loss = 2.2818356, Perplexity = 9.794642 (30.172 sec)
+I1113 19:24:45.801789  9360 basic_session_run_hooks.py:692] global_step/sec: 0.331433
+I1113 19:25:18.955788  9360 basic_session_run_hooks.py:260] Accuracy = 0.45472407, Global Step = 371, Loss = 2.3162193, Perplexity = 10.137276 (33.155 sec)
+I1113 19:25:18.955788  9360 basic_session_run_hooks.py:692] global_step/sec: 0.301623
+I1113 19:25:30.950825  9360 basic_session_run_hooks.py:606] Saving checkpoints for 376 into logdir\run1\train\model.ckpt.
+I1113 19:25:49.415353  9360 basic_session_run_hooks.py:260] Accuracy = 0.4824013, Global Step = 381, Loss = 2.2098823, Perplexity = 9.114643 (30.460 sec)
+I1113 19:25:49.417356  9360 basic_session_run_hooks.py:692] global_step/sec: 0.328283
+I1113 19:26:22.932430  9360 basic_session_run_hooks.py:260] Accuracy = 0.44944194, Global Step = 391, Loss = 2.153289, Perplexity = 8.613141 (33.517 sec)
+I1113 19:26:22.933426  9360 basic_session_run_hooks.py:692] global_step/sec: 0.298364
+I1113 19:26:31.862432  9360 basic_session_run_hooks.py:606] Saving checkpoints for 395 into logdir\run1\train\model.ckpt.
+I1113 19:26:54.664403  9360 basic_session_run_hooks.py:260] Accuracy = 0.47280484, Global Step = 401, Loss = 2.2730436, Perplexity = 9.708906 (31.732 sec)
+I1113 19:26:54.666402  9360 basic_session_run_hooks.py:692] global_step/sec: 0.31513
+I1113 19:27:27.068568  9360 basic_session_run_hooks.py:692] global_step/sec: 0.313465
+I1113 19:27:27.068568  9360 basic_session_run_hooks.py:260] Accuracy = 0.43434522, Global Step = 411, Loss = 2.360301, Perplexity = 10.59414 (32.404 sec)
+I1113 19:27:27.069539  9360 basic_session_run_hooks.py:692] global_step/sec: 0.308612
+I1113 19:27:32.932538  9360 basic_session_run_hooks.py:606] Saving checkpoints for 414 into logdir\run1\train\model.ckpt.
+I1113 19:28:00.055487  9360 basic_session_run_hooks.py:260] Accuracy = 0.47519332, Global Step = 421, Loss = 2.2530966, Perplexity = 9.517161 (32.987 sec)
+I1113 19:28:00.057484  9360 basic_session_run_hooks.py:692] global_step/sec: 0.303141
+I1113 19:28:31.073517  9360 basic_session_run_hooks.py:260] Accuracy = 0.44005653, Global Step = 431, Loss = 2.4284005, Perplexity = 11.340728 (31.018 sec)
+I1113 19:28:31.074484  9360 basic_session_run_hooks.py:692] global_step/sec: 0.322404
+I1113 19:28:34.045513  9360 basic_session_run_hooks.py:606] Saving checkpoints for 433 into logdir\run1\train\model.ckpt.
+I1113 19:29:04.842483  9360 basic_session_run_hooks.py:260] Accuracy = 0.43374494, Global Step = 441, Loss = 2.320971, Perplexity = 10.185559 (33.769 sec)
+I1113 19:29:04.843485  9360 basic_session_run_hooks.py:692] global_step/sec: 0.29613
+I1113 19:29:34.958514  9360 basic_session_run_hooks.py:606] Saving checkpoints for 452 into logdir\run1\train\model.ckpt.
+I1113 19:29:35.407516  9360 basic_session_run_hooks.py:260] Accuracy = 0.4521846, Global Step = 451, Loss = 2.3062277, Perplexity = 10.036492 (30.565 sec)
+I1113 19:29:35.408483  9360 basic_session_run_hooks.py:692] global_step/sec: 0.327182
+I1113 19:30:08.716485  9360 basic_session_run_hooks.py:260] Accuracy = 0.46814767, Global Step = 461, Loss = 2.2618384, Perplexity = 9.600723 (33.309 sec)
+I1113 19:30:08.717485  9360 basic_session_run_hooks.py:692] global_step/sec: 0.30021
+I1113 19:30:35.734496  9360 basic_session_run_hooks.py:606] Saving checkpoints for 471 into logdir\run1\train\model.ckpt.
+I1113 19:30:39.155561  9360 basic_session_run_hooks.py:260] Accuracy = 0.4951243, Global Step = 471, Loss = 2.226295, Perplexity = 9.265474 (30.439 sec)
+I1113 19:30:39.155561  9360 basic_session_run_hooks.py:692] global_step/sec: 0.328536
+I1113 19:31:12.824654  9360 basic_session_run_hooks.py:260] Accuracy = 0.4620511, Global Step = 481, Loss = 2.2251585, Perplexity = 9.25495 (33.669 sec)
+I1113 19:31:12.825656  9360 basic_session_run_hooks.py:692] global_step/sec: 0.296999
+I1113 19:31:36.900828  9360 basic_session_run_hooks.py:606] Saving checkpoints for 490 into logdir\run1\train\model.ckpt.
+I1113 19:31:43.401862  9360 basic_session_run_hooks.py:260] Accuracy = 0.41738752, Global Step = 491, Loss = 2.3550417, Perplexity = 10.5385685 (30.577 sec)
+I1113 19:31:43.402830  9360 basic_session_run_hooks.py:692] global_step/sec: 0.327041
+I1113 19:32:16.518859  9360 basic_session_run_hooks.py:260] Accuracy = 0.49789536, Global Step = 501, Loss = 2.1813574, Perplexity = 8.858322 (33.117 sec)
+I1113 19:32:16.519830  9360 basic_session_run_hooks.py:692] global_step/sec: 0.30196
+I1113 19:32:37.352864  9360 basic_session_run_hooks.py:606] Saving checkpoints for 509 into logdir\run1\train\model.ckpt.
+I1113 19:32:46.721901  9360 basic_session_run_hooks.py:692] global_step/sec: 0.312839
+I1113 19:32:46.722865  9360 basic_session_run_hooks.py:260] Accuracy = 0.4351574, Global Step = 511, Loss = 2.356986, Perplexity = 10.559078 (30.204 sec)
+I1113 19:32:46.723865  9360 basic_session_run_hooks.py:692] global_step/sec: 0.331093
+I1113 19:33:19.983866  9360 basic_session_run_hooks.py:260] Accuracy = 0.4685667, Global Step = 521, Loss = 2.218224, Perplexity = 9.190994 (33.261 sec)
+I1113 19:33:19.984865  9360 basic_session_run_hooks.py:692] global_step/sec: 0.300643
+I1113 19:33:37.955896  9360 basic_session_run_hooks.py:606] Saving checkpoints for 528 into logdir\run1\train\model.ckpt.
+I1113 19:33:50.530867  9360 basic_session_run_hooks.py:260] Accuracy = 0.46835023, Global Step = 531, Loss = 2.1356921, Perplexity = 8.462901 (30.547 sec)
+I1113 19:33:50.532866  9360 basic_session_run_hooks.py:692] global_step/sec: 0.327354
+I1113 19:34:23.416885  9360 basic_session_run_hooks.py:260] Accuracy = 0.456963, Global Step = 541, Loss = 2.1990423, Perplexity = 9.016375 (32.886 sec)
+I1113 19:34:23.416885  9360 basic_session_run_hooks.py:692] global_step/sec: 0.304099
+I1113 19:34:38.396865  9360 basic_session_run_hooks.py:606] Saving checkpoints for 547 into logdir\run1\train\model.ckpt.
+I1113 19:34:55.247866  9360 basic_session_run_hooks.py:260] Accuracy = 0.46128893, Global Step = 551, Loss = 2.2727141, Perplexity = 9.705708 (31.831 sec)
+I1113 19:34:55.250867  9360 basic_session_run_hooks.py:692] global_step/sec: 0.31413
+I1113 19:35:27.028344  9360 basic_session_run_hooks.py:260] Accuracy = 0.4765684, Global Step = 561, Loss = 2.216144, Perplexity = 9.171896 (31.780 sec)
+I1113 19:35:27.029315  9360 basic_session_run_hooks.py:692] global_step/sec: 0.314679
+I1113 19:35:38.927343  9360 basic_session_run_hooks.py:606] Saving checkpoints for 566 into logdir\run1\train\model.ckpt.
+I1113 19:36:00.164315  9360 basic_session_run_hooks.py:260] Accuracy = 0.49111012, Global Step = 571, Loss = 2.1839485, Perplexity = 8.881305 (33.136 sec)
+I1113 19:36:00.167316  9360 basic_session_run_hooks.py:692] global_step/sec: 0.301768
+I1113 19:36:30.919351  9360 basic_session_run_hooks.py:260] Accuracy = 0.46173513, Global Step = 581, Loss = 2.2396405, Perplexity = 9.389955 (30.755 sec)
+I1113 19:36:30.919351  9360 basic_session_run_hooks.py:692] global_step/sec: 0.325182
+I1113 19:36:40.039730  9360 basic_session_run_hooks.py:606] Saving checkpoints for 585 into logdir\run1\train\model.ckpt.
+I1113 19:37:05.255354  9360 basic_session_run_hooks.py:260] Accuracy = 0.44317675, Global Step = 591, Loss = 2.2929213, Perplexity = 9.903828 (34.336 sec)
+I1113 19:37:05.256354  9360 basic_session_run_hooks.py:692] global_step/sec: 0.291231
+I1113 19:37:35.100359  9360 basic_session_run_hooks.py:260] Accuracy = 0.4652355, Global Step = 601, Loss = 2.2373035, Perplexity = 9.368036 (29.845 sec)
+I1113 19:37:35.101361  9360 basic_session_run_hooks.py:692] global_step/sec: 0.335064
+I1113 19:37:41.109359  9360 basic_session_run_hooks.py:606] Saving checkpoints for 604 into logdir\run1\train\model.ckpt.
+I1113 19:38:08.951402  9360 basic_session_run_hooks.py:692] global_step/sec: 0.310338
+I1113 19:38:08.952403  9360 basic_session_run_hooks.py:260] Accuracy = 0.46149212, Global Step = 611, Loss = 2.318238, Perplexity = 10.157761 (33.852 sec)
+I1113 19:38:08.953401  9360 basic_session_run_hooks.py:692] global_step/sec: 0.295403
+I1113 19:38:38.592431  9360 basic_session_run_hooks.py:260] Accuracy = 0.4844218, Global Step = 621, Loss = 2.1965835, Perplexity = 8.994232 (29.640 sec)
+I1113 19:38:38.593433  9360 basic_session_run_hooks.py:692] global_step/sec: 0.337382
+I1113 19:38:41.601402  9360 basic_session_run_hooks.py:606] Saving checkpoints for 623 into logdir\run1\train\model.ckpt.
+I1113 19:39:12.116425  9360 basic_session_run_hooks.py:260] Accuracy = 0.46284118, Global Step = 631, Loss = 2.3296158, Perplexity = 10.273994 (33.524 sec)
+I1113 19:39:12.117402  9360 basic_session_run_hooks.py:692] global_step/sec: 0.298294
+I1113 19:39:42.056772  9360 basic_session_run_hooks.py:606] Saving checkpoints for 642 into logdir\run1\train\model.ckpt.
+I1113 19:39:42.516742  9360 basic_session_run_hooks.py:260] Accuracy = 0.47387964, Global Step = 641, Loss = 2.252007, Perplexity = 9.506797 (30.400 sec)
+I1113 19:39:42.517743  9360 basic_session_run_hooks.py:692] global_step/sec: 0.328944
+I1113 19:40:15.611742  9360 basic_session_run_hooks.py:260] Accuracy = 0.48019737, Global Step = 651, Loss = 2.0519211, Perplexity = 7.7828383 (33.095 sec)
+I1113 19:40:15.612743  9360 basic_session_run_hooks.py:692] global_step/sec: 0.30217
+I1113 19:40:42.376825  9360 basic_session_run_hooks.py:606] Saving checkpoints for 661 into logdir\run1\train\model.ckpt.
+I1113 19:40:45.783824  9360 basic_session_run_hooks.py:260] Accuracy = 0.44143113, Global Step = 661, Loss = 2.2337415, Perplexity = 9.334726 (30.171 sec)
+I1113 19:40:45.783824  9360 basic_session_run_hooks.py:692] global_step/sec: 0.331432
+I1113 19:41:19.306268  9360 basic_session_run_hooks.py:260] Accuracy = 0.45202717, Global Step = 671, Loss = 2.340306, Perplexity = 10.384414 (33.523 sec)
+I1113 19:41:19.306268  9360 basic_session_run_hooks.py:692] global_step/sec: 0.298308
+I1113 19:41:42.996214  9360 basic_session_run_hooks.py:606] Saving checkpoints for 680 into logdir\run1\train\model.ckpt.
+I1113 19:41:49.373214  9360 basic_session_run_hooks.py:260] Accuracy = 0.47026193, Global Step = 681, Loss = 2.316185, Perplexity = 10.136929 (30.067 sec)
+I1113 19:41:49.375215  9360 basic_session_run_hooks.py:692] global_step/sec: 0.332569
+I1113 19:42:22.495995  9360 basic_session_run_hooks.py:260] Accuracy = 0.45644727, Global Step = 691, Loss = 2.243027, Perplexity = 9.421808 (33.123 sec)
+I1113 19:42:22.496967  9360 basic_session_run_hooks.py:692] global_step/sec: 0.301916
+I1113 19:42:43.182415  9360 basic_session_run_hooks.py:606] Saving checkpoints for 699 into logdir\run1\train\model.ckpt.
+I1113 19:42:53.664397  9360 basic_session_run_hooks.py:260] Accuracy = 0.43240345, Global Step = 701, Loss = 2.2600844, Perplexity = 9.583898 (31.167 sec)
+I1113 19:42:53.665397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.320837
+I1113 19:43:25.852420  9360 basic_session_run_hooks.py:692] global_step/sec: 0.315556
+I1113 19:43:25.853430  9360 basic_session_run_hooks.py:260] Accuracy = 0.46861508, Global Step = 711, Loss = 2.2577517, Perplexity = 9.561567 (32.190 sec)
+I1113 19:43:25.854397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.310665
+I1113 19:43:43.523426  9360 basic_session_run_hooks.py:606] Saving checkpoints for 718 into logdir\run1\train\model.ckpt.
+I1113 19:43:57.396395  9360 basic_session_run_hooks.py:260] Accuracy = 0.45859614, Global Step = 721, Loss = 2.2497532, Perplexity = 9.4853945 (31.543 sec)
+I1113 19:43:57.399397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.317007
+I1113 19:44:28.625427  9360 basic_session_run_hooks.py:260] Accuracy = 0.48318353, Global Step = 731, Loss = 2.1772833, Perplexity = 8.822306 (31.229 sec)
+I1113 19:44:28.626396  9360 basic_session_run_hooks.py:692] global_step/sec: 0.320236
+I1113 19:44:46.502395  9360 basic_session_run_hooks.py:606] Saving checkpoints for 738 into logdir\run1\train\model.ckpt.
+I1113 19:45:01.654399  9360 basic_session_run_hooks.py:260] Accuracy = 0.48215842, Global Step = 741, Loss = 2.3271115, Perplexity = 10.248296 (33.029 sec)
+I1113 19:45:01.656397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.302755
+I1113 19:45:31.763395  9360 basic_session_run_hooks.py:260] Accuracy = 0.4690083, Global Step = 751, Loss = 2.25006, Perplexity = 9.488306 (30.109 sec)
+I1113 19:45:31.763395  9360 basic_session_run_hooks.py:692] global_step/sec: 0.332149
+I1113 19:45:46.541395  9360 basic_session_run_hooks.py:606] Saving checkpoints for 757 into logdir\run1\train\model.ckpt.
+I1113 19:46:04.998397  9360 basic_session_run_hooks.py:260] Accuracy = 0.47041032, Global Step = 761, Loss = 2.1817503, Perplexity = 8.861803 (33.235 sec)
+I1113 19:46:04.998397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.300888
+I1113 19:46:34.646394  9360 basic_session_run_hooks.py:260] Accuracy = 0.47031823, Global Step = 771, Loss = 2.2581432, Perplexity = 9.565311 (29.648 sec)
+I1113 19:46:34.647395  9360 basic_session_run_hooks.py:692] global_step/sec: 0.33728
+I1113 19:46:46.553399  9360 basic_session_run_hooks.py:606] Saving checkpoints for 776 into logdir\run1\train\model.ckpt.
+I1113 19:47:07.838443  9360 basic_session_run_hooks.py:260] Accuracy = 0.50537086, Global Step = 781, Loss = 2.1642072, Perplexity = 8.707696 (33.192 sec)
+I1113 19:47:07.838443  9360 basic_session_run_hooks.py:692] global_step/sec: 0.301286
+I1113 19:47:37.483424  9360 basic_session_run_hooks.py:260] Accuracy = 0.44976208, Global Step = 791, Loss = 2.3027499, Perplexity = 10.001648 (29.645 sec)
+I1113 19:47:37.484397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.337314
+I1113 19:47:49.289395  9360 basic_session_run_hooks.py:606] Saving checkpoints for 796 into logdir\run1\train\model.ckpt.
+I1113 19:48:10.698394  9360 basic_session_run_hooks.py:260] Accuracy = 0.49028265, Global Step = 801, Loss = 2.2548828, Perplexity = 9.534176 (33.215 sec)
+I1113 19:48:10.699397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.301069
+I1113 19:48:40.235425  9360 basic_session_run_hooks.py:692] global_step/sec: 0.318083
+I1113 19:48:40.235425  9360 basic_session_run_hooks.py:260] Accuracy = 0.43052444, Global Step = 811, Loss = 2.291113, Perplexity = 9.885933 (29.537 sec)
+I1113 19:48:40.236397  9360 basic_session_run_hooks.py:692] global_step/sec: 0.338558
+I1113 19:48:52.044427  9360 basic_session_run_hooks.py:606] Saving checkpoints for 816 into logdir\run1\train\model.ckpt.
+
+.....
+
+I1114 12:26:11.597133  9360 basic_session_run_hooks.py:692] global_step/sec: 0.33205
+I1114 12:26:20.532161  9360 basic_session_run_hooks.py:606] Saving checkpoints for 20055 into logdir\run1\train\model.ckpt.
+I1114 12:26:44.263164  9360 basic_session_run_hooks.py:260] Accuracy = 0.9041878, Global Step = 20061, Loss = 0.37117356, Perplexity = 1.4494346 (32.667 sec)
+I1114 12:26:44.264137  9360 basic_session_run_hooks.py:692] global_step/sec: 0.306119
+I1114 12:27:14.055164  9360 basic_session_run_hooks.py:260] Accuracy = 0.8982008, Global Step = 20071, Loss = 0.39606288, Perplexity = 1.4859627 (29.792 sec)
+I1114 12:27:14.056133  9360 basic_session_run_hooks.py:692] global_step/sec: 0.335661
+I1114 12:27:22.963168  9360 basic_session_run_hooks.py:606] Saving checkpoints for 20075 into logdir\run1\train\model.ckpt.
+I1114 12:27:46.751132  9360 basic_session_run_hooks.py:260] Accuracy = 0.9030495, Global Step = 20081, Loss = 0.3749444, Perplexity = 1.4549105 (32.696 sec)
+I1114 12:27:46.751132  9360 basic_session_run_hooks.py:692] global_step/sec: 0.305857
+I1114 12:28:16.279133  9360 basic_session_run_hooks.py:260] Accuracy = 0.88444656, Global Step = 20091, Loss = 0.4294356, Perplexity = 1.5363902 (29.528 sec)
+I1114 12:28:16.280133  9360 basic_session_run_hooks.py:692] global_step/sec: 0.33865
+I1114 12:28:25.215161  9360 basic_session_run_hooks.py:606] Saving checkpoints for 20095 into logdir\run1\train\model.ckpt.
+I1114 12:28:48.959131  9360 basic_session_run_hooks.py:260] Accuracy = 0.8930707, Global Step = 20101, Loss = 0.40255022, Perplexity = 1.495634 (32.680 sec)
+I1114 12:28:48.959131  9360 basic_session_run_hooks.py:692] global_step/sec: 0.306007
+I1114 12:29:15.586133  9360 basic_session_run_hooks.py:606] Saving checkpoints for 20111 into logdir\run1\train\model.ckpt.
+I1114 12:29:16.218131  9360 events_rnn_train.py:85] Training complete.
