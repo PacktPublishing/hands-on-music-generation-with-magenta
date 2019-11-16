@@ -56,8 +56,8 @@
     ```
 - chapter_06_example_07.py
     ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 1096 (3.53%)
-    Time:  2531.8980853999997
+    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 1799 (5.80%)
+    Time:  2951.25321
     ```
 - chapter_06_example_08.py
     ```
