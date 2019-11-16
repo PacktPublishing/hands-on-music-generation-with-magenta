@@ -4,8 +4,12 @@
 
 - `https://www.reddit.com/r/WeAreTheMusicMakers/comments/3anwu8/the_drum_percussion_midi_archive_800k/`
 - `https://www.reddit.com/r/WeAreTheMusicMakers/comments/3ajwe4/the_largest_midi_collection_on_the_internet/`
-- https://elitedatascience.com/overfitting-in-machine-learning
-- https://devblogs.nvidia.com/cuda-pro-tip-control-gpu-visibility-cuda_visible_devices/
+- maestro dataset
+    - https://arxiv.org/abs/1810.12247
+    - https://magenta.tensorflow.org/maestro-wave2midi2wave
+    - https://magenta.tensorflow.org/onsets-frames
+    - https://arxiv.org/abs/1809.04281
+       
 
 ## Primers
 
@@ -14,10 +18,10 @@
 
 ### Output
 
-- chapter_06_example_00.py (REDO!)
+- chapter_06_example_00.py
     ```
-    Number of tracks: 116189, number of tracks in sample: 116189, number of results: 12634 (10.87%)
-    Time:  7197.6346254
+    Number of tracks: 116189, number of tracks in sample: 116189, number of results: 5979 (5.15%)
+    Time:  4814.2588857
     ```
 - chapter_06_example_01.py
     ```
@@ -52,10 +56,11 @@
     ```
 - chapter_06_example_07.py
     ```
-    # TODO
+    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 1096 (3.53%)
+    Time:  2531.8980853999997
     ```
 - chapter_06_example_08.py
     ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 2366 (7.62%)
-    Time:  2552.0645546
+    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 1473 (4.75%)
+    Time:  2582.0384953
     ```

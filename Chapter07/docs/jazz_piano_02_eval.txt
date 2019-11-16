@@ -1,0 +1,21 @@
+(dreambank2) D:\Users\Claire\Data\training\jazz_piano_02>melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples\eval_melodies.tfrecord" --hparams="batch_size=34,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
+
+.....
+
+I1116 12:25:05.337361  2600 session_manager.py:500] Running local_init_op.
+I1116 12:25:05.375353  2600 session_manager.py:502] Done running local_init_op.
+I1116 12:25:05.424354  2600 evaluation.py:450] Starting evaluation at 2019-11-16-11:25:05
+I1116 12:25:06.242392  2600 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 6883, Loss = 0.0, Perplexity = 1.0
+I1116 12:25:06.242392  2600 evaluation.py:167] Evaluation [1/1]
+I1116 12:25:06.243392  2600 evaluation.py:456] Finished evaluation at 2019-11-16-11:25:06
+I1116 12:26:05.186195  2600 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train
+I1116 12:26:22.251343  2600 evaluation.py:198] Found new checkpoint at logdir\run1\train\model.ckpt-6887
+I1116 12:26:22.252343  2600 monitored_session.py:240] Graph was finalized.
+I1116 12:26:22.254342  2600 saver.py:1280] Restoring parameters from logdir\run1\train\model.ckpt-6887
+I1116 12:26:22.377343  2600 session_manager.py:500] Running local_init_op.
+I1116 12:26:22.406343  2600 session_manager.py:502] Done running local_init_op.
+I1116 12:26:22.442343  2600 evaluation.py:450] Starting evaluation at 2019-11-16-11:26:22
+I1116 12:26:23.070343  2600 basic_session_run_hooks.py:262] Accuracy = 0.0, Global Step = 6887, Loss = 0.0, Perplexity = 1.0
+I1116 12:26:23.070343  2600 evaluation.py:167] Evaluation [1/1]
+I1116 12:26:23.071343  2600 evaluation.py:456] Finished evaluation at 2019-11-16-11:26:23
+I1116 12:27:22.252391  2600 evaluation.py:189] Waiting for new checkpoint at logdir\run1\train

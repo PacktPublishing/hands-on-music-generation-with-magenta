@@ -17,7 +17,6 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import tables
-from bokeh.colors.groups import purple as colors
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
 
@@ -108,9 +107,7 @@ def app(msd_ids: List[str]):
                       for pm_pianos in pm_pianos_list
                       for pm_piano in pm_pianos]
   plt.figure(num=None, figsize=(10, 8), dpi=500)
-  plt.hist(pm_piano_lengths, bins=100,
-           color=[color.name for color in colors
-                  if color.name != "lavender"])
+  plt.hist(pm_piano_lengths, bins=100, color="darkmagenta")
   plt.title('Piano lengths')
   plt.ylabel('length (sec)')
   plt.show()

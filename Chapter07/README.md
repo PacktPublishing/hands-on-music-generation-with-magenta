@@ -14,10 +14,23 @@
 
 ## Training
 
-### Jazz Drums 01
+### TODO
+
+Do increasingly better training using the rundir 
+
+- TODO make recommandations on data and training org 
+- TODO (run1) first with little data (100 samples)
+- TODO (run2) then with more data (500 samples, small network 64)
+- TODO (run3) try to reproduce the model diverged using drums rnn (using 128)
+- TODO (run4) fix it using learning rate
+- TODO (run5) fix it then using bigger network
+- TODO (run6) add lots of data (1000 samples)
+
+### Jazz Drums 01 (jazz, blues, country)
 
 TODO model diverged with loss NaN
 
+- jazz_drums_02.zip
 - [Jazz drums 01 training (12/11/2019)](./docs/jazz_drums_01.txt)
 
 ```bash
@@ -35,10 +48,13 @@ set CUDA_VISIBLE_DEVICES="0"
 drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[128,128,128]" --num_training_steps=20000
 set CUDA_VISIBLE_DEVICES=""
 drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[128,128,128]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
 ```
 
-### Jazz Drums 02
+### Jazz Drums 02 (jazz, blues, country)
 
+- jazz_drums_02.zip
 - [Jazz drums 02 training (13/11/2019)](./docs/jazz_drums_02_training.txt)
 - [Jazz drums 02 eval (13/11/2019)](./docs/jazz_drums_02_eval.txt)
 
@@ -51,7 +67,51 @@ set CUDA_VISIBLE_DEVICES="0"
 drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000
 set CUDA_VISIBLE_DEVICES=""
 drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_drum_tracks.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
+drums_rnn_generate --config="drum_kit" --run_dir="logdir\run1" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --output_dir="generated" --temperature=1.1
 ```
+
+### Jazz Drums 03 (jazz)
+
+TODO 
+
+### Jazz Drums 04 (jazz, blues)
+
+TODO 
+
+### Jazz Piano 01 (jazz, blues, country)
+
+TODO 
+
+### Jazz Piano 02 (jazz)
+
+- jazz_piano_02.zip
+- [Jazz piano 02 data (13/11/2019)](./docs/jazz_piano_02_data.txt) 
+- [Jazz piano 02 eval error (13/11/2019)](./docs/jazz_piano_02_eval_error.txt)
+    - match "Total records: 34" 
+    - `melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=34,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval`
+- [Jazz piano 02 eval (13/11/2019)](./docs/jazz_piano_02_eval.txt)
+- [Jazz piano 02 traning (13/11/2019)](./docs/jazz_piano_02_training.txt)
+- Overfitting: too less data
+- Trained on CPU (error starting cuda)
+
+```bash
+cd "D:\Users\Claire\Data\training\jazz_piano_02"
+conda activate dreambank2
+convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\piano\08-jazz" --output_file="notesequences.tfrecord" --recursive
+melody_rnn_create_dataset --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+set CUDA_VISIBLE_DEVICES="0"
+melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
+set CUDA_VISIBLE_DEVICES=""
+melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
+melody_rnn_generate --config="attention_rnn" --run_dir="logdir\run1" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
+```
+
+### Jazz Piano 03 (jazz, blues)
+
 
 ### Training global
 
@@ -73,7 +133,7 @@ CUDA_VISIBLE_DEVICES=""  drums_rnn_train --config="drum_kit" --run_dir="logdir\r
 ## Check tensorboard
 tensorboard --logdir=logdir
 ## Generate
-drums_rnn_generate --config="drum_kit" --run_dir="logdir/run1" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --output_dir="generated" --num_outputs=10 --num_steps=128 --primer_drums="[(36,)]"
+drums_rnn_generate --config="drum_kit" --run_dir="logdir\run1" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --output_dir="generated" --num_outputs=10 --num_steps=128 --primer_drums="[(36,)]"
 
 # Jazz piano
 cd "D:\Users\Claire\Data\training\melody_rnn"
@@ -81,15 +141,11 @@ convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_da
 melody_rnn_create_dataset --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
 melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
 melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --eval
-melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run1" --output_dir="generated" --num_outputs=10 --num_steps=128 --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --primer_melody="[60]"
+melody_rnn_generate --config="attention_rnn" --run_dir="logdir\run1" --output_dir="generated" --num_outputs=10 --num_steps=128 --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --primer_melody="[60]"
 
 # Techno drums
 # TODO
 ```
-
-### Output
-
-- [Jazz drums 01 (13/11/2019)](./docs/jazz_drums_02_eval.txt)
 
 ## Problems
 
@@ -108,3 +164,26 @@ Lower learning rate
 ### [Wrong network size](./docs/wrong_network_size.md)
 
 TODO
+
+## Google cloud platform
+
+Recommanded from https://github.com/tensorflow/magenta/tree/master/magenta/models/onsets_frames_transcription: https://cloud.google.com/dataflow/docs/quickstarts/quickstart-python
+
+or
+
+- Go to images, seach for "tensorflow" and take most recent, "c3-deeplearning-tf-1-15-cu100-20191112"
+- Create new VM from it, 50 GB disk
+- Login ssh
+    - This VM requires Nvidia drivers to function correctly.   Installation takes ~1 minute.
+    Would you like to install the Nvidia driver? [y/n] y
+- Then conda install
+    - then `bash`
+- ? Install tensorflow-gpu using `pip install /opt/deeplearning/binaries/tensorflow/tensorflow_gpu-1.15.0-cp36-cp36m-linux_x86_64.whl`
+- `fatal error: alsa/asoundlib.h: No such file or directory`
+    - maybe install `sudo apt install libasound2-dev`
+- `OSError: sndfile library not found`
+    - `sudo apt install libsndfile-dev` 
+- test
+    - `wget http://download.magenta.tensorflow.org/models/drum_kit_rnn.mag`
+    - `drums_rnn_generate --config="drum_kit" --bundle_file="drum_kit_rnn.mag"`
+- save images for book?

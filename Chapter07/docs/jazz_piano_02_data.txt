@@ -1,0 +1,30 @@
+I1115 01:43:25.076506  1584 pipeline.py:388] Processed 1828 inputs total. Produced 448 outputs.
+I1115 01:43:25.078537  1584 statistics.py:141] DAGPipeline_MelodyExtractor_eval_melodies_discarded_too_few_pitches: 18
+I1115 01:43:25.079507  1584 statistics.py:141] DAGPipeline_MelodyExtractor_eval_melodies_discarded_too_long: 0
+I1115 01:43:25.080530  1584 statistics.py:141] DAGPipeline_MelodyExtractor_eval_melodies_discarded_too_short: 344
+I1115 01:43:25.080530  1584 statistics.py:141] DAGPipeline_MelodyExtractor_eval_melodies_truncated: 3
+I1115 01:43:25.083540  1584 statistics.py:141] DAGPipeline_MelodyExtractor_eval_melody_lengths_in_bars:
+  [7,8): 6
+  [8,10): 2
+  [10,20): 17
+  [20,30): 6
+  [30,40): 3
+I1115 01:43:25.084534  1584 statistics.py:141] DAGPipeline_MelodyExtractor_eval_polyphonic_tracks_discarded: 488
+I1115 01:43:25.084534  1584 statistics.py:141] DAGPipeline_MelodyExtractor_training_melodies_discarded_too_few_pitches: 179
+I1115 01:43:25.085532  1584 statistics.py:141] DAGPipeline_MelodyExtractor_training_melodies_discarded_too_long: 0
+I1115 01:43:25.085532  1584 statistics.py:141] DAGPipeline_MelodyExtractor_training_melodies_discarded_too_short: 2314
+I1115 01:43:25.086543  1584 statistics.py:141] DAGPipeline_MelodyExtractor_training_melodies_truncated: 66
+I1115 01:43:25.086543  1584 statistics.py:141] DAGPipeline_MelodyExtractor_training_melody_lengths_in_bars:
+  [7,8): 107
+  [8,10): 66
+  [10,20): 132
+  [20,30): 40
+  [30,40): 67
+  [50,100): 2
+I1115 01:43:25.087507  1584 statistics.py:141] DAGPipeline_MelodyExtractor_training_polyphonic_tracks_discarded: 3646
+I1115 01:43:25.090534  1584 statistics.py:141] DAGPipeline_RandomPartition_eval_melodies_count: 197
+I1115 01:43:25.092506  1584 statistics.py:141] DAGPipeline_RandomPartition_training_melodies_count: 1631
+I1115 01:43:25.095506  1584 statistics.py:141] DAGPipeline_TranspositionPipeline_eval_skipped_due_to_range_exceeded: 0
+I1115 01:43:25.095506  1584 statistics.py:141] DAGPipeline_TranspositionPipeline_eval_transpositions_generated: 1521
+I1115 01:43:25.096506  1584 statistics.py:141] DAGPipeline_TranspositionPipeline_training_skipped_due_to_range_exceeded: 0
+I1115 01:43:25.096506  1584 statistics.py:141] DAGPipeline_TranspositionPipeline_training_transpositions_generated: 9337

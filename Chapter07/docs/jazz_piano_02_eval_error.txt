@@ -1,0 +1,20 @@
+I1115 01:55:23.971177  5304 sequence_example_lib.py:127] Total records: 34
+Traceback (most recent call last):
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\Claire\Miniconda3\envs\dreambank2\Scripts\melody_rnn_train.exe\__main__.py", line 9, in <module>
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\melody_rnn\melody_rnn_train.py", line 108, in console_entry_point
+    tf.app.run(main)
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\platform\app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\absl\app.py", line 300, in run
+    _run_main(main, args)
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\absl\app.py", line 251, in _run_main
+    sys.exit(main(argv))
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\melody_rnn\melody_rnn_train.py", line 98, in main
+    events_rnn_train.run_eval(build_graph_fn, train_dir, eval_dir, num_batches)
+  File "c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py", line 107, in run_eval
+    '`num_batches` must be greater than 0. Check that the batch size is '
+ValueError: `num_batches` must be greater than 0. Check that the batch size is no larger than the number of records in the eval set.

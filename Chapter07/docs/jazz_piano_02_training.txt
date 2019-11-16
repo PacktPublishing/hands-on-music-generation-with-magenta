@@ -1,0 +1,175 @@
+(dreambank2) D:\Users\Claire\Data\training\jazz_piano_02>melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
+WARNING: Logging before flag parsing goes to stderr.
+W1115 01:50:40.430615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\pipelines\statistics.py:132: The name tf.logging.info is deprecated. Please use tf.compat.v1.logging.info instead.
+
+W1115 01:50:41.425616  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\music\note_sequence_io.py:60: The name tf.python_io.TFRecordWriter is deprecated. Please use tf.io.TFRecordWriter instead.
+
+W1115 01:50:41.922615  8584 lazy_loader.py:50]
+The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+  * https://github.com/tensorflow/io (for I/O related ops)
+If you depend on functionality not listed there, please file an issue.
+
+W1115 01:50:41.924615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:138: The name tf.train.LoggingTensorHook is deprecated. Please use tf.estimator.LoggingTensorHook instead.
+
+W1115 01:50:41.925615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\melody_rnn\melody_rnn_train.py:108: The name tf.app.run is deprecated. Please use tf.compat.v1.app.run instead.
+
+W1115 01:50:41.926615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\melody_rnn\melody_rnn_train.py:65: The name tf.logging.set_verbosity is deprecated. Please use tf.compat.v1.logging.set_verbosity instead.
+
+W1115 01:50:41.926615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\melody_rnn\melody_rnn_train.py:74: The name tf.gfile.Glob is deprecated. Please use tf.io.gfile.glob instead.
+
+I1115 01:50:41.928615  8584 events_rnn_graph.py:222] hparams = {'batch_size': 128, 'rnn_layer_sizes': [128, 128], 'dropout_keep_prob': 0.5, 'attn_length': 40, 'clip_norm': 3, 'learning_rate': 0.001, 'residual_connections': False, 'use_cudnn': False}
+W1115 01:50:41.928615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\melody_rnn\melody_rnn_train.py:86: The name tf.gfile.MakeDirs is deprecated. Please use tf.io.gfile.makedirs instead.
+
+I1115 01:50:41.928615  8584 melody_rnn_train.py:87] Train dir: logdir\run1\train
+W1115 01:50:41.929615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:45: The name tf.train.replica_device_setter is deprecated. Please use tf.compat.v1.train.replica_device_setter instead.
+
+W1115 01:50:41.929615  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:66: string_input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(string_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+W1115 01:50:41.933616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:278: input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(input_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+W1115 01:50:41.934616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:190: limit_epochs (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensors(tensor).repeat(num_epochs)`.
+W1115 01:50:41.938615  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:199: QueueRunner.__init__ (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+W1115 01:50:41.939615  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\input.py:199: add_queue_runner (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+W1115 01:50:41.942616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:67: TFRecordReader.__init__ (from tensorflow.python.ops.io_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.TFRecordDataset`.
+W1115 01:50:41.944615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:71: The name tf.FixedLenSequenceFeature is deprecated. Please use tf.io.FixedLenSequenceFeature instead.
+
+W1115 01:50:41.945615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:76: The name tf.parse_single_sequence_example is deprecated. Please use tf.io.parse_single_sequence_example instead.
+
+I1115 01:50:41.956616  8584 sequence_example_lib.py:121] Counting records in sequence_examples\training_melodies.tfrecord.
+W1115 01:50:41.956616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:122: tf_record_iterator (from tensorflow.python.lib.io.tf_record) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use eager execution and:
+`tf.data.TFRecordDataset(path)`
+I1115 01:50:41.974614  8584 sequence_example_lib.py:125] Number of records is at least 100.
+W1115 01:50:41.976615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:27: The name tf.RandomShuffleQueue is deprecated. Please use tf.queue.RandomShuffleQueue instead.
+
+I1115 01:50:41.979616  8584 sequence_example_lib.py:99] [<tf.Tensor 'random_shuffle_queue_Dequeue:0' shape=(?, 74) dtype=float32>, <tf.Tensor 'random_shuffle_queue_Dequeue:1' shape=(?,) dtype=int64>, <tf.Tensor 'random_shuffle_queue_Dequeue:2' shape=() dtype=int32>]
+W1115 01:50:41.980616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\common\sequence_example_lib.py:106: batch (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.batch(batch_size)` (or `padded_batch(...)` if `dynamic_pad=True`).
+W1115 01:50:41.985816  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:52: BasicLSTMCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.LSTMCell, and will be replaced by that in Tensorflow 2.0.
+W1115 01:50:41.991615  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:65: MultiRNNCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.StackedRNNCells, and will be replaced by that in Tensorflow 2.0.
+W1115 01:50:42.009616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:272: dynamic_rnn (from tensorflow.python.ops.rnn) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `keras.layers.RNN(cell)`, which is equivalent to this API
+W1115 01:50:42.516616  8584 deprecation.py:506] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\ops\init_ops.py:1251: calling VarianceScaling.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1115 01:50:42.523616  8584 deprecation.py:506] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\contrib\rnn\python\ops\core_rnn_cell.py:104: calling Constant.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1115 01:50:42.534616  8584 deprecation.py:506] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\ops\rnn_cell_impl.py:738: calling Zeros.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+W1115 01:50:42.820616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\ops\rnn.py:244: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+W1115 01:50:43.095616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:306: to_float (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+W1115 01:50:43.098616  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:319: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, there are two
+    options available in V2.
+    - tf.py_function takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    - tf.numpy_function maintains the semantics of the deprecated tf.py_func
+    (it is not differentiable, and manipulates numpy arrays). It drops the
+    stateful argument making all functions stateful.
+
+W1115 01:50:43.107616  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:335: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+W1115 01:50:43.653615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:339: The name tf.add_to_collection is deprecated. Please use tf.compat.v1.add_to_collection instead.
+
+W1115 01:50:43.654615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_graph.py:377: The name tf.summary.scalar is deprecated. Please use tf.compat.v1.summary.scalar instead.
+
+W1115 01:50:43.660615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:48: The name tf.train.get_or_create_global_step is deprecated. Please use tf.compat.v1.train.get_or_create_global_step instead.
+
+W1115 01:50:43.661615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:49: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.
+
+W1115 01:50:43.662615  8584 deprecation_wrapper.py:119] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\magenta\models\shared\events_rnn_train.py:61: The name tf.train.NanTensorHook is deprecated. Please use tf.estimator.NanTensorHook instead.
+
+I1115 01:50:43.691614  8584 events_rnn_train.py:75] Starting training loop...
+I1115 01:50:43.691614  8584 basic_session_run_hooks.py:541] Create CheckpointSaverHook.
+W1115 01:50:43.867614  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\training_util.py:236: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+I1115 01:50:43.937616  8584 monitored_session.py:240] Graph was finalized.
+2019-11-15 01:50:43.938150: I tensorflow/stream_executor/platform/default/dso_loader.cc:42] Successfully opened dynamic library nvcuda.dll
+2019-11-15 01:50:44.047542: E tensorflow/stream_executor/cuda/cuda_driver.cc:318] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2019-11-15 01:50:44.054008: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: dreambank
+2019-11-15 01:50:44.057475: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: dreambank
+2019-11-15 01:50:44.060911: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+I1115 01:50:44.177615  8584 session_manager.py:500] Running local_init_op.
+I1115 01:50:44.191616  8584 session_manager.py:502] Done running local_init_op.
+W1115 01:50:44.222615  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\monitored_session.py:875: start_queue_runners (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+I1115 01:50:44.819615  8584 basic_session_run_hooks.py:606] Saving checkpoints for 0 into logdir\run1\train\model.ckpt.
+I1115 01:50:53.297615  8584 basic_session_run_hooks.py:262] Accuracy = 0.04005427, Global Step = 1, Loss = 3.6765435, Perplexity = 39.50959
+I1115 01:51:45.621650  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6 into logdir\run1\train\model.ckpt.
+I1115 01:52:41.085651  8584 basic_session_run_hooks.py:260] Accuracy = 0.6047014, Global Step = 11, Loss = 1.8727643, Perplexity = 6.506257 (107.788 sec)
+I1115 01:52:41.085651  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0927747
+I1115 01:52:52.296651  8584 basic_session_run_hooks.py:606] Saving checkpoints for 12 into logdir\run1\train\model.ckpt.
+I1115 01:54:01.908176  8584 basic_session_run_hooks.py:606] Saving checkpoints for 18 into logdir\run1\train\model.ckpt.
+I1115 01:54:37.537178  8584 basic_session_run_hooks.py:260] Accuracy = 0.58459795, Global Step = 21, Loss = 1.9276018, Perplexity = 6.873008 (116.452 sec)
+I1115 01:54:37.538177  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0858719
+I1115 01:55:12.661177  8584 basic_session_run_hooks.py:606] Saving checkpoints for 24 into logdir\run1\train\model.ckpt.
+I1115 01:56:12.930177  8584 basic_session_run_hooks.py:606] Saving checkpoints for 29 into logdir\run1\train\model.ckpt.
+I1115 01:56:37.495177  8584 basic_session_run_hooks.py:260] Accuracy = 0.6246214, Global Step = 31, Loss = 1.7616701, Perplexity = 5.822153 (119.957 sec)
+I1115 01:56:37.495177  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0833632
+I1115 01:57:13.696062  8584 basic_session_run_hooks.py:606] Saving checkpoints for 34 into logdir\run1\train\model.ckpt.
+I1115 01:58:15.270227  8584 basic_session_run_hooks.py:606] Saving checkpoints for 39 into logdir\run1\train\model.ckpt.
+I1115 01:58:40.484227  8584 basic_session_run_hooks.py:260] Accuracy = 0.64366674, Global Step = 41, Loss = 1.6903793, Perplexity = 5.4215364 (122.990 sec)
+I1115 01:58:40.485227  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0813074
+I1115 01:59:17.966227  8584 basic_session_run_hooks.py:606] Saving checkpoints for 44 into logdir\run1\train\model.ckpt.
+I1115 02:00:22.438447  8584 basic_session_run_hooks.py:606] Saving checkpoints for 49 into logdir\run1\train\model.ckpt.
+I1115 02:00:47.766062  8584 basic_session_run_hooks.py:260] Accuracy = 0.5936696, Global Step = 51, Loss = 1.8240929, Perplexity = 6.1971707 (127.282 sec)
+I1115 02:00:47.766062  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0785664
+I1115 02:01:26.478777  8584 basic_session_run_hooks.py:606] Saving checkpoints for 54 into logdir\run1\train\model.ckpt.
+W1115 02:01:26.558776  8584 deprecation.py:323] From c:\users\claire\miniconda3\envs\dreambank2\lib\site-packages\tensorflow\python\training\saver.py:960: remove_checkpoint (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to delete files with this prefix.
+I1115 02:02:31.022331  8584 basic_session_run_hooks.py:606] Saving checkpoints for 59 into logdir\run1\train\model.ckpt.
+I1115 02:02:57.077319  8584 basic_session_run_hooks.py:260] Accuracy = 0.62569416, Global Step = 61, Loss = 1.7002931, Perplexity = 5.475552 (129.311 sec)
+I1115 02:02:57.077319  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0773328
+I1115 02:03:36.811892  8584 basic_session_run_hooks.py:606] Saving checkpoints for 64 into logdir\run1\train\model.ckpt.
+I1115 02:04:42.679749  8584 basic_session_run_hooks.py:606] Saving checkpoints for 69 into logdir\run1\train\model.ckpt.
+I1115 02:05:08.790772  8584 basic_session_run_hooks.py:260] Accuracy = 0.6404901, Global Step = 71, Loss = 1.6399732, Perplexity = 5.155031 (131.713 sec)
+I1115 02:05:08.790772  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0759224
+I1115 02:05:47.891286  8584 basic_session_run_hooks.py:606] Saving checkpoints for 74 into logdir\run1\train\model.ckpt.
+I1115 02:06:53.597287  8584 basic_session_run_hooks.py:606] Saving checkpoints for 79 into logdir\run1\train\model.ckpt.
+
+.....
+
+I1116 12:19:56.519390  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6867 into logdir\run1\train\model.ckpt.
+I1116 12:21:15.688493  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6871 into logdir\run1\train\model.ckpt.
+I1116 12:21:15.950529  8584 basic_session_run_hooks.py:260] Accuracy = 0.97444797, Global Step = 6871, Loss = 0.08381785, Perplexity = 1.0874308 (193.064 sec)
+I1116 12:21:15.951529  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0517964
+I1116 12:22:31.845147  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6875 into logdir\run1\train\model.ckpt.
+I1116 12:23:48.040166  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6879 into logdir\run1\train\model.ckpt.
+I1116 12:24:27.334171  8584 basic_session_run_hooks.py:260] Accuracy = 0.9741199, Global Step = 6881, Loss = 0.08632757, Perplexity = 1.0901634 (191.384 sec)
+I1116 12:24:27.334171  8584 basic_session_run_hooks.py:692] global_step/sec: 0.0522511
+I1116 12:25:04.718048  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6883 into logdir\run1\train\model.ckpt.
+I1116 12:26:21.223342  8584 basic_session_run_hooks.py:606] Saving checkpoints for 6887 into logdir\run1\train\model.ckpt.
+Traceback (most recent call last):

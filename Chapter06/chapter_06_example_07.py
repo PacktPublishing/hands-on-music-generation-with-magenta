@@ -127,9 +127,7 @@ def app(msd_ids: List[str]):
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
   plt.figure(num=None, figsize=(10, 8), dpi=500)
-  plt.hist(pm_drums_lengths, bins=100,
-           color=[color.name for color in colors
-                  if color.name != "lavender"])
+  plt.hist(pm_drums_lengths, bins=100, color="darkmagenta")
   plt.title('Drums lengths')
   plt.ylabel('length (sec)')
   plt.show()

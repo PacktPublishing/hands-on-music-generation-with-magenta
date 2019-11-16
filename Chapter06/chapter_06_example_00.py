@@ -16,7 +16,6 @@ from typing import Optional
 
 import math
 import matplotlib.pyplot as plt
-from bokeh.colors.groups import purple as colors
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
 
@@ -25,7 +24,6 @@ from multiprocessing_utils import AtomicCounter
 parser = argparse.ArgumentParser()
 parser.add_argument("--sample_size", type=int, default=1000)
 parser.add_argument("--pool_size", type=int, default=4)
-parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
 parser.add_argument("--bass_drums_on_beat_threshold", type=float, required=True,
@@ -114,15 +112,14 @@ def app(midi_paths: List[str]):
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
   plt.figure(num=None, figsize=(10, 8), dpi=500)
-  plt.hist(pm_drums_lengths, bins=100,
-           color=[color.name for color in colors
-                  if color.name != "lavender"])
+  plt.hist(pm_drums_lengths, bins=100, color="darkmagenta")
   plt.title('Drums lengths')
   plt.ylabel('length (sec)')
   plt.show()
 
   bass_drums_on_beat = [result["bass_drums_on_beat"] for result in results]
-  plt.hist(bass_drums_on_beat, bins=100)
+  plt.figure(num=None, figsize=(10, 8), dpi=500)
+  plt.hist(bass_drums_on_beat, bins=100, color="darkmagenta")
   plt.title('Bass drums on beat')
   plt.ylabel('count')
   plt.show()
