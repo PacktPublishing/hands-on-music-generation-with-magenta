@@ -4,6 +4,9 @@
 
 - https://elitedatascience.com/overfitting-in-machine-learning
 - https://devblogs.nvidia.com/cuda-pro-tip-control-gpu-visibility-cuda_visible_devices/
+- https://stackoverflow.com/questions/44796793/difference-between-tf-clip-by-value-and-tf-clip-by-global-norm-for-rnns-and-how
+    - tf.clip_by_norm rescales one tensor if necessary, so that its L2 norm does not exceed a certain threshold. It's useful typically to avoid exploding gradient on one tensor, because you keep the gradient direction. For instance:
+    - https://www.tensorflow.org/api_docs/python/tf/clip_by_norm
 
 ## TODO
 
@@ -25,6 +28,37 @@ Do increasingly better training using the rundir
 - TODO (run4) fix it using learning rate
 - TODO (run5) fix it then using bigger network
 - TODO (run6) add lots of data (1000 samples)
+
+### Techno Drums 02 (90 threshold)
+
+#### Run 1
+
+- [Jazz techno drums 02 run 1 eval (17/11/2019)](docs/techno_drums_02_run1_eval.txt)
+- [Jazz techno drums 02 run 2 train (17/11/2019)](docs/techno_drums_02_run1_train.txt)
+
+```bash
+convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\drums\07" --output_file="notesequences.tfrecord" --recursive
+drums_rnn_create_dataset --config="drum_kit" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+CUDA_VISIBLE_DEVICES="0" drums_rnn_train --config="drum_kit" --run_dir="logdir/run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000
+CUDA_VISIBLE_DEVICES=""  drums_rnn_train --config="drum_kit" --run_dir="logdir/run1" --sequence_example_file="sequence_examples/eval_drum_tracks.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000 --eval
+tensorboard --logdir=logdir
+```
+
+#### Run 2
+
+- [Jazz techno drums 02 run 2eval (17/11/2019)](docs/techno_drums_02_run1_eval.txt)
+- [Jazz techno drums 02 run 2train (17/11/2019)](docs/techno_drums_02_run1_train.txt)
+- https://stackoverflow.com/questions/47707793/tensorflow-cnn-loss-function-goes-up-and-down-oscilating-in-tensorboard-how-t
+    - l2 weight reg: clip_norm?
+    - dropout: dropout_keep_prob
+
+```bash
+convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\drums\07" --output_file="notesequences.tfrecord" --recursive
+drums_rnn_create_dataset --config="drum_kit" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+CUDA_VISIBLE_DEVICES="0" drums_rnn_train --config="drum_kit" --run_dir="logdir/run2" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000
+CUDA_VISIBLE_DEVICES=""  drums_rnn_train --config="drum_kit" --run_dir="logdir/run2" --sequence_example_file="sequence_examples/eval_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000 --eval
+tensorboard --logdir=logdir
+```
 
 ### Jazz Drums 01 (jazz, blues, country)
 
@@ -55,7 +89,7 @@ tensorboard --logdir=logdir
 ### Jazz Drums 02 (jazz, blues, country)
 
 - jazz_drums_02.zip
-- [Jazz drums 02 training (13/11/2019)](./docs/jazz_drums_02_training.txt)
+- [Jazz drums 02 training (13/11/2019)](docs/jazz_drums_02_train.txt)
 - [Jazz drums 02 eval (13/11/2019)](./docs/jazz_drums_02_eval.txt)
 
 ```bash
@@ -92,7 +126,7 @@ TODO
     - match "Total records: 34" 
     - `melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=34,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval`
 - [Jazz piano 02 eval (13/11/2019)](./docs/jazz_piano_02_eval.txt)
-- [Jazz piano 02 traning (13/11/2019)](./docs/jazz_piano_02_training.txt)
+- [Jazz piano 02 traning (13/11/2019)](docs/jazz_piano_02_train.txt)
 - Overfitting: too less data
 - Trained on CPU (error starting cuda)
 
