@@ -33,8 +33,8 @@ Do increasingly better training using the rundir
 
 #### Run 1
 
-- [Jazz techno drums 02 run 1 eval (17/11/2019)](docs/techno_drums_02_run1_eval.txt)
-- [Jazz techno drums 02 run 2 train (17/11/2019)](docs/techno_drums_02_run1_train.txt)
+- check prefix techno_drums_02_run1
+- doesn't converge
 
 ```bash
 convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\drums\07" --output_file="notesequences.tfrecord" --recursive
@@ -46,8 +46,8 @@ tensorboard --logdir=logdir
 
 #### Run 2
 
-- [Jazz techno drums 02 run 2eval (17/11/2019)](docs/techno_drums_02_run1_eval.txt)
-- [Jazz techno drums 02 run 2train (17/11/2019)](docs/techno_drums_02_run1_train.txt)
+- check prefix techno_drums_02_run2
+- converges but slight overfit
 - https://stackoverflow.com/questions/47707793/tensorflow-cnn-loss-function-goes-up-and-down-oscilating-in-tensorboard-how-t
     - l2 weight reg: clip_norm?
     - dropout: dropout_keep_prob
@@ -62,10 +62,9 @@ tensorboard --logdir=logdir
 
 ### Jazz Drums 01 (jazz, blues, country)
 
-TODO model diverged with loss NaN
-
 - jazz_drums_02.zip
-- [Jazz drums 01 training (12/11/2019)](./docs/jazz_drums_01.txt)
+- check prefix jazz_drums_01
+- doesn't converge
 
 ```bash
 drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128,128]" --num_training_steps=20000
@@ -89,8 +88,7 @@ tensorboard --logdir=logdir
 ### Jazz Drums 02 (jazz, blues, country)
 
 - jazz_drums_02.zip
-- [Jazz drums 02 training (13/11/2019)](docs/jazz_drums_02_train.txt)
-- [Jazz drums 02 eval (13/11/2019)](./docs/jazz_drums_02_eval.txt)
+- check prefix jazz_drums_02
 
 ```bash
 cd "D:\Users\Claire\Data\training\jazz_drums_02"
@@ -121,12 +119,9 @@ TODO
 ### Jazz Piano 02 (jazz)
 
 - jazz_piano_02.zip
-- [Jazz piano 02 data (13/11/2019)](./docs/jazz_piano_02_data.txt) 
-- [Jazz piano 02 eval error (13/11/2019)](./docs/jazz_piano_02_eval_error.txt)
+- check prefix jazz_piano_02_data
     - match "Total records: 34" 
     - `melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=34,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval`
-- [Jazz piano 02 eval (13/11/2019)](./docs/jazz_piano_02_eval.txt)
-- [Jazz piano 02 traning (13/11/2019)](docs/jazz_piano_02_train.txt)
 - Overfitting: too less data
 - Trained on CPU (error starting cuda)
 
@@ -146,58 +141,26 @@ melody_rnn_generate --config="attention_rnn" --run_dir="logdir\run1" --hparams="
 
 ### Jazz Piano 03 (jazz, blues)
 
-
-### Training global
-
-```bash
-# Jazz drums
-## Create dataset
-cd "D:\Users\Claire\Data\training\jazz_drums"
-conda activate dreambank2
-convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\drums\07" --output_file="notesequences.tfrecord" --recursive
-drums_rnn_create_dataset --config="drum_kit" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
-## Train (windows)
-set CUDA_VISIBLE_DEVICES="0"
-drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000
-set CUDA_VISIBLE_DEVICES=""
-drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000 --eval
-## Train (unix)
-CUDA_VISIBLE_DEVICES="0" drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000
-CUDA_VISIBLE_DEVICES=""  drums_rnn_train --config="drum_kit" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_drum_tracks.tfrecord" --hparams="learning_rate=0.0001,batch_size=128,rnn_layer_sizes=[256,256,256]" --num_training_steps=20000 --eval
-## Check tensorboard
-tensorboard --logdir=logdir
-## Generate
-drums_rnn_generate --config="drum_kit" --run_dir="logdir\run1" --hparams="batch_size=128,rnn_layer_sizes=[256,256,256]" --output_dir="generated" --num_outputs=10 --num_steps=128 --primer_drums="[(36,)]"
-
-# Jazz piano
-cd "D:\Users\Claire\Data\training\melody_rnn"
-convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\piano\08" --output_file="notesequences.tfrecord" --recursive
-melody_rnn_create_dataset --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
-melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
-melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --eval
-melody_rnn_generate --config="attention_rnn" --run_dir="logdir\run1" --output_dir="generated" --num_outputs=10 --num_steps=128 --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --primer_melody="[60]"
-
-# Techno drums
-# TODO
-```
+TODO
 
 ## Problems
 
-### [Cuda error out of memory](./docs/cuda_error_out_of_memory.md)
+### Cuda error out of memory
 
-TODO
+- check prefix cuda_error_out_of_memory
 
-### [Model diverged with loss NaN](./docs/model_diverged_with_loss_nan.md)
+### Model diverged with loss NaN
 
 Lower learning rate
 
+- check prefix cuda_error_out_of_memory
 - https://stackoverflow.com/questions/40050397/deep-learning-nan-loss-reasons
 - https://stackoverflow.com/questions/44103649/model-diverged-with-loss-nan-when-number-of-classes-increases-even-with-sm
 - https://github.com/tensorflow/magenta/issues/1202
 
-### [Wrong network size](./docs/wrong_network_size.md)
+### Wrong network size
 
-TODO
+- check prefix wrong_network_size
 
 ## Google cloud platform
 
