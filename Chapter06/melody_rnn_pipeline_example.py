@@ -3,12 +3,15 @@ import os
 import tensorflow as tf
 from magenta.models.melody_rnn import melody_rnn_config_flags
 from magenta.models.melody_rnn.melody_rnn_pipeline import EncoderPipeline
+from magenta.music.sequences_lib import repeat_sequence_to_duration
 from magenta.pipelines import dag_pipeline
 from magenta.pipelines import melody_pipelines
 from magenta.pipelines import note_sequence_pipelines
 from magenta.pipelines import pipeline
 from magenta.pipelines import pipelines_common
+from magenta.pipelines.note_sequence_pipelines import NoteSequencePipeline
 from magenta.protobuf import music_pb2
+from magenta.protobuf.music_pb2 import NoteSequence
 
 flags = tf.app.flags
 FLAGS = tf.app.flags.FLAGS
@@ -39,24 +42,40 @@ def get_pipeline(config, eval_ratio=0.0):
   for mode in ['eval', 'training']:
     time_change_splitter = note_sequence_pipelines.TimeChangeSplitter(
       name='TimeChangeSplitter_' + mode)
+    repeat_sequence = RepeatSequence(
+      min_duration=16, name='RepeatSequence_' + mode)
     transposition_pipeline = note_sequence_pipelines.TranspositionPipeline(
-      (0, 12), name='TranspositionPipeline_' + mode)
+      (-12, 0, 12), name='TranspositionPipeline_' + mode)
     quantizer = note_sequence_pipelines.Quantizer(
       steps_per_quarter=config.steps_per_quarter, name='Quantizer_' + mode)
     melody_extractor = melody_pipelines.MelodyExtractor(
-      min_bars=15, max_steps=1024, min_unique_pitches=5,
+      min_bars=7, max_steps=512, min_unique_pitches=5,
       gap_bars=1.0, ignore_polyphonic_notes=False,
       name='MelodyExtractor_' + mode)
     encoder_pipeline = EncoderPipeline(config, name='EncoderPipeline_' + mode)
 
     dag[time_change_splitter] = partitioner[mode + '_melodies']
-    dag[quantizer] = time_change_splitter
+    dag[repeat_sequence] = time_change_splitter
+    dag[quantizer] = repeat_sequence
     dag[transposition_pipeline] = quantizer
     dag[melody_extractor] = transposition_pipeline
     dag[encoder_pipeline] = melody_extractor
     dag[dag_pipeline.DagOutput(mode + '_melodies')] = encoder_pipeline
 
   return dag_pipeline.DAGPipeline(dag)
+
+
+class RepeatSequence(NoteSequencePipeline):
+  """A Pipeline that repeats the NoteSequence to a minimum duration."""
+
+  def __init__(self, min_duration: int, name: str):
+    super().__init__(name)
+    self._min_duration = min_duration
+
+  def transform(self, note_sequence: NoteSequence):
+    if not note_sequence.total_time or note_sequence.total_time >= self._min_duration:
+      return [note_sequence]
+    return [repeat_sequence_to_duration(note_sequence, self._min_duration)]
 
 
 def main(unused_argv):

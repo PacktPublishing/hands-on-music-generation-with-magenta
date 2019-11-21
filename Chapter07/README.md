@@ -51,6 +51,7 @@ tensorboard --logdir=logdir
 - https://stackoverflow.com/questions/47707793/tensorflow-cnn-loss-function-goes-up-and-down-oscilating-in-tensorboard-how-t
     - l2 weight reg: clip_norm?
     - dropout: dropout_keep_prob
+- TODO NEXT GENERATE
 
 ```bash
 convert_dir_to_note_sequences --input_dir="D:\Users\Claire\Data\datasets\jazz_dataset\drums\07" --output_file="notesequences.tfrecord" --recursive
@@ -89,6 +90,7 @@ tensorboard --logdir=logdir
 
 - jazz_drums_02.zip
 - check prefix jazz_drums_02
+- TODO NEXT GENERATE
 
 ```bash
 cd "D:\Users\Claire\Data\training\jazz_drums_02"
@@ -141,7 +143,65 @@ melody_rnn_generate --config="attention_rnn" --run_dir="logdir\run1" --hparams="
 
 ### Jazz Piano 03 (jazz, blues)
 
-TODO
+- jazz_piano_03.zip
+- check prefix jazz_piano_03
+- run2 (659 outputs)
+
+```bash
+cd "/home/alex/data/training/jazz_piano_02"
+conda activate magenta
+convert_dir_to_note_sequences --input_dir="~/data/dataset/jazz_piano_03" --output_file="notesequences.tfrecord" --recursive
+melody_rnn_create_dataset --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+set CUDA_VISIBLE_DEVICES="0"
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run2" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
+set CUDA_VISIBLE_DEVICES=""
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run2" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
+melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run2" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
+```
+
+### Jazz Piano 04 (jazz, blues, transposed)
+
+- jazz_piano_03.zip
+- check prefix jazz_piano_04
+- transpose 1 octave up and down: Produced 1973 outputs.
+- TODO run3
+
+```bash
+cd "/home/alex/data/training/jazz_piano_02"
+conda activate magenta
+convert_dir_to_note_sequences --input_dir="~/data/dataset/jazz_piano_03" --output_file="notesequences.tfrecord" --recursive
+python /home/alex/projects/hands-on-music-generation-with-magenta/Chapter06/melody_rnn_pipeline_example.py --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+set CUDA_VISIBLE_DEVICES="0"
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
+set CUDA_VISIBLE_DEVICES=""
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
+melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run3" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
+```
+
+### Jazz Piano 04 (jazz, blues, transposed, duplicated)
+
+- jazz_piano_03.zip
+- check prefix jazz_piano_04
+- transpose 1 octave up and down: Produced 1973 outputs.
+- TODO run3
+
+```bash
+cd "/home/alex/data/training/jazz_piano_02"
+conda activate magenta
+convert_dir_to_note_sequences --input_dir="~/data/dataset/jazz_piano_03" --output_file="notesequences.tfrecord" --recursive
+python /home/alex/projects/hands-on-music-generation-with-magenta/Chapter06/melody_rnn_pipeline_example.py --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+set CUDA_VISIBLE_DEVICES="0"
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
+set CUDA_VISIBLE_DEVICES=""
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
+melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run3" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
+```
 
 ## Problems
 
