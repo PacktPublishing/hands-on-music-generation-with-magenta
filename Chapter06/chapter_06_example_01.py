@@ -1,6 +1,7 @@
 """
 Artist extraction using LAKHs dataset matched with the MSD dataset.
 """
+
 import argparse
 import random
 import timeit
@@ -26,10 +27,20 @@ parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 args = parser.parse_args()
 
+# The list of all MSD ids (we might process only a sample)
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 
 
 def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
+  """
+  Processes the given MSD id and increments the counter. The
+  method will find and return the artist.
+
+  :param msd_id: the MSD id to process
+  :param counter: the counter to increment
+  :return: the dictionary containing the MSD id and the artist, raises an
+  exception if the file cannot be processed
+  """
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       artist = h5.root.metadata.songs.cols.artist_name[0].decode("utf-8")
@@ -43,7 +54,7 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
-  # TODO info
+  # Starts the threads
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
@@ -57,7 +68,7 @@ def app(msd_ids: List[str]):
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
-  # TODO histogram
+  # Creates a bar chart for the most common artists
   artists = [result["artist"] for result in results]
   most_common_artists = Counter(artists).most_common(25)
   print(f"Most common artists: {most_common_artists}")

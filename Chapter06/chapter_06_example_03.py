@@ -2,6 +2,7 @@
 Filter on specific tags from the Last.fm API using the LAKHs dataset
 matched with the MSD dataset.
 """
+
 import argparse
 import ast
 import random
@@ -31,11 +32,19 @@ parser.add_argument("--last_fm_api_key", type=str, required=True)
 parser.add_argument("--tags", type=str, required=True)
 args = parser.parse_args()
 
+# The list of all MSD ids (we might process only a sample)
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 TAGS = ast.literal_eval(args.tags)
 
 
 def get_tags(h5) -> Optional[list]:
+  """
+  Returns the top tags (ordered most popular first) from the Last.fm API
+  using the title and the artist name from the h5 database.
+
+  :param h5: the h5 database for the title and artist
+  :return: the list of tags
+  """
   title = h5.root.metadata.songs.cols.title[0].decode("utf-8")
   artist = h5.root.metadata.songs.cols.artist_name[0].decode("utf-8")
   request = (f"https://ws.audioscrobbler.com/2.0/"
@@ -58,6 +67,15 @@ def get_tags(h5) -> Optional[list]:
 
 
 def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
+  """
+  Processes the given MSD id and increments the counter. The
+  method will call the get_tags method.
+
+  :param msd_id: the MSD id to process
+  :param counter: the counter to increment
+  :return: the dictionary containing the MSD id and the tags, raises an
+  exception if the file cannot be processed
+  """
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       tags = get_tags(h5)
@@ -71,7 +89,7 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
-  # TODO info
+  # Starts the threads
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
@@ -85,7 +103,7 @@ def app(msd_ids: List[str]):
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
-  # TODO argparse
+  # Finds which tags matches and count the results
   tags = []
   unique_tags = set()
   for result in results:
@@ -95,12 +113,12 @@ def app(msd_ids: List[str]):
       joined_tag = "+".join(matching_tags)
       tags.append(joined_tag)
       unique_tags.add(joined_tag)
-
   match_percentage = len(tags) / len(results) * 100
   print(f"Number of results: {len(results)}, "
         f"number of matched tags: {len(tags)} "
         f"({match_percentage:.2f}%)")
 
+  # Creates a bar chart for the most common tags
   most_common_tags = Counter(tags).most_common()
   plt.figure(num=None, figsize=(10, 8), dpi=500)
   plt.bar([tag for tag, _ in most_common_tags],

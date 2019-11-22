@@ -1,3 +1,7 @@
+"""
+An a adapted version of magenta/models/melody_rnn/melody_rnn_pipeline.py
+"""
+
 import os
 
 import tensorflow as tf

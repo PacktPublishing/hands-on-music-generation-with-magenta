@@ -4,6 +4,7 @@ Extract techno (four on the floor) drum rhythms.
 import argparse
 import copy
 import glob
+import math
 import os
 import random
 import shutil
@@ -14,7 +15,6 @@ from multiprocessing.pool import Pool
 from typing import List
 from typing import Optional
 
-import math
 import matplotlib.pyplot as plt
 from pretty_midi import Instrument
 from pretty_midi import PrettyMIDI
@@ -26,15 +26,23 @@ parser.add_argument("--sample_size", type=int, default=1000)
 parser.add_argument("--pool_size", type=int, default=4)
 parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
-parser.add_argument("--bass_drums_on_beat_threshold", type=float, required=True,
-                    default=0)
+parser.add_argument("--bass_drums_on_beat_threshold",
+                    type=float, required=True, default=0)
 args = parser.parse_args()
 
+# The list of all MIDI paths on disk (we might process only a sample)
 MIDI_PATHS = glob.glob(os.path.join(args.path_dataset_dir, "**", "*.mid"),
                        recursive=True)
 
 
 def extract_drums(midi_path: str) -> Optional[PrettyMIDI]:
+  """
+  Extracts a PrettyMIDI instance of all the merged drum tracks
+  from the given MIDI path.
+
+  :param midi_path: the path to the MIDI file
+  :return: the PrettyMIDI instance of the merged drum tracks
+  """
   os.makedirs(args.path_output_dir, exist_ok=True)
   pm = PrettyMIDI(midi_path)
   pm_drums = copy.deepcopy(pm)
@@ -54,6 +62,12 @@ def extract_drums(midi_path: str) -> Optional[PrettyMIDI]:
 
 
 def get_bass_drums_on_beat(pm_drums: PrettyMIDI) -> float:
+  """
+  Returns the ratio of the bass drums that fall directly on a beat.
+
+  :param pm_drums: the PrettyMIDI instance to analyse
+  :return: the ratio of the bass drums that fall on a beat
+  """
   beats = pm_drums.get_beats()
   bass_drums = [note.start for note in pm_drums.instruments[0].notes
                 if note.pitch == 35 or note.pitch == 36]
@@ -70,6 +84,18 @@ def get_bass_drums_on_beat(pm_drums: PrettyMIDI) -> float:
 
 
 def process(midi_path: str, counter: AtomicCounter) -> Optional[dict]:
+  """
+  Processes the MIDI file at the given path and increments the counter. The
+  method will call the extract_drums method and the get_bass_drums_on_beat
+  method, and write the resulting drum file if the bass drum ratio is over
+  the threshold.
+
+  :param midi_path: the MIDI file path to process
+  :param counter: the counter to increment
+  :return: the dictionary containing the MIDI path, the PrettyMIDI instance
+  and the ratio of bass drum on beat, raises an exception if the file cannot
+  be processed
+  """
   try:
     pm_drums = extract_drums(midi_path)
     bass_drums_on_beat = get_bass_drums_on_beat(pm_drums)
@@ -82,8 +108,8 @@ def process(midi_path: str, counter: AtomicCounter) -> Optional[dict]:
             "pm_drums": pm_drums,
             "bass_drums_on_beat": bass_drums_on_beat}
   except Exception as e:
-    pass
-    # print(f"Exception during processing of {midi_path}: {e}")
+    if "Not on beat" not in str(e):
+      print(f"Exception during processing of {midi_path}: {e}")
   finally:
     counter.increment()
 
@@ -91,10 +117,10 @@ def process(midi_path: str, counter: AtomicCounter) -> Optional[dict]:
 def app(midi_paths: List[str]):
   start = timeit.default_timer()
 
-  # TODO cleanup
+  # Cleanup the output directory
   shutil.rmtree(args.path_output_dir, ignore_errors=True)
 
-  # TODO info
+  # Starts the threads
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(midi_paths), 1000)
@@ -108,7 +134,7 @@ def app(midi_paths: List[str]):
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
-  # TODO histogram
+  # Creates an histogram for the drum lengths
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
   plt.figure(num=None, figsize=(10, 8), dpi=500)
@@ -117,6 +143,7 @@ def app(midi_paths: List[str]):
   plt.ylabel('length (sec)')
   plt.show()
 
+  # Creates an histogram for the bass drums on beat
   bass_drums_on_beat = [result["bass_drums_on_beat"] for result in results]
   plt.figure(num=None, figsize=(10, 8), dpi=500)
   plt.hist(bass_drums_on_beat, bins=100, color="darkmagenta")

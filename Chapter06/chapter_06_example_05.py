@@ -3,6 +3,7 @@ Extract drums MIDI files. Some drum tracks are split into multiple separate
 drum instruments, in which case we try to merge them into a single instrument
 and save only 1 MIDI file.
 """
+
 import argparse
 import copy
 import os
@@ -34,10 +35,18 @@ parser.add_argument("--path_match_scores_file", type=str, required=True)
 parser.add_argument("--path_output_dir", type=str, required=True)
 args = parser.parse_args()
 
+# The list of all MSD ids (we might process only a sample)
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 
 
 def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
+  """
+  Extracts a PrettyMIDI instance of all the merged drum tracks
+  from the given MSD id.
+
+  :param msd_id: the MSD id
+  :return: the PrettyMIDI instance of the merged drum tracks
+  """
   os.makedirs(args.path_output_dir, exist_ok=True)
   midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
   midi_path = get_midi_path(msd_id, midi_md5, args.path_dataset_dir)
@@ -59,6 +68,16 @@ def extract_drums(msd_id: str) -> Optional[PrettyMIDI]:
 
 
 def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
+  """
+  Processes the given MSD id and increments the counter. The
+  method will call the extract_drums method and write the resulting MIDI
+  files to disk.
+
+  :param msd_id: the MSD id to process
+  :param counter: the counter to increment
+  :return: the dictionary containing the MSD id and the PrettyMIDI drums;
+  raises an exception if the file cannot be processed
+  """
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       pm_drums = extract_drums(msd_id)
@@ -73,10 +92,10 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
-  # TODO cleanup
+  # Cleanup the output directory
   shutil.rmtree(args.path_output_dir, ignore_errors=True)
 
-  # TODO info
+  # Starts the threads
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
@@ -90,7 +109,7 @@ def app(msd_ids: List[str]):
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
-  # TODO histogram
+  # Creates an histogram for the drum lengths
   pm_drums = [result["pm_drums"] for result in results]
   pm_drums_lengths = [pm.get_end_time() for pm in pm_drums]
   plt.figure(num=None, figsize=(10, 8), dpi=500)

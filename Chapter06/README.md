@@ -1,66 +1,114 @@
-# Chapter 6 - Data preparation and pipelines
+# Chapter 6 - Data preparation for training
 
-## Ref
+Up until now, we’ve used existing Magenta's pre-trained models, since they are
+quite powerful and easy to use. But training our own models is crucial, since
+it allows us to generate music in a specific style, generate specific
+structures or instruments. Building and preparing a dataset is the first step
+before training our own model. To do that, we first look at existing datasets
+and APIs to help us find meaningful data. Then, we build two datasets in MIDI
+for specific styles: dance and jazz. Finally, we prepare the MIDI files for
+training using data transformations and pipelines.
 
-- `https://www.reddit.com/r/WeAreTheMusicMakers/comments/3anwu8/the_drum_percussion_midi_archive_800k/`
-- `https://www.reddit.com/r/WeAreTheMusicMakers/comments/3ajwe4/the_largest_midi_collection_on_the_internet/`
-- maestro dataset
-    - https://arxiv.org/abs/1810.12247
-    - https://magenta.tensorflow.org/maestro-wave2midi2wave
-    - https://magenta.tensorflow.org/onsets-frames
-    - https://arxiv.org/abs/1809.04281
-       
+## Utils
 
-## Primers
+There are some utilities for processing the Lakh MIDI Dataset (LMD) 
+in the [lakh_utils.py](./lakh_utils.py) file and utilities for multiprocessing
+in the [multiprocessing_utils.py](./multiprocessing_utils.py) file with example
+usage.
 
-- primer/jazz-ride.mid https://musescore.com/user/7942286/scores/1906646
-- primer/jazz-drum-basic.mid https://musescore.com/user/13700046/scores/4662816
+There is a custom pipeline example for the Melody RNN model in the 
+[melody_rnn_pipeline_example.py](./melody_rnn_pipeline_example.py) file. Change
+directory to the folder containing the Tensorflow records of NoteSequence and 
+call the pipeline using:
 
-### Output
+```bash
+python /path/to/the/pipeline/melody_rnn_pipeline_example.py --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+``` 
 
-- chapter_06_example_00.py
-    ```
-    Number of tracks: 116189, number of tracks in sample: 116189, number of results: 5979 (5.15%)
-    Time:  4814.2588857
-    ```
-- chapter_06_example_01.py
-    ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 31034 (100.00%)
-    Most common artists: [('Panpipes', 102), ('The Cranberries', 73), ('Mariah Carey', 57), ('Abba', 56), ('Richard Clayderman', 55), ('Mariano Yanani', 52), ('Scott Joplin', 51), ('Céline Dion', 49), ('The Police', 49), ('Creedence Clearwater Revival', 49), ('Green Day', 49), ('Enya', 47), ('Madonna', 47), ('Floyd Cramer', 45), ('The Corrs', 43), ('Queen', 42), ('Electric Light Orchestra', 40), ('Michael Jackson', 40), ('Linkin Park', 39), ('Avril Lavigne', 37), ('Nightwish', 37), ('Britney Spears', 37), ('Ace Cannon', 36), ('Duran Duran', 36), ('Aerosmith', 35)]
-    Time:  21.0088559
-    ```
-- chapter_06_example_02.py
-    ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 27743 (89.40%)
-    Most common tags (100): [('pop', 1743), ('rock', 1116), ('80s', 805), ('country', 799), ('classic rock', 646), ('soul', 438), ('trance', 438), ('dance', 409), ('oldies', 332), ('70s', 309), ('electronic', 307), ('female vocalists', 292), ('60s', 283), ('italian', 252), ('disco', 236), ('instrumental', 213), ('indie', 203), ('jazz', 187), ('cover', 169), ('house', 163), ('christmas', 161), ('soundtrack', 160), ('progressive rock', 150), ('french', 143), ('rnb', 128), ('90s', 117), ('spanish', 114), ('alternative', 110), ('classical', 95), ('new wave', 89), ('piano', 86), ('hard rock', 85), ('latin', 83), ('folk', 82), ('hip-hop', 80), ('alternative rock', 75), ('reggae', 71), ('chillout', 71), ('rap', 68), ('singer-songwriter', 67), ('funk', 65), ('new age', 64), ('motown', 60), ('punk rock', 59), ('schlager', 58), ('chanson francaise', 57), ('heavy metal', 57), ('grunge', 56), ('smooth jazz', 55), ('ragtime', 54), ('easy listening', 54), ('symphonic metal', 54), ('blues', 53), ('techno', 53), ('britpop', 49), ('christian', 44), ('electro', 44), ('punk', 44), ('metal', 44), ('eurodance', 44), ('deutsch', 42), ('black metal', 40), ('power metal', 38), ('soft rock', 37), ('industrial', 36), ('electronica', 32), ('celtic', 32), ('gothic metal', 32), ('love', 31), ('indie rock', 31), ('progressive trance', 31), ('50s', 29), ('thrash metal', 29), ('guitar virtuoso', 28), ('ambient', 28), ('psytrance', 27), ('acoustic', 27), ('italianigdchill', 26), ('progressive metal', 26), ('classic country', 25), ('classical guitar', 25), ('covers', 25), ('romantic', 24), ('swedish', 24), ('finnish', 24), ('german', 23), ('minimal', 23), ('musical', 23), ('party', 23), ('melodic death metal', 23), ('chill', 23), ('southern rock', 23), ('christian rock', 22), ('ska', 22), ('seen live', 22), ('industrial metal', 22), ('synthpop', 22), ('indie pop', 21), ('gothic rock', 21), ('comedy', 20)]
-    Time:  2449.2179278999997
-    ```
-- chapter_06_example_03.py
-    ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 27743 (89.40%)
-    Number of results: 27743, number of matched tags: 3138 (11.31%)
-    Time:  2442.8953505
-    ```
-- chapter_06_example_04.py
-    ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 30730 (99.02%)
-    Time:  897.8264283
-    ```
-- chapter_06_example_05.py
-    ```
-    # NO
-    ```
-- chapter_06_example_06.py
-    ```
-    # NO
-    ```
-- chapter_06_example_07.py
-    ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 1799 (5.80%)
-    Time:  2951.25321
-    ```
-- chapter_06_example_08.py
-    ```
-    Number of tracks: 31034, number of tracks in sample: 31034, number of results: 1473 (4.75%)
-    Time:  2582.0384953
-    ```
+## Code
+
+### [Example 0](chapter_06_example_00.py)
+
+Extract techno (four on the floor) drum rhythms.
+
+```bash
+python chapter_06_example_00.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_output_dir=PATH_OUTPUT --bass_drums_on_beat_threshold=0.75 
+```
+
+### [Example 1](chapter_06_example_01.py)
+
+Artist extraction using LAKHs dataset matched with the MSD dataset.
+
+```bash
+python chapter_06_example_01.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES
+```
+
+### [Example 2](chapter_06_example_02.py)
+
+Lists most common genres from the Last.fm API using the LAKHs dataset
+matched with the MSD dataset.
+
+```bash
+python chapter_06_example_02.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --last_fm_api_key=LAST_FM_API_KEY
+```
+
+### [Example 3](chapter_06_example_03.py)
+
+Filter on specific tags from the Last.fm API using the LAKHs dataset
+matched with the MSD dataset.
+
+```bash
+python chapter_06_example_03.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --last_fm_api_key=LAST_FM_API_KEY --tags="['jazz', 'blues']"
+```
+
+### [Example 4](chapter_06_example_04.py)
+
+Get statistics on instrument classes from the MIDI files.
+
+```bash
+python chapter_06_example_04.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES
+```
+
+### [Example 5](chapter_06_example_05.py)
+
+Extract drums MIDI files. Some drum tracks are split into multiple separate
+drum instruments, in which case we try to merge them into a single instrument
+and save only 1 MIDI file.
+
+```bash
+python chapter_06_example_05.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --path_output_dir=PATH_OUTPUT
+```
+
+### [Example 6](chapter_06_example_06.py)
+
+Extract piano MIDI files. Some piano tracks are split into multiple separate
+piano instruments, in which case we keep them split and merge them into
+multiple MIDI files.
+
+```bash
+python chapter_06_example_06.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --path_output_dir=PATH_OUTPUT
+```
+
+### [Example 7](chapter_06_example_07.py)
+
+Extract drums MIDI files corresponding to specific tags.
+
+```bash
+python chapter_06_example_07.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --path_output_dir=PATH_OUTPUT --last_fm_api_key=LAST_FM_API_KEY --tags="['jazz', 'blues']"
+```
+
+### [Example 8](chapter_06_example_08.py)
+
+Extract piano MIDI files corresponding to specific tags.
+
+```bash
+python chapter_06_example_08.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --path_output_dir=PATH_OUTPUT --last_fm_api_key=LAST_FM_API_KEY --tags="['jazz', 'blues']"
+```
+
+### [Example 9](chapter_06_example_09.py)
+
+Extract drums tracks from GMD.
+
+```bash
+python chapter_06_example_09.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_output_dir=PATH_OUTPUT
+```

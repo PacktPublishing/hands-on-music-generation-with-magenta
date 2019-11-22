@@ -1,6 +1,7 @@
 """
 Get statistics on instrument classes from the MIDI files.
 """
+
 import argparse
 import random
 import timeit
@@ -30,10 +31,18 @@ parser.add_argument("--path_dataset_dir", type=str, required=True)
 parser.add_argument("--path_match_scores_file", type=str, required=True)
 args = parser.parse_args()
 
+# The list of all MSD ids (we might process only a sample)
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 
 
 def get_instrument_classes(msd_id) -> Optional[list]:
+  """
+  Returns the list of instruments classes given by PrettyMIDI for the MSD id.
+
+  :param msd_id: the MSD id
+  :return: the list of instruments classes
+
+  """
   midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
   midi_path = get_midi_path(msd_id, midi_md5, args.path_dataset_dir)
   pm = PrettyMIDI(midi_path)
@@ -49,6 +58,15 @@ def get_instrument_classes(msd_id) -> Optional[list]:
 
 
 def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
+  """
+  Processes the given MSD id and increments the counter. The
+  method will call the get_instrument_classes method.
+
+  :param msd_id: the MSD id to process
+  :param counter: the counter to increment
+  :return: the dictionary containing the MSD id and the classes, raises an
+  exception if the file cannot be processed
+  """
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       classes = get_instrument_classes(msd_id)
@@ -62,6 +80,7 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
+  # Starts the threads
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
@@ -75,6 +94,7 @@ def app(msd_ids: List[str]):
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
+  # Creates a bar chart for the most common classes
   classes_list = [result["classes"] for result in results]
   classes = [c for classes in classes_list for c in classes]
   most_common_classes = Counter(classes).most_common()

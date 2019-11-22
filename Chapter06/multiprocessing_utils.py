@@ -1,3 +1,7 @@
+"""
+Threading (multiprocessing) utilities.
+"""
+
 import time
 from itertools import cycle
 from multiprocessing import Manager
@@ -8,12 +12,24 @@ import math
 
 
 class AtomicCounter(object):
-  """TODO"""
+  """
+  A thread safe (atomic) counter with automatic printing
+  of global progression.
+  """
 
   def __init__(self,
                manager: Manager,
                total_count: int,
                print_step: Optional[int] = None):
+    """
+    Constructs the counter with the given arguments
+
+    :param manager: the manager has to be instanciated outside for shared
+    resources
+    :param total_count: the total number of elements to process
+    :param print_step: the number of step between each print, initialized
+    to sensible default if not provided
+    """
     self._lock = manager.Lock()
     self._value = manager.Value('i', 0)
     self._total_count = total_count
@@ -44,7 +60,9 @@ class AtomicCounter(object):
           f"completion: {int(completed_percentage)}%)")
 
   def increment(self):
-    """TODO"""
+    """
+    Increments the counter and prints the value if the print_step is met
+    """
     with self._lock:
       if self._value.value == 0:
         self._print()
@@ -53,7 +71,9 @@ class AtomicCounter(object):
         self._print()
 
   def value(self):
-    """TODO"""
+    """
+    Returns the value for the counter
+    """
     with self._lock:
       return self._value.value
 
@@ -69,6 +89,7 @@ def _process(x: int, counter: AtomicCounter):
 
 
 if __name__ == "__main__":
+  # Example usage
   with Pool(4) as pool:
     # Add elements to process here
     elements = []

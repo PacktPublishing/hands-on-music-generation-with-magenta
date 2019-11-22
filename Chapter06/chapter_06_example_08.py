@@ -1,6 +1,7 @@
 """
 Extract piano MIDI files corresponding to specific tags.
 """
+
 import argparse
 import ast
 import copy
@@ -38,12 +39,20 @@ parser.add_argument("--last_fm_api_key", type=str, required=True)
 parser.add_argument("--tags", type=str, required=True)
 args = parser.parse_args()
 
+# The list of all MSD ids (we might process only a sample)
 MSD_SCORE_MATCHES = get_msd_score_matches(args.path_match_scores_file)
 PIANO_PROGRAMS = list(range(0, 8))
 TAGS = ast.literal_eval(args.tags)
 
 
 def get_tags(h5) -> Optional[list]:
+  """
+  Returns the top tags (ordered most popular first) from the Last.fm API
+  using the title and the artist name from the h5 database.
+
+  :param h5: the h5 database
+  :return: the list of tags
+  """
   title = h5.root.metadata.songs.cols.title[0].decode("utf-8")
   artist = h5.root.metadata.songs.cols.artist_name[0].decode("utf-8")
   request = (f"https://ws.audioscrobbler.com/2.0/"
@@ -66,6 +75,13 @@ def get_tags(h5) -> Optional[list]:
 
 
 def extract_pianos(msd_id: str) -> List[PrettyMIDI]:
+  """
+  Extracts a list of PrettyMIDI instance of all the separate piano tracks
+  from the given MSD id.
+
+  :param msd_id: the MSD id
+  :return: the list of PrettyMIDI instances of the separate piano tracks
+  """
   os.makedirs(args.path_output_dir, exist_ok=True)
   midi_md5 = get_matched_midi_md5(msd_id, MSD_SCORE_MATCHES)
   midi_path = get_midi_path(msd_id, midi_md5, args.path_dataset_dir)
@@ -95,6 +111,16 @@ def extract_pianos(msd_id: str) -> List[PrettyMIDI]:
 
 
 def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
+  """
+  Processes the given MSD id and increments the counter. The
+  method will call the get_tags and the extract_pianos method and write
+  the resulting MIDI files to disk.
+
+  :param msd_id: the MSD id to process
+  :param counter: the counter to increment
+  :return: the dictionary containing the MSD id, the PrettyMIDI pianos and
+  the matching tags, raises an exception if the file cannot be processed
+  """
   try:
     with tables.open_file(msd_id_to_h5(msd_id, args.path_dataset_dir)) as h5:
       tags = get_tags(h5)
@@ -117,10 +143,10 @@ def process(msd_id: str, counter: AtomicCounter) -> Optional[dict]:
 def app(msd_ids: List[str]):
   start = timeit.default_timer()
 
-  # TODO cleanup
+  # Cleanup the output directory
   shutil.rmtree(args.path_output_dir, ignore_errors=True)
 
-  # TODO info
+  # Starts the threads
   with Pool(args.pool_size) as pool:
     manager = Manager()
     counter = AtomicCounter(manager, len(msd_ids))
@@ -134,7 +160,7 @@ def app(msd_ids: List[str]):
           f"number of results: {len(results)} "
           f"({results_percentage:.2f}%)")
 
-  # TODO histogram
+  # Creates an histogram for the piano lengths
   pm_pianos_list = [result["pm_pianos"] for result in results]
   pm_piano_lengths = [pm_piano.get_end_time()
                       for pm_pianos in pm_pianos_list
@@ -145,6 +171,7 @@ def app(msd_ids: List[str]):
   plt.ylabel('length (sec)')
   plt.show()
 
+  # Creates a bar chart for the tags
   tags_list = [result["tags"] for result in results]
   tags = [tag for tags in tags_list for tag in tags]
   most_common_tags = Counter(tags).most_common()

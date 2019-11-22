@@ -25,6 +25,8 @@ We provide some sound samples and MIDI files for the examples.
 - [sounds/412017__skymary__cat-meow-short__crop.wav](./sounds/412017__skymary__cat-meow-short__crop.wav) (from https://freesound.org/people/skymary/sounds/412017/)
 - [sounds/427567__maria-mannone__flute__crop.wav](./sounds/427567__maria-mannone__flute__crop.wav) (from https://freesound.org/people/Maria_Mannone/sounds/427567/)
 
+## Code
+
 ### [Example 1](chapter_05_example_01.py)
 
 This example shows how to use NSynth to interpolate between pairs of sounds.
