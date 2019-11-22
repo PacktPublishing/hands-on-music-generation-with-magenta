@@ -121,9 +121,8 @@ TODO
 ### Jazz Piano 02 (jazz)
 
 - jazz_piano_02.zip
-- check prefix jazz_piano_02_data
-    - match "Total records: 34" 
-    - `melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=34,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval`
+- match "Total records: 34" 
+- `melody_rnn_train --config="attention_rnn" --run_dir="logdir\run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=34,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval`
 - Overfitting: too less data
 - Trained on CPU (error starting cuda)
 
@@ -144,8 +143,8 @@ melody_rnn_generate --config="attention_rnn" --run_dir="logdir\run1" --hparams="
 ### Jazz Piano 03 (jazz, blues)
 
 - jazz_piano_03.zip
-- check prefix jazz_piano_03
 - run2 (659 outputs)
+- Overfitting: too less data
 
 ```bash
 cd "/home/alex/data/training/jazz_piano_02"
@@ -161,47 +160,23 @@ tensorboard --logdir=logdir
 melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run2" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
 ```
 
-### Jazz Piano 04 (jazz, blues, transposed)
+### Jazz Piano 04 (jazz, blues, transposed octave)
 
 - jazz_piano_03.zip
-- check prefix jazz_piano_04
 - transpose 1 octave up and down: Produced 1973 outputs.
-- TODO run3
+- run3: Overfitting: too less data
 
-```bash
-cd "/home/alex/data/training/jazz_piano_02"
-conda activate magenta
-convert_dir_to_note_sequences --input_dir="~/data/dataset/jazz_piano_03" --output_file="notesequences.tfrecord" --recursive
-python /home/alex/projects/hands-on-music-generation-with-magenta/Chapter06/melody_rnn_pipeline_example.py --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
-set CUDA_VISIBLE_DEVICES="0"
-melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
-set CUDA_VISIBLE_DEVICES=""
-melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
-## Check tensorboard
-tensorboard --logdir=logdir
-melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run3" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
-```
-
-### Jazz Piano 04 (jazz, blues, transposed, duplicated)
+### Jazz Piano 05 (jazz, blues, transposed major scale)
 
 - jazz_piano_03.zip
-- check prefix jazz_piano_04
-- transpose 1 octave up and down: Produced 1973 outputs.
-- TODO run3
+- transpose 1 major up and down: TODO
+- TODO run4
 
-```bash
-cd "/home/alex/data/training/jazz_piano_02"
-conda activate magenta
-convert_dir_to_note_sequences --input_dir="~/data/dataset/jazz_piano_03" --output_file="notesequences.tfrecord" --recursive
-python /home/alex/projects/hands-on-music-generation-with-magenta/Chapter06/melody_rnn_pipeline_example.py --config="attention_rnn" --input="notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
-set CUDA_VISIBLE_DEVICES="0"
-melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
-set CUDA_VISIBLE_DEVICES=""
-melody_rnn_train --config="attention_rnn" --run_dir="logdir/run3" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
-## Check tensorboard
-tensorboard --logdir=logdir
-melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run3" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
-```
+### Jazz Piano 06 (jazz, blues, dropout)
+
+- jazz_piano_03.zip
+- transpose 1 major up and down: TODO
+- TODO run5
 
 ## Problems
 
