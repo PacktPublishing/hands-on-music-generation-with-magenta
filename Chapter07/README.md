@@ -15,6 +15,13 @@
 - train / eval melodyrnn jazz on full dataset extraction
 - train drumsrnn and musicvae with comparison 
 
+## TODO
+
+- techno_drums
+    - batch_size=64,rnn_layer_sizes=[64,64]
+    - batch_size=128,rnn_layer_sizes=[128,128,128]
+    - batch_size=128,rnn_layer_sizes=[256,256,256]
+
 ## Training
 
 ### TODO
@@ -175,8 +182,26 @@ melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run2" --hparams="
 ### Jazz Piano 06 (jazz, blues, dropout)
 
 - jazz_piano_03.zip
-- transpose 1 major up and down: TODO
-- TODO run5
+- run5: Overfitting
+
+```bash
+cd "/home/alex/data/training/jazz_piano_02"
+conda activate magenta
+set CUDA_VISIBLE_DEVICES="0"
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run5" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="dropout_keep_prob=0.3,batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000
+set CUDA_VISIBLE_DEVICES=""
+melody_rnn_train --config="attention_rnn" --run_dir="logdir/run5" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval
+## Check tensorboard
+tensorboard --logdir=logdir
+melody_rnn_generate --config="attention_rnn" --run_dir="logdir/run5" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --output_dir="generated" --temperature=1.1
+```
+
+### Jazz Piano 07 (jazz, blues, polyphonic true)
+
+- python /home/alex/projects/hands-on-music-generation-with-magenta/Chapter06/melody_rnn_pipeline_example.py --config="attention_rnn" --input="/home/alex/datanew/datasets/jazz_piano/notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10
+    - no transposition
+    - no repeat
+    - ignore_polyphonic_notes=True # ADD to previous chapter with remove transpose?
 
 ## Problems
 
