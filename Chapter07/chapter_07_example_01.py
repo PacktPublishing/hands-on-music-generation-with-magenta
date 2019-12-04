@@ -1,3 +1,7 @@
+"""
+TODO python chapter_07_example_01.py --config="cat-bass_2bar_small" --run_dir="."
+"""
+
 import tensorflow as tf
 from magenta.common import merge_hparams
 from magenta.models.music_vae import Config

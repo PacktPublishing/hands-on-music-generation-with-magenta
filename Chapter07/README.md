@@ -228,19 +228,74 @@ Recommanded from https://github.com/tensorflow/magenta/tree/master/magenta/model
 
 or
 
-- Go to images, seach for "tensorflow" and take most recent, "c3-deeplearning-tf-1-15-cu100-20191112"
-- Create new VM from it, 50 GB disk
-- Login ssh
+- Login https://console.cloud.google.com
+- On the left, Compute Engine
+- On the top, create project, "Magenta" 
+- On the left menu, "Images", search for "tensorflow" and take most recent, "c3-deeplearning-tf-1-15-cu100-20191112"
+    - "Create instance"
+    - Take region and zone near you
+    - Take N1 series, machine type n1-standard-8
+    - In "CPU platform and GPU", use "Add GPU", use NVIDIA Telsa K80
+    - ! TODO In Security add your key
+    - Disk already chosen 50 GB ok
+    - Create new VM from it, 50 GB disk
+- On the left, "VM instances"
+    - You should see the new VM "magenta"
+    - Use "SSH" button, or use your SSH client (login is same as key login)
     - This VM requires Nvidia drivers to function correctly.   Installation takes ~1 minute.
-    Would you like to install the Nvidia driver? [y/n] y
-- Then conda install
-    - then `bash`
-- ? Install tensorflow-gpu using `pip install /opt/deeplearning/binaries/tensorflow/tensorflow_gpu-1.15.0-cp36-cp36m-linux_x86_64.whl`
-- `fatal error: alsa/asoundlib.h: No such file or directory`
-    - maybe install `sudo apt install libasound2-dev`
-- `OSError: sndfile library not found`
-    - `sudo apt install libsndfile-dev` 
-- test
-    - `wget http://download.magenta.tensorflow.org/models/drum_kit_rnn.mag`
-    - `drums_rnn_generate --config="drum_kit" --bundle_file="drum_kit_rnn.mag"`
-- save images for book?
+    `Would you like to install the Nvidia driver? [y/n] y`
+- Fix cudnn version
+    - Download cuDNN v7.6.5 (November 5th, 2019), for CUDA 10.0
+        - (easiest way is to download locally and then scp it)
+        - `scp cudnn-10.0-linux-x64-v7.6.5.32.tgz alex@35.195.120.211:`
+    - Extract `tar -xzvf ...`
+        - `sudo cp cuda/include/cudnn.h /usr/local/cuda/include`
+        - `sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64`
+        - `sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*`
+- Reinstall stuff
+    `sudo apt install libasound2-dev libsndfile-dev`
+    - Then conda install (download, exec)
+    - Then `bash`
+    - Then `conda create -n magenta python=3.6`
+    - Then `conda activate magenta`
+    - Then `pip install magenta-gpu`
+- Start training
+    - `scp jazz_piano.zip alex@35.205.146.121:`
+    - `unzip jazz_piano.zip`
+    - convert `melody_rnn_create_dataset --config="attention_rnn" --input="../../datasets/jazz_piano/notesequences.tfrecord" --output_dir="sequence_examples" --eval_ratio=0.10`
+    - new term training `melody_rnn_train --config="attention_rnn" --run_dir="logdir/run1" --sequence_example_file="sequence_examples/training_melodies.tfrecord" --hparams="batch_size=128,rnn_layer_sizes=[128,128]" --num_training_steps=20000`
+    - new term eval `CUDA_VISIBLE_DEVICES="" melody_rnn_train --config="attention_rnn" --run_dir="logdir/run1" --sequence_example_file="sequence_examples/eval_melodies.tfrecord" --hparams="batch_size=62,rnn_layer_sizes=[128,128]" --num_training_steps=20000 --eval`
+    - htop / watch nvidia-smi
+    - Remote tensorboard `ssh -L 16006:127.0.0.1:6006 alex@35.205.146.121` at http://127.0.0.1:16006
+- Finish
+    - `scp alex@35.205.146.121:training/melody_rnn_jazz_piano.tar melody_rnn_jazz_piano.tar`
+- DONT FORGET TO CLOSE THE VM
+
+### Train
+
+Python 3 fix: 
+
+```
+Traceback (most recent call last):
+  File "/home/alex/miniconda3/envs/magenta/bin/music_vae_train", line 8, in <module>
+    sys.exit(console_entry_point())
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/magenta/models/music_vae/music_vae_train.py", line 342, in console_entry_point
+    tf.app.run(main)
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/tensorflow_core/python/platform/app.py", line 40, in run
+    _run(main=main, argv=argv, flags_parser=_parse_flags_tolerate_undef)
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/absl/app.py", line 299, in run
+    _run_main(main, args)
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/absl/app.py", line 250, in _run_main
+    sys.exit(main(argv))
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/magenta/models/music_vae/music_vae_train.py", line 338, in main
+    run(configs.CONFIG_MAP)
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/magenta/models/music_vae/music_vae_train.py", line 333, in run
+    master=FLAGS.master)
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/magenta/models/music_vae/music_vae_train.py", line 238, in evaluate
+    **_get_input_tensors(dataset_fn().take(num_batches), config))
+  File "/home/alex/miniconda3/envs/magenta/lib/python3.6/site-packages/magenta/models/music_vae/base_model.py", line 331, in eval
+    for n, t in scalars_to_summarize.iteritems():
+AttributeError: 'dict' object has no attribute 'iteritems'
+```
+
+https://github.com/tensorflow/magenta/issues/1549

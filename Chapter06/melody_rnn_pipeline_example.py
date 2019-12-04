@@ -77,10 +77,9 @@ class RepeatSequence(NoteSequencePipeline):
     self._min_duration = min_duration
 
   def transform(self, note_sequence: NoteSequence):
-    return [note_sequence]
-    # if not note_sequence.total_time or note_sequence.total_time >= self._min_duration:
-    #   return [note_sequence]
-    # return [repeat_sequence_to_duration(note_sequence, self._min_duration)]
+    if not note_sequence.total_time or note_sequence.total_time >= self._min_duration:
+      return [note_sequence]
+    return [repeat_sequence_to_duration(note_sequence, self._min_duration)]
 
 
 def main(unused_argv):
