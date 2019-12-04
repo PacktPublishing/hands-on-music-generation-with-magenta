@@ -1,5 +1,5 @@
 """
-TODO python chapter_07_example_01.py --config="cat-bass_2bar_small" --run_dir="."
+Configuration for the MusicVAE model, using the MIDI bass programs.
 """
 
 import tensorflow as tf

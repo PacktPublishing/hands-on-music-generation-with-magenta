@@ -1,5 +1,6 @@
 """
-TODO
+Tensor validator and note sequence splitter (training and evaluation datasets)
+for the MusicVAE model.
 """
 import argparse
 

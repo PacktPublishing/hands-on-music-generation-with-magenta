@@ -1,5 +1,5 @@
 """
-TODO
+Configuration for the Drums RNN model that inverts the snares and bass drums.
 """
 
 from magenta.models.drums_rnn.drums_rnn_model import default_configs
