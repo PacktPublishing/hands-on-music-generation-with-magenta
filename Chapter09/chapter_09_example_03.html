@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+  <!-- Load @magenta/music -->
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
+  <script>
+    // Instantiate model by loading desired config.
+    const model = new mm.MusicVAE(
+        'https://storage.googleapis.com/magentadata/js/checkpoints/music_vae/trio_4bar');
+    const callback = class BasePlayerCallback {
+      run = function (n, t) {
+        alert("test")
+      };
+    };
+
+    class PlayerGan extends mm.BasePlayer {
+      drumKit = mm.DrumKit.getInstance();
+
+      bassSynth =
+          new Tone.Synth({
+            volume: 5,
+            oscillator: {type: 'triangle'}
+          }).toMaster();
+
+      polySynth = new Tone.PolySynth(10).toMaster();
+
+      playNote = function (time, note) {
+        alert(time + " " + note)
+      }
+    }
+
+    const player = new mm.Player();
+
+
+    function play() {
+      player.resumeContext(); // enable audio
+      model.sample(1)
+          .then((samples) => player.start(samples[0], 80));
+    }
+  </script>
+  <title>Music Generation With Magenta - MusicRNN example</title>
+</head>
+<body>
+<button onclick="play()"><h1>Play Trio</h1></button>
+</body>
+</html>

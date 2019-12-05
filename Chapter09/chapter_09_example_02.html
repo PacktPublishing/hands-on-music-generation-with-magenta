@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.21/Tone.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
+  <script>
+    // Instantiate model by loading desired config.
+    const model = new mm.MusicVAE(
+        'https://storage.googleapis.com/magentadata/js/checkpoints/music_vae/trio_4bar');
+
+    class Player extends mm.BasePlayer {
+      bassDrumSynth = new Tone.MembraneSynth().toMaster();
+      bassSynth = new Tone.Synth({
+        volume: 5,
+        oscillator: {type: 'triangle'}
+      }).toMaster();
+      polySynth = new Tone.PolySynth().toMaster();
+
+      constructor(callbackObject) {
+        super(false, callbackObject);
+      }
+
+      playNote(time, note) {
+        let frequency, duration, synth;
+        if (note.isDrum && note.pitch === 35 || note.pitch === 36) {
+          frequency = "C2";
+          duration = "8n";
+          synth = this.bassDrumSynth;
+        } else {
+          frequency = new Tone.Frequency(note.pitch, 'midi');
+          duration = note.endTime - note.startTime;
+          synth = (note.program >= 32 && note.program <= 39)
+              ? this.bassSynth : this.polySynth;
+        }
+        synth.triggerAttackRelease(frequency, duration, time, 1);
+      }
+    }
+
+    async function play() {
+      const samples = await model.sample(1);
+
+      class LoopCallback extends mm.BasePlayerCallback {
+        run = function (n, t) {
+          // void
+        };
+        stop = function (n, t) {
+          console.log("looping");
+          player.start(samples[0], 120);
+        };
+      }
+
+      const callback = new LoopCallback();
+      const player = new Player(callback);
+      player.resumeContext(); // enable audio
+      player.start(samples[0], 120);
+    }
+  </script>
+  <title>Music Generation With Magenta - MusicRNN example</title>
+</head>
+<body>
+<button onclick="play()"><h1>Play Trio</h1></button>
+</body>
+</html>

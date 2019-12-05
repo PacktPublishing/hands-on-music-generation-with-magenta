@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.21/Tone.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
+  <script>
+    async function startGanSynth() {
+      const lengthInSeconds = 4.0;
+      const sampleRate = 16000;
+      const length = lengthInSeconds * sampleRate;
+      const tonePlayerOptions = {"loop": true, "volume": -25};
+      const gansynth = new mm.GANSynth("https://storage.googleapis.com/" +
+          "magentadata/js/checkpoints/gansynth/acoustic_only");
+      await gansynth.initialize();
+      window.playGan = async function () {
+        const specgrams = await gansynth.randomSample(60);
+        const audio = await gansynth.specgramsToAudio(specgrams);
+        const audioBuffer = Tone.context.createBuffer(1, length, sampleRate);
+        audioBuffer.copyToChannel(audio, 0, 0);
+        const playerOptions = Object.assign({}, {"url": audioBuffer},
+            tonePlayerOptions);
+        [-24, -7, 0].forEach(pitch => {
+          const pitchShiftOptions = {"pitch": pitch};
+          const pitchShift = new Tone.PitchShift(pitchShiftOptions).toMaster();
+          const player = new Tone.Player(playerOptions).connect(pitchShift);
+          player.start();
+        });
+      };
+    }
+
+    try {
+      Promise.all([startGanSynth()]);
+    } catch (error) {
+      console.error(error);
+    }
+  </script>
+  <title>Music Generation With Magenta - GanSynth example</title>
+</head>
+<body>
+<button onclick="playGan()">Play Gan</button>
+</body>
+</html>

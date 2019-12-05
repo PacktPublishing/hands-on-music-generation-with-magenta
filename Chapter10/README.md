@@ -1,4 +1,4 @@
-# Chapter 10 - Using Magenta.js and Magenta Studio
+# Chapter 10 - Magenta and the outside world
 
 TODO
 
