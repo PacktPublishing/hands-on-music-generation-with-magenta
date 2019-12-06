@@ -1,63 +1,121 @@
 <html lang="en">
 <head>
-  <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.21/Tone.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
-  <script>
-    // Instantiate model by loading desired config.
-    const model = new mm.MusicVAE(
-        'https://storage.googleapis.com/magentadata/js/checkpoints/music_vae/trio_4bar');
-
-    class Player extends mm.BasePlayer {
-      bassDrumSynth = new Tone.MembraneSynth().toMaster();
-      bassSynth = new Tone.Synth({
-        volume: 5,
-        oscillator: {type: 'triangle'}
-      }).toMaster();
-      polySynth = new Tone.PolySynth().toMaster();
-
-      constructor(callbackObject) {
-        super(false, callbackObject);
-      }
-
-      playNote(time, note) {
-        let frequency, duration, synth;
-        if (note.isDrum && note.pitch === 35 || note.pitch === 36) {
-          frequency = "C2";
-          duration = "8n";
-          synth = this.bassDrumSynth;
-        } else {
-          frequency = new Tone.Frequency(note.pitch, 'midi');
-          duration = note.endTime - note.startTime;
-          synth = (note.program >= 32 && note.program <= 39)
-              ? this.bassSynth : this.polySynth;
-        }
-        synth.triggerAttackRelease(frequency, duration, time, 1);
-      }
+  <title>Music Generation With Magenta.js - MusicVAE example</title>
+  <style>
+    * {
+      font-family: monospace;
     }
 
-    async function play() {
-      const samples = await model.sample(1);
-
-      class LoopCallback extends mm.BasePlayerCallback {
-        run = function (n, t) {
-          // void
-        };
-        stop = function (n, t) {
-          console.log("looping");
-          player.start(samples[0], 120);
-        };
-      }
-
-      const callback = new LoopCallback();
-      const player = new Player(callback);
-      player.resumeContext(); // enable audio
-      player.start(samples[0], 120);
+    canvas {
+      width: 100%;
     }
-  </script>
-  <title>Music Generation With Magenta - MusicRNN example</title>
+  </style>
 </head>
 <body>
-<button onclick="play()"><h1>Play Trio</h1></button>
+<h1>Music Generation With Magenta.js - MusicVAE example</h1>
+<p>
+  Press "Sample MusicVAE trio" to sample a new sequence of a trio of instruments (drum kit, bass, lead) using
+  MusicVae and play it immediately. The sequence will loop.
+</p>
+<p>
+  Reload the page to stop.
+</p>
+<button disabled id="sample-musicae-trio">Sample MusicVAE trio</button>
+<div id="plots">
+  <canvas id="musicvae-plot"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+<script>
+  // TODO Instantiate model by loading desired config.
+  async function startMusicVae() {
+    const musicvae = new mm.MusicVAE("https://storage.googleapis.com/" +
+        "magentadata/js/checkpoints/music_vae/trio_4bar");
+    await musicvae.initialize();
+    window.musicvae = musicvae;
+    document.getElementById('sample-musicae-trio').disabled = false;
+  }
+
+  // TODO
+  class Player extends mm.BasePlayer {
+
+    // TODO
+    bassDrumSynth = new Tone.MembraneSynth().toMaster();
+
+    // TODO
+    bassSynth = new Tone.Synth({
+      volume: 5,
+      oscillator: {type: "triangle"}
+    }).toMaster();
+
+    // TODO
+    polySynth = new Tone.PolySynth(5).toMaster();
+
+    // TODO
+    constructor(callbackObject) {
+      super(false, callbackObject);
+    }
+
+    // TODO
+    playNote(time, note) {
+      let frequency, duration, synth;
+      if (note.isDrum && note.pitch === 35 || note.pitch === 36) {
+        // TODO
+        frequency = "C2";
+        duration = "8n";
+        synth = this.bassDrumSynth;
+      } else {
+        // TODO
+        frequency = new Tone.Frequency(note.pitch, "midi");
+        duration = note.endTime - note.startTime;
+        synth = (note.program >= 32 && note.program <= 39)
+            ? this.bassSynth : this.polySynth;
+      }
+
+      // TODO
+      synth.triggerAttackRelease(frequency, duration, time, 1);
+    }
+  }
+
+  // TODO
+  async function sampleMusicVaeTrio() {
+    const samples = await window.musicvae.sample(1);
+    const sample = samples[0];
+
+    const container = document.getElementById("musicvae-plot");
+    new mm.PianoRollCanvasVisualizer(sample, container,
+        {'pixelsPerTimeStep': 50});
+
+    // TODO
+    class LoopCallback extends mm.BasePlayerCallback {
+      run = function (n, t) {
+        // void
+      };
+      stop = function (n, t) {
+        console.log("looping");
+        player.start(sample, 120);
+      };
+    }
+
+    // TODO
+    const callback = new LoopCallback();
+    const player = new Player(callback);
+    player.start(sample, 120);
+  }
+
+  // TODO Connect GUI actions.
+  document.getElementById("sample-musicae-trio")
+      .addEventListener("click", (event) => {
+    sampleMusicVaeTrio();
+    event.target.disabled = true;
+  });
+
+  // TODO
+  try {
+    Promise.all([startMusicVae()]);
+  } catch (error) {
+    console.error(error);
+  }
+</script>
 </body>
 </html>

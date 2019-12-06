@@ -1,45 +1,198 @@
 <html lang="en">
 <head>
-  <!-- Load @magenta/music -->
-  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
-  <script>
-    // Instantiate model by loading desired config.
-    const model = new mm.MusicVAE(
-        'https://storage.googleapis.com/magentadata/js/checkpoints/music_vae/trio_4bar');
-    const callback = class BasePlayerCallback {
-      run = function (n, t) {
-        alert("test")
-      };
-    };
-
-    class PlayerGan extends mm.BasePlayer {
-      drumKit = mm.DrumKit.getInstance();
-
-      bassSynth =
-          new Tone.Synth({
-            volume: 5,
-            oscillator: {type: 'triangle'}
-          }).toMaster();
-
-      polySynth = new Tone.PolySynth(10).toMaster();
-
-      playNote = function (time, note) {
-        alert(time + " " + note)
-      }
+  <title>Music Generation With Magenta.js - MusicVAE + GANSynth example</title>
+  <style>
+    * {
+      font-family: monospace;
     }
 
-    const player = new mm.Player();
-
-
-    function play() {
-      player.resumeContext(); // enable audio
-      model.sample(1)
-          .then((samples) => player.start(samples[0], 80));
+    canvas {
+      width: 100%;
     }
-  </script>
-  <title>Music Generation With Magenta - MusicRNN example</title>
+  </style>
 </head>
 <body>
-<button onclick="play()"><h1>Play Trio</h1></button>
+<h1>Music Generation With Magenta.js - MusicVAE + GANSynth</h1>
+<p>
+  Press "Sample MusicVAE trio" to sample a new sequence of a trio of instruments (drum kit, bass, lead) using
+  MusicVae and play it immediately. The sequence will loop.
+  Press "Sample GANSynth note for the lead synth" to sample a new note using GANSynth use it in the lead synth.
+</p>
+<p>
+  Reload the page to stop.
+</p>
+<p>
+  <button disabled id="sample-musicae-trio">Sample MusicVAE trio</button>
+  <button disabled id="sample-gansynth-note">Sample GANSynth note for the lead synth</button>
+</p>
+<div id="plots">
+  <canvas id="musicvae-plot"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.4.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+<script>
+  // TODO Instantiate model by loading desired config.
+  async function startMusicVae() {
+    const musicvae = new mm.MusicVAE("https://storage.googleapis.com/" +
+        "magentadata/js/checkpoints/music_vae/trio_4bar");
+    await musicvae.initialize();
+    window.musicvae = musicvae;
+    document.getElementById('sample-musicae-trio').disabled = false;
+  }
+
+  // TODO consts
+  const lengthInSeconds = 4.0;
+  const sampleRate = 16000;
+  const length = lengthInSeconds * sampleRate;
+  const tonePlayerOptions = {"loop": true, "volume": -25};
+
+  // TODO
+  async function startGanSynth() {
+    // TODO model
+    const gansynth = new mm.GANSynth("https://storage.googleapis.com/" +
+        "magentadata/js/checkpoints/gansynth/acoustic_only");
+    await gansynth.initialize();
+    window.gansynth = gansynth
+  }
+
+  // TODO
+  async function plotSpectra(spectra, containerId, channel) {
+    const spectraPlot = tf.tidy(() => {
+      // Slice a single example.
+      let spectraPlot = tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
+          .reshape([128, 1024]);
+      // Scale to [0, 1].
+      spectraPlot = tf.sub(spectraPlot, tf.min(spectraPlot));
+      spectraPlot = tf.div(spectraPlot, tf.max(spectraPlot));
+      return spectraPlot;
+    });
+    // Plot on canvas.
+    const container = document.getElementById(containerId);
+    const canvas = document.createElement("canvas");
+    container.appendChild(canvas);
+    await tf.browser.toPixels(spectraPlot, canvas);
+    spectraPlot.dispose();
+  }
+
+  // TODO
+  class Player extends mm.BasePlayer {
+
+    // TODO
+    bassDrumSynth = new Tone.MembraneSynth().toMaster();
+
+    // TODO
+    bassSynth = new Tone.Synth({
+      volume: 5,
+      oscillator: {type: "triangle"}
+    }).toMaster();
+
+    // TODO
+    polySynth = null;
+
+    // TODO
+    constructor(callbackObject) {
+      super(false, callbackObject);
+    }
+
+    // TODO
+    playNote(time, note) {
+      let frequency, duration, synth;
+      if (note.isDrum && note.pitch === 35 || note.pitch === 36) {
+        // TODO
+        frequency = "C2";
+        duration = "8n";
+        synth = this.bassDrumSynth;
+      } else {
+        // TODO
+        frequency = new Tone.Frequency(note.pitch, "midi");
+        duration = note.endTime - note.startTime;
+        synth = (note.program >= 32 && note.program <= 39)
+            ? this.bassSynth : this.polySynth;
+      }
+
+      // TODO
+      if (synth) {
+        synth.triggerAttackRelease(frequency, duration, time, 1);
+      }
+    }
+  }
+
+  // TODO
+  async function sampleMusicVaeTrie() {
+    const samples = await window.musicvae.sample(1);
+    const sample = samples[0];
+
+    const container = document.getElementById("musicvae-plot");
+    new mm.PianoRollCanvasVisualizer(sample, container,
+        {'pixelsPerTimeStep': 50});
+
+    // TODO
+    class LoopCallback extends mm.BasePlayerCallback {
+      run = function (n, t) {
+        // void
+      };
+      stop = function (n, t) {
+        console.log("looping");
+        player.start(sample, 120);
+      };
+    }
+
+    // TODO
+    const callback = new LoopCallback();
+    const player = new Player(callback);
+    player.start(sample, 120);
+    window.player = player
+  }
+
+  // TODO when called
+  // TODO extract
+  async function sampleGanNote() {
+    // TODO specgram to audio with audio buffer
+    const specgrams = await gansynth.randomSample(60);
+    const audio = await gansynth.specgramsToAudio(specgrams);
+    const audioBuffer = Tone.context.createBuffer(1, length, sampleRate);
+    audioBuffer.copyToChannel(audio, 0, 0);
+
+    // TODO player for audio buffer
+    const playerOptions = Object.assign({}, {"url": audioBuffer},
+        tonePlayerOptions);
+
+    // TODO
+    // const pitchShift = new Tone.PitchShift({"pitch": -48}).toMaster();
+    // const filter = new Tone.Filter(100, "lowpass").toMaster();
+    const volume = new Tone.Volume(-10);
+    const instrument = new Tone.Sampler({"C4": audioBuffer});
+    instrument.chain(volume, Tone.Master);
+    window.player.polySynth = instrument;
+
+    // TODO plot
+    await Promise.all([
+      plotSpectra(specgrams, 'plots', 0),
+      plotSpectra(specgrams, 'plots', 1)
+    ]);
+  }
+
+  // TODO Connect GUI actions.
+  document.getElementById("sample-musicae-trio")
+      .addEventListener("click", (event) => {
+        sampleMusicVaeTrie();
+        event.target.disabled = true;
+        document.getElementById('sample-gansynth-note').disabled = false;
+      });
+
+  // TODO Connect GUI actions.
+  document.getElementById('sample-gansynth-note')
+      .addEventListener('click', () => {
+        sampleGanNote();
+      });
+
+  // TODO
+  try {
+    Promise.all([startMusicVae(), startGanSynth()]);
+  } catch (error) {
+    console.error(error);
+  }
+</script>
 </body>
 </html>

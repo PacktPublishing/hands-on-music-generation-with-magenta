@@ -1,42 +1,108 @@
 <html lang="en">
 <head>
-  <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.8.21/Tone.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
-  <script>
-    async function startGanSynth() {
-      const lengthInSeconds = 4.0;
-      const sampleRate = 16000;
-      const length = lengthInSeconds * sampleRate;
-      const tonePlayerOptions = {"loop": true, "volume": -25};
-      const gansynth = new mm.GANSynth("https://storage.googleapis.com/" +
-          "magentadata/js/checkpoints/gansynth/acoustic_only");
-      await gansynth.initialize();
-      window.playGan = async function () {
-        const specgrams = await gansynth.randomSample(60);
-        const audio = await gansynth.specgramsToAudio(specgrams);
-        const audioBuffer = Tone.context.createBuffer(1, length, sampleRate);
-        audioBuffer.copyToChannel(audio, 0, 0);
-        const playerOptions = Object.assign({}, {"url": audioBuffer},
-            tonePlayerOptions);
-        [-24, -7, 0].forEach(pitch => {
-          const pitchShiftOptions = {"pitch": pitch};
-          const pitchShift = new Tone.PitchShift(pitchShiftOptions).toMaster();
-          const player = new Tone.Player(playerOptions).connect(pitchShift);
-          player.start();
-        });
-      };
+  <title>Music Generation With Magenta.js - GanSynth example</title>
+  <style>
+    * {
+      font-family: monospace;
     }
 
-    try {
-      Promise.all([startGanSynth()]);
-    } catch (error) {
-      console.error(error);
+    canvas {
+      width: 100%;
     }
-  </script>
-  <title>Music Generation With Magenta - GanSynth example</title>
+  </style>
 </head>
 <body>
-<button onclick="playGan()">Play Gan</button>
+<h1>Music Generation With Magenta.js - GANSynth example</h1>
+<p>
+  Press "Sample GANSynth note" to sample a new note using GANSynth and play it immediately. You can
+  layer as many notes as you want, each note will loop each 4 seconds.
+</p>
+<p>
+  Reload the page to stop.
+</p>
+<p>
+  <button disabled id="sample-gansynth-note">Sample GANSynth note</button>
+</p>
+<div id="plots"></div>
+<script src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.4.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+<script>
+  // TODO consts
+  const lengthInSeconds = 4.0;
+  const sampleRate = 16000;
+  const length = lengthInSeconds * sampleRate;
+  const tonePlayerOptions = {"loop": true, "volume": -25};
+
+  // TODO
+  async function startGanSynth() {
+    // TODO model
+    const gansynth = new mm.GANSynth("https://storage.googleapis.com/" +
+        "magentadata/js/checkpoints/gansynth/acoustic_only");
+    await gansynth.initialize();
+    window.gansynth = gansynth;
+    document.getElementById('sample-gansynth-note').disabled = false;
+  }
+
+  // TODO
+  async function plotSpectra(spectra, containerId, channel) {
+    const spectraPlot = tf.tidy(() => {
+      // Slice a single example.
+      let spectraPlot = tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
+          .reshape([128, 1024]);
+      // Scale to [0, 1].
+      spectraPlot = tf.sub(spectraPlot, tf.min(spectraPlot));
+      spectraPlot = tf.div(spectraPlot, tf.max(spectraPlot));
+      return spectraPlot;
+    });
+    // Plot on canvas.
+    const container = document.getElementById(containerId);
+    const canvas = document.createElement("canvas");
+    container.appendChild(canvas);
+    await tf.browser.toPixels(spectraPlot, canvas);
+    spectraPlot.dispose();
+  }
+
+  // TODO when called
+  // TODO extract
+  async function sampleGanNote() {
+    // TODO specgram to audio with audio buffer
+    const specgrams = await gansynth.randomSample(60);
+    const audio = await gansynth.specgramsToAudio(specgrams);
+    const audioBuffer = Tone.context.createBuffer(1, length, sampleRate);
+    audioBuffer.copyToChannel(audio, 0, 0);
+
+    // TODO player for audio buffer
+    const playerOptions = Object.assign({}, {"url": audioBuffer},
+        tonePlayerOptions);
+
+    // TODO polyphony
+    [-24, -7, 0].forEach(pitch => {
+      const pitchShiftOptions = {"pitch": pitch};
+      const pitchShift = new Tone.PitchShift(pitchShiftOptions).toMaster();
+      const player = new Tone.Player(playerOptions).connect(pitchShift);
+      player.start();
+    });
+
+    // TODO plot
+    await Promise.all([
+      plotSpectra(specgrams, 'plots', 0),
+      plotSpectra(specgrams, 'plots', 1)
+    ]);
+  }
+
+  // TODO Connect GUI actions.
+  document.getElementById('sample-gansynth-note')
+      .addEventListener('click', () => {
+        sampleGanNote();
+      });
+
+  // TODO
+  try {
+    Promise.all([startGanSynth()]);
+  } catch (error) {
+    console.error(error);
+  }
+</script>
 </body>
 </html>
