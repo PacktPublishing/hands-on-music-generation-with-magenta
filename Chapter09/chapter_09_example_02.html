@@ -12,105 +12,121 @@
   </style>
 </head>
 <body>
-<h1>Music Generation With Magenta.js - MusicVAE example</h1>
-<p>
-  Press "Sample MusicVAE trio" to sample a new sequence of a trio of instruments (drum kit, bass, lead) using
-  MusicVae and play it immediately. The sequence will loop.
-</p>
-<p>
-  Reload the page to stop.
-</p>
-<button disabled id="sample-musicae-trio">Sample MusicVAE trio</button>
-<div id="plots">
-  <canvas id="musicvae-plot"></canvas>
+<div>
+  <h1>Music Generation With Magenta.js - MusicVAE example</h1>
+  <p>
+    Press "Sample MusicVAE trio" to sample a new sequence of a trio of
+    instruments (drum kit, bass, lead) using MusicVae and play it immediately.
+    The sequence will loop.
+  </p>
+  <p>
+    Reload the page to stop.
+  </p>
+  <p>
+    <button disabled id="button-sample-musicae-trio">Sample MusicVAE trio
+    </button>
+  </p>
+  <p>
+    <canvas id="canvas-musicvae-plot"></canvas>
+  </p>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
 <script>
-  // TODO Instantiate model by loading desired config.
+  // Get DOM elements
+  const buttonSampleMusicVaeTrio = document
+      .getElementById("button-sample-musicae-trio");
+  const canvasMusicVaePlot = document.getElementById("canvas-musicvae-plot");
+
+  // Starts the MusicVAE model and initializes it. When finished, enables
+  // the button to start the sampling
   async function startMusicVae() {
     const musicvae = new mm.MusicVAE("https://storage.googleapis.com/" +
         "magentadata/js/checkpoints/music_vae/trio_4bar");
     await musicvae.initialize();
     window.musicvae = musicvae;
-    document.getElementById('sample-musicae-trio').disabled = false;
+    buttonSampleMusicVaeTrio.disabled = false;
   }
 
-  // TODO
+  // Declares a new player that have 3 synths for the drum kit (only the
+  // bass drum), the bass and the lead.
   class Player extends mm.BasePlayer {
 
-    // TODO
     bassDrumSynth = new Tone.MembraneSynth().toMaster();
 
-    // TODO
     bassSynth = new Tone.Synth({
       volume: 5,
       oscillator: {type: "triangle"}
     }).toMaster();
 
-    // TODO
     polySynth = new Tone.PolySynth(5).toMaster();
 
-    // TODO
     constructor(callbackObject) {
       super(false, callbackObject);
     }
 
-    // TODO
+    // Plays the note at the proper time using tone.js
     playNote(time, note) {
       let frequency, duration, synth;
-      if (note.isDrum && note.pitch === 35 || note.pitch === 36) {
-        // TODO
-        frequency = "C2";
-        duration = "8n";
-        synth = this.bassDrumSynth;
+      if (note.isDrum) {
+        if (note.pitch === 35 || note.pitch === 36) {
+          // If this is a bass drum, we use the kick pitch for
+          // an eight note and the bass drum synth
+          frequency = "C2";
+          duration = "8n";
+          synth = this.bassDrumSynth;
+        }
       } else {
-        // TODO
+        // If this is a bass note or lead note, we convert the
+        // frequency and the duration for tone.js and fetch
+        // the proper synth
         frequency = new Tone.Frequency(note.pitch, "midi");
         duration = note.endTime - note.startTime;
         synth = (note.program >= 32 && note.program <= 39)
             ? this.bassSynth : this.polySynth;
       }
-
-      // TODO
-      synth.triggerAttackRelease(frequency, duration, time, 1);
+      if (synth) {
+        synth.triggerAttackRelease(frequency, duration, time, 1);
+      }
     }
   }
 
-  // TODO
+  // Samples a trio of drum kit, bass and lead from MusicVAE and
+  // plays it repeatedly at 120 QPM
   async function sampleMusicVaeTrio() {
     const samples = await window.musicvae.sample(1);
     const sample = samples[0];
+    new mm.PianoRollCanvasVisualizer(sample, canvasMusicVaePlot,
+        {"pixelsPerTimeStep": 50});
 
-    const container = document.getElementById("musicvae-plot");
-    new mm.PianoRollCanvasVisualizer(sample, container,
-        {'pixelsPerTimeStep': 50});
-
-    // TODO
+    // Declares a loop callback, where the loop function is called
+    // at the end of the sequence, which will restart it
+    // Warning: this implementation doesn't have proper timing and will
+    // cut the sounds that are playing when the loop end
     class LoopCallback extends mm.BasePlayerCallback {
       run = function (n, t) {
         // void
       };
       stop = function (n, t) {
-        console.log("looping");
+        console.log("Looping sequence");
         player.start(sample, 120);
       };
     }
 
-    // TODO
     const callback = new LoopCallback();
     const player = new Player(callback);
     player.start(sample, 120);
   }
 
-  // TODO Connect GUI actions.
-  document.getElementById("sample-musicae-trio")
-      .addEventListener("click", (event) => {
+  // Add on click handler to call the MusicVAE sampling
+  buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
     sampleMusicVaeTrio();
     event.target.disabled = true;
   });
 
-  // TODO
+  // Calls the initialization of MusicVAE
   try {
     Promise.all([startMusicVae()]);
   } catch (error) {
