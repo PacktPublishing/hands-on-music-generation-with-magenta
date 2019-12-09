@@ -29,8 +29,10 @@
   </p>
   <div id="container-plots"></div>
 </div>
-<script
-    src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.4.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/core.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/gansynth.js"></script>
 <script>
   // Get DOM elements
   const buttonSampleGanSynthNote = document
@@ -40,7 +42,7 @@
   // Starts the GANSynth model and initializes it. When finished, enables
   // the button to start the sampling
   async function startGanSynth() {
-    const ganSynth = new mm.GANSynth("https://storage.googleapis.com/" +
+    const ganSynth = new gansynth.GANSynth("https://storage.googleapis.com/" +
         "magentadata/js/checkpoints/gansynth/acoustic_only");
     await ganSynth.initialize();
     window.ganSynth = ganSynth;
@@ -50,19 +52,19 @@
   // Plots the spectrogram of the given channel
   // see music/demos/gansynth.ts:28 in magenta.js source code
   async function plotSpectra(spectra, channel) {
-    const spectraPlot = mm.tf.tidy(() => {
+    const spectraPlot = tf.tidy(() => {
       // Slice a single example.
-      let spectraPlot = mm.tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
+      let spectraPlot = tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
           .reshape([128, 1024]);
       // Scale to [0, 1].
-      spectraPlot = mm.tf.sub(spectraPlot, mm.tf.min(spectraPlot));
-      spectraPlot = mm.tf.div(spectraPlot, mm.tf.max(spectraPlot));
+      spectraPlot = tf.sub(spectraPlot, tf.min(spectraPlot));
+      spectraPlot = tf.div(spectraPlot, tf.max(spectraPlot));
       return spectraPlot;
     });
     // Plot on canvas.
     const canvas = document.createElement("canvas");
     containerPlots.appendChild(canvas);
-    await mm.tf.browser.toPixels(spectraPlot, canvas);
+    await tf.browser.toPixels(spectraPlot, canvas);
     spectraPlot.dispose();
   }
 
@@ -76,13 +78,13 @@
     // a tone.js buffer
     const specgrams = await ganSynth.randomSample(60);
     const audio = await ganSynth.specgramsToAudio(specgrams);
-    const audioBuffer = mm.Player.tone.context.createBuffer(
+    const audioBuffer = Tone.context.createBuffer(
         1, length, sampleRate);
     audioBuffer.copyToChannel(audio, 0, 0);
 
     // Play the sample audio using tone.js and loop it
     const playerOptions = {"url": audioBuffer, "loop": true, "volume": -25};
-    const player = new mm.Player.tone.Player(playerOptions).toMaster();
+    const player = new Tone.Player(playerOptions).toMaster();
     player.start();
 
     // Plots the resulting spectrograms

@@ -23,15 +23,14 @@
     Reload the page to stop.
   </p>
   <p>
-    <button disabled id="button-sample-musicae-trio">Sample MusicVAE trio
+    <button disabled id="button-sample-musicae-trio">
+      Sample MusicVAE trio
     </button>
   </p>
   <p>
     <canvas id="canvas-musicvae-plot"></canvas>
   </p>
 </div>
-<script
-    src="https://cdn.jsdelivr.net/npm/tone@13.8.25/build/Tone.min.js"></script>
 <script
     src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
 <script>
@@ -54,14 +53,14 @@
   // bass drum), the bass and the lead.
   class Player extends mm.BasePlayer {
 
-    bassDrumSynth = new Tone.MembraneSynth().toMaster();
+    bassDrumSynth = new mm.Player.tone.MembraneSynth().toMaster();
 
-    bassSynth = new Tone.Synth({
+    bassSynth = new mm.Player.tone.Synth({
       volume: 5,
       oscillator: {type: "triangle"}
     }).toMaster();
 
-    polySynth = new Tone.PolySynth(5).toMaster();
+    polySynth = new mm.Player.tone.PolySynth(5).toMaster();
 
     constructor(callbackObject) {
       super(false, callbackObject);
@@ -82,7 +81,7 @@
         // If this is a bass note or lead note, we convert the
         // frequency and the duration for tone.js and fetch
         // the proper synth
-        frequency = new Tone.Frequency(note.pitch, "midi");
+        frequency = new mm.Player.tone.Frequency(note.pitch, "midi");
         duration = note.endTime - note.startTime;
         synth = (note.program >= 32 && note.program <= 39)
             ? this.bassSynth : this.polySynth;
