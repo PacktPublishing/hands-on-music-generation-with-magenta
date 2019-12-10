@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>Music Generation With Magenta.js - model import example</title>
+  <title>Music Generation With Magenta.js - local model example</title>
   <style>
     * {
       font-family: monospace;
@@ -13,22 +13,22 @@
 </head>
 <body>
 <div>
-  <h1>Music Generation With Magenta.js - model import example</h1>
+  <h1>Music Generation With Magenta.js - local model example</h1>
 </div>
 <script
     src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.js"></script>
 <script>
-  // Starts the GANSynth model and initializes it. When finished, enables
-  // the button to start the sampling
-  async function startCustomModel() {
-    console.log("lol");
-    const musicRnn = new mm.MusicRNN("http://0.0.0.0:8000/checkpoints/drums_rnn_dance_small");
+  // Initialize a locally trained DrumsRNN model from the local directory
+  // at: checkpoints/drums_rnn_dance_small
+  async function startLocalModel() {
+    const musicRnn = new mm.MusicRNN("http://0.0.0.0:8000/" +
+        "checkpoints/drums_rnn_dance_small");
     await musicRnn.initialize();
   }
 
-  // Calls the initialization of GANSynth
+  // Calls the initialization of the local model
   try {
-    Promise.all([startCustomModel()]);
+    Promise.all([startLocalModel()]);
   } catch (error) {
     console.error(error);
   }
