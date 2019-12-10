@@ -1,0 +1,58 @@
+<html lang="en">
+<head>
+  <title>Music Generation With Magenta.js - MusicVAE + GANSynth example</title>
+  <style>
+    * {
+      font-family: monospace;
+    }
+
+    canvas {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<h1>Music Generation With Magenta.js - MusicVAE + GANSynth</h1>
+<div>
+  <p>
+    Press "Sample MusicVAE trio" to sample a new sequence of a trio of
+    instruments (drum kit, bass, lead) using MusicVae and play it immediately.
+    The sequence will loop. Press "Sample GANSynth note for the lead synth" to
+    sample a new note using GANSynth use it in the lead synth.
+  </p>
+  <p>
+    Reload the page to stop.
+  </p>
+  <p>
+    <button disabled id="button-sample-musicae-trio">
+      Sample MusicVAE trio
+    </button>
+    <button disabled id="button-sample-gansynth-note">
+      Sample GANSynth note for the lead synth
+    </button>
+  </p>
+  <p>
+    <canvas id="canvas-musicvae-plot"></canvas>
+  </p>
+  <div id="container-plots">
+  </div>
+</div>
+<!--<script-->
+<!--    src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>-->
+<script>
+  const synth = new Worker("chapter_09_example_04.js");
+
+  // // Add on click handler to call the MusicVAE sampling
+  // buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
+  //   sampleMusicVaeTrio();
+  //   event.target.disabled = true;
+  //   buttonSampleGanSynthNote.disabled = false;
+  // });
+  //
+  // // Add on click handler to call the GANSynth sampling
+  // buttonSampleGanSynthNote.addEventListener("click", () => {
+  //   sampleGanNote();
+  // });
+</script>
+</body>
+</html>

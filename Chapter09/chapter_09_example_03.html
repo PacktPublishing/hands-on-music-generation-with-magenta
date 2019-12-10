@@ -96,11 +96,7 @@
       oscillator: {type: "triangle"}
     }).toMaster();
 
-    polySynth = null;
-
-    constructor(callbackObject) {
-      super(false, callbackObject);
-    }
+    leadSynth = null;
 
     // Plays the note at the proper time using tone.js
     playNote(time, note) {
@@ -119,8 +115,11 @@
         // the proper synth
         frequency = new mm.Player.tone.Frequency(note.pitch, "midi");
         duration = note.endTime - note.startTime;
-        synth = (note.program >= 32 && note.program <= 39)
-            ? this.bassSynth : this.polySynth;
+        if (note.program >= 32 && note.program <= 39) {
+          synth = this.bassSynth;
+        } else {
+          synth = this.leadSynth;
+        }
       }
       if (synth) {
         synth.triggerAttackRelease(frequency, duration, time, 1);
@@ -136,26 +135,12 @@
     new mm.PianoRollCanvasVisualizer(sample, canvasMusicVaePlot,
         {"pixelsPerTimeStep": 50});
 
-    // Declares a loop callback, where the loop function is called
-    // at the end of the sequence, which will restart it
-    // Warning: this implementation doesn't have proper timing and will
-    // cut the sounds that are playing when the loop end
-    // We keep a window reference to change the poly synth with
-    // a GAN sample
-    class LoopCallback extends mm.BasePlayerCallback {
-      run = function (n, t) {
-        // void
-      };
-      stop = function (n, t) {
-        console.log("Looping sequence");
-        player.start(sample, 120);
-      };
-    }
-
-    const callback = new LoopCallback();
-    const player = new Player(callback);
+    const player = new Player();
+    mm.Player.tone.Transport.loop = true;
+    mm.Player.tone.Transport.loopStart = 0;
+    mm.Player.tone.Transport.loopEnd = 8;
     player.start(sample, 120);
-    window.player = player
+    window.player = player;
   }
 
   // Samples a single note of 4 seconds from GANSynth and plays it repeatedly
@@ -172,14 +157,14 @@
         1, length, sampleRate);
     audioBuffer.copyToChannel(audio, 0, 0);
 
-    // Plays the sample using tone.js by using C4 as a base note.
+    // Plays the sample using tone.js by using C4 as a base note,
+    // since this is what we asked the model for (MIDI pitch 60).
     // If the sequence contains other notes, the pitch will be
     // changed automatically
-    // TODO check this out
     const volume = new mm.Player.tone.Volume(-10);
     const instrument = new mm.Player.tone.Sampler({"C4": audioBuffer});
     instrument.chain(volume, mm.Player.tone.Master);
-    window.player.polySynth = instrument;
+    window.player.leadSynth = instrument;
 
     // Plots the resulting spectrograms
     await plotSpectra(specgrams, 0);
