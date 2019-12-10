@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>Music Generation With Magenta.js - GanSynth example</title>
+  <title>Music Generation With Magenta.js - model import example</title>
   <style>
     * {
       font-family: monospace;
@@ -13,91 +13,22 @@
 </head>
 <body>
 <div>
-  <h1>Music Generation With Magenta.js - GANSynth example</h1>
-  <p>
-    Press "Sample GANSynth note" to sample a new note using GANSynth and play
-    it immediately. You can layer as many notes as you want, each note will
-    loop each 4 seconds.
-  </p>
-  <p>
-    Reload the page to stop.
-  </p>
-  <p>
-    <button disabled id="button-sample-gansynth-note">
-      Sample GANSynth note
-    </button>
-  </p>
-  <div id="container-plots"></div>
+  <h1>Music Generation With Magenta.js - model import example</h1>
 </div>
 <script
-    src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+    src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.js"></script>
 <script>
-  // Get DOM elements
-  const buttonSampleGanSynthNote = document
-      .getElementById("button-sample-gansynth-note");
-  const containerPlots = document.getElementById("container-plots");
-
   // Starts the GANSynth model and initializes it. When finished, enables
   // the button to start the sampling
-  async function startGanSynth() {
-    const ganSynth = new mm.GANSynth("https://storage.googleapis.com/" +
-        "magentadata/js/checkpoints/gansynth/acoustic_only");
-    await ganSynth.initialize();
-    window.ganSynth = ganSynth;
-    buttonSampleGanSynthNote.disabled = false;
+  async function startCustomModel() {
+    console.log("lol");
+    const musicRnn = new mm.MusicRNN("http://0.0.0.0:8000/checkpoints/drums_rnn_dance_small");
+    await musicRnn.initialize();
   }
-
-  // Plots the spectrogram of the given channel
-  // see music/demos/gansynth.ts:28 in magenta.js source code
-  async function plotSpectra(spectra, channel) {
-    const spectraPlot = mm.tf.tidy(() => {
-      // Slice a single example.
-      let spectraPlot = mm.tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
-          .reshape([128, 1024]);
-      // Scale to [0, 1].
-      spectraPlot = mm.tf.sub(spectraPlot, mm.tf.min(spectraPlot));
-      spectraPlot = mm.tf.div(spectraPlot, mm.tf.max(spectraPlot));
-      return spectraPlot;
-    });
-    // Plot on canvas.
-    const canvas = document.createElement("canvas");
-    containerPlots.appendChild(canvas);
-    await mm.tf.browser.toPixels(spectraPlot, canvas);
-    spectraPlot.dispose();
-  }
-
-  // Samples a single note of 4 seconds from GANSynth and plays it repeatedly
-  async function sampleGanNote() {
-    const lengthInSeconds = 4.0;
-    const sampleRate = 16000;
-    const length = lengthInSeconds * sampleRate;
-
-    // The sampling returns a spectrogram, convert that to audio in
-    // a tone.js buffer
-    const specgrams = await ganSynth.randomSample(60);
-    const audio = await ganSynth.specgramsToAudio(specgrams);
-    const audioBuffer = mm.Player.tone.context.createBuffer(
-        1, length, sampleRate);
-    audioBuffer.copyToChannel(audio, 0, 0);
-
-    // Play the sample audio using tone.js and loop it
-    const playerOptions = {"url": audioBuffer, "loop": true, "volume": -25};
-    const player = new mm.Player.tone.Player(playerOptions).toMaster();
-    player.start();
-
-    // Plots the resulting spectrograms
-    await plotSpectra(specgrams, 0);
-    await plotSpectra(specgrams, 1);
-  }
-
-  // Add on click handler to call the GANSynth sampling
-  buttonSampleGanSynthNote.addEventListener("click", () => {
-    sampleGanNote();
-  });
 
   // Calls the initialization of GANSynth
   try {
-    Promise.all([startGanSynth()]);
+    Promise.all([startCustomModel()]);
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>Music Generation With Magenta.js - MusicVAE + GANSynth example</title>
+  <title>Music Generation With Magenta.js - MusicVAE example</title>
   <style>
     * {
       font-family: monospace;
@@ -12,13 +12,12 @@
   </style>
 </head>
 <body>
-<h1>Music Generation With Magenta.js - MusicVAE + GANSynth</h1>
 <div>
+  <h1>Music Generation With Magenta.js - MusicVAE example</h1>
   <p>
     Press "Sample MusicVAE trio" to sample a new sequence of a trio of
     instruments (drum kit, bass, lead) using MusicVae and play it immediately.
-    The sequence will loop. Press "Sample GANSynth note for the lead synth" to
-    sample a new note using GANSynth use it in the lead synth.
+    The sequence will loop.
   </p>
   <p>
     Reload the page to stop.
@@ -27,25 +26,17 @@
     <button disabled id="button-sample-musicae-trio">
       Sample MusicVAE trio
     </button>
-    <button disabled id="button-sample-gansynth-note">
-      Sample GANSynth note for the lead synth
-    </button>
   </p>
   <p>
     <canvas id="canvas-musicvae-plot"></canvas>
   </p>
-  <div id="container-plots">
-  </div>
 </div>
 <script
     src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
 <script>
   // Get DOM elements
-  const buttonSampleGanSynthNote = document
-      .getElementById("button-sample-gansynth-note");
   const buttonSampleMusicVaeTrio = document
       .getElementById("button-sample-musicae-trio");
-  const containerPlots = document.getElementById("container-plots");
   const canvasMusicVaePlot = document.getElementById("canvas-musicvae-plot");
 
   // Starts the MusicVAE model and initializes it. When finished, enables
@@ -56,33 +47,6 @@
     await musicvae.initialize();
     window.musicvae = musicvae;
     buttonSampleMusicVaeTrio.disabled = false;
-  }
-
-  // Starts the GANSynth model and initializes it
-  async function startGanSynth() {
-    const ganSynth = new mm.GANSynth("https://storage.googleapis.com/" +
-        "magentadata/js/checkpoints/gansynth/acoustic_only");
-    await ganSynth.initialize();
-    window.ganSynth = ganSynth
-  }
-
-  // Plots the spectrogram of the given channel
-  // see music/demos/gansynth.ts:28 in magenta.js source code
-  async function plotSpectra(spectra, channel) {
-    const spectraPlot = mm.tf.tidy(() => {
-      // Slice a single example.
-      let spectraPlot = mm.tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
-          .reshape([128, 1024]);
-      // Scale to [0, 1].
-      spectraPlot = mm.tf.sub(spectraPlot, mm.tf.min(spectraPlot));
-      spectraPlot = mm.tf.div(spectraPlot, mm.tf.max(spectraPlot));
-      return spectraPlot;
-    });
-    // Plot on canvas.
-    const canvas = document.createElement("canvas");
-    containerPlots.appendChild(canvas);
-    await mm.tf.browser.toPixels(spectraPlot, canvas);
-    spectraPlot.dispose();
   }
 
   // Declares a new player that have 3 synths for the drum kit (only the
@@ -96,7 +60,7 @@
       oscillator: {type: "triangle"}
     }).toMaster();
 
-    leadSynth = null;
+    leadSynth = new mm.Player.tone.PolySynth(5).toMaster();
 
     // Plays the note at the proper time using tone.js
     playNote(time, note) {
@@ -140,52 +104,17 @@
     mm.Player.tone.Transport.loopStart = 0;
     mm.Player.tone.Transport.loopEnd = 8;
     player.start(sample, 120);
-    window.player = player;
-  }
-
-  // Samples a single note of 4 seconds from GANSynth and plays it repeatedly
-  async function sampleGanNote() {
-    const lengthInSeconds = 4.0;
-    const sampleRate = 16000;
-    const length = lengthInSeconds * sampleRate;
-
-    // The sampling returns a spectrogram, convert that to audio in
-    // a tone.js buffer
-    const specgrams = await ganSynth.randomSample(60);
-    const audio = await ganSynth.specgramsToAudio(specgrams);
-    const audioBuffer = mm.Player.tone.context.createBuffer(
-        1, length, sampleRate);
-    audioBuffer.copyToChannel(audio, 0, 0);
-
-    // Plays the sample using tone.js by using C4 as a base note,
-    // since this is what we asked the model for (MIDI pitch 60).
-    // If the sequence contains other notes, the pitch will be
-    // changed automatically
-    const volume = new mm.Player.tone.Volume(-10);
-    const instrument = new mm.Player.tone.Sampler({"C4": audioBuffer});
-    instrument.chain(volume, mm.Player.tone.Master);
-    window.player.leadSynth = instrument;
-
-    // Plots the resulting spectrograms
-    await plotSpectra(specgrams, 0);
-    await plotSpectra(specgrams, 1);
   }
 
   // Add on click handler to call the MusicVAE sampling
   buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
     sampleMusicVaeTrio();
     event.target.disabled = true;
-    buttonSampleGanSynthNote.disabled = false;
   });
 
-  // Add on click handler to call the GANSynth sampling
-  buttonSampleGanSynthNote.addEventListener("click", () => {
-    sampleGanNote();
-  });
-
-  // Calls the initialization of MusicVAE and GanSynth
+  // Calls the initialization of MusicVAE
   try {
-    Promise.all([startMusicVae(), startGanSynth()]);
+    Promise.all([startMusicVae()]);
   } catch (error) {
     console.error(error);
   }
