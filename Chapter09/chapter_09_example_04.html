@@ -16,7 +16,7 @@
 <div>
   <p>
     Press "Sample MusicVAE trio" to sample a new sequence of a trio of
-    instruments (drum kit, bass, lead) using MusicVAE and playd it immediately.
+    instruments (drum kit, bass, lead) using MusicVAE and play it immediately.
     The sequence will loop. Press "Sample GANSynth note for the lead synth" to
     sample a new note using GANSynth use it in the lead synth.
   </p>
@@ -40,155 +40,155 @@
 <script
     src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
 <script>
-  // Get DOM elements
-  const buttonSampleGanSynthNote = document
-      .getElementById("button-sample-gansynth-note");
-  const buttonSampleMusicVaeTrio = document
-      .getElementById("button-sample-musicae-trio");
-  const containerPlots = document.getElementById("container-plots");
-  const canvasMusicVaePlot = document.getElementById("canvas-musicvae-plot");
+    // Get DOM elements
+    const buttonSampleGanSynthNote = document
+        .getElementById("button-sample-gansynth-note");
+    const buttonSampleMusicVaeTrio = document
+        .getElementById("button-sample-musicae-trio");
+    const containerPlots = document.getElementById("container-plots");
+    const canvasMusicVaePlot = document.getElementById("canvas-musicvae-plot");
 
-  // Starts the MusicVAE model and initializes it. When finished, enables
-  // the button to start the sampling
-  async function startMusicVae() {
-    const musicvae = new mm.MusicVAE("https://storage.googleapis.com/" +
-        "magentadata/js/checkpoints/music_vae/trio_4bar");
-    await musicvae.initialize();
-    window.musicvae = musicvae;
-    buttonSampleMusicVaeTrio.disabled = false;
-  }
-
-  // Starts the GANSynth model and initializes it
-  async function startGanSynth() {
-    const ganSynth = new mm.GANSynth("https://storage.googleapis.com/" +
-        "magentadata/js/checkpoints/gansynth/acoustic_only");
-    await ganSynth.initialize();
-    window.ganSynth = ganSynth
-  }
-
-  // Plots the spectrogram of the given channel
-  // see music/demos/gansynth.ts:28 in magenta.js source code
-  async function plotSpectra(spectra, channel) {
-    const spectraPlot = mm.tf.tidy(() => {
-      // Slice a single example.
-      let spectraPlot = mm.tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
-          .reshape([128, 1024]);
-      // Scale to [0, 1].
-      spectraPlot = mm.tf.sub(spectraPlot, mm.tf.min(spectraPlot));
-      spectraPlot = mm.tf.div(spectraPlot, mm.tf.max(spectraPlot));
-      return spectraPlot;
-    });
-    // Plot on canvas.
-    const canvas = document.createElement("canvas");
-    containerPlots.appendChild(canvas);
-    await mm.tf.browser.toPixels(spectraPlot, canvas);
-    spectraPlot.dispose();
-  }
-
-  // Declares a new player that have 3 synths for the drum kit (only the
-  // bass drum), the bass and the lead.
-  class Player extends mm.BasePlayer {
-
-    bassDrumSynth = new mm.Player.tone.MembraneSynth().toMaster();
-
-    bassSynth = new mm.Player.tone.Synth({
-      volume: 5,
-      oscillator: {type: "triangle"}
-    }).toMaster();
-
-    leadSynth = null;
-
-    // Plays the note at the proper time using tone.js
-    playNote(time, note) {
-      let frequency, duration, synth;
-      if (note.isDrum) {
-        if (note.pitch === 35 || note.pitch === 36) {
-          // If this is a bass drum, we use the kick pitch for
-          // an eight note and the bass drum synth
-          frequency = "C2";
-          duration = "8n";
-          synth = this.bassDrumSynth;
-        }
-      } else {
-        // If this is a bass note or lead note, we convert the
-        // frequency and the duration for tone.js and fetch
-        // the proper synth
-        frequency = new mm.Player.tone.Frequency(note.pitch, "midi");
-        duration = note.endTime - note.startTime;
-        if (note.program >= 32 && note.program <= 39) {
-          synth = this.bassSynth;
-        } else {
-          synth = this.leadSynth;
-        }
-      }
-      if (synth) {
-        synth.triggerAttackRelease(frequency, duration, time, 1);
-      }
+    // Starts the MusicVAE model and initializes it. When finished, enables
+    // the button to start the sampling
+    async function startMusicVae() {
+        const musicvae = new mm.MusicVAE("https://storage.googleapis.com/" +
+            "magentadata/js/checkpoints/music_vae/trio_4bar");
+        await musicvae.initialize();
+        window.musicvae = musicvae;
+        buttonSampleMusicVaeTrio.disabled = false;
     }
-  }
 
-  // Samples a trio of drum kit, bass and lead from MusicVAE and
-  // plays it repeatedly at 120 QPM
-  async function sampleMusicVaeTrio() {
-    const samples = await window.musicvae.sample(1);
-    const sample = samples[0];
-    new mm.PianoRollCanvasVisualizer(sample, canvasMusicVaePlot,
-        {"pixelsPerTimeStep": 50});
+    // Starts the GANSynth model and initializes it
+    async function startGanSynth() {
+        const ganSynth = new mm.GANSynth("https://storage.googleapis.com/" +
+            "magentadata/js/checkpoints/gansynth/acoustic_only");
+        await ganSynth.initialize();
+        window.ganSynth = ganSynth
+    }
 
-    const player = new Player();
-    mm.Player.tone.Transport.loop = true;
-    mm.Player.tone.Transport.loopStart = 0;
-    mm.Player.tone.Transport.loopEnd = 8;
-    player.start(sample, 120);
-    window.player = player;
-  }
+    // Plots the spectrogram of the given channel
+    // see music/demos/gansynth.ts:28 in magenta.js source code
+    async function plotSpectra(spectra, channel) {
+        const spectraPlot = mm.tf.tidy(() => {
+            // Slice a single example.
+            let spectraPlot = mm.tf.slice(spectra, [0, 0, 0, channel], [1, -1, -1, 1])
+                .reshape([128, 1024]);
+            // Scale to [0, 1].
+            spectraPlot = mm.tf.sub(spectraPlot, mm.tf.min(spectraPlot));
+            spectraPlot = mm.tf.div(spectraPlot, mm.tf.max(spectraPlot));
+            return spectraPlot;
+        });
+        // Plot on canvas.
+        const canvas = document.createElement("canvas");
+        containerPlots.appendChild(canvas);
+        await mm.tf.browser.toPixels(spectraPlot, canvas);
+        spectraPlot.dispose();
+    }
 
-  // Samples a single note of 4 seconds from GANSynth and plays it repeatedly
-  async function sampleGanNote() {
-    const lengthInSeconds = 4.0;
-    const sampleRate = 16000;
-    const length = lengthInSeconds * sampleRate;
+    // Declares a new player that have 3 synths for the drum kit (only the
+    // bass drum), the bass and the lead.
+    class Player extends mm.BasePlayer {
 
-    // The sampling returns a spectrogram, convert that to audio in
-    // a tone.js buffer
-    const specgrams = await ganSynth.randomSample(60);
-    const audio = await ganSynth.specgramsToAudio(specgrams);
-    const audioBuffer = mm.Player.tone.context.createBuffer(
-        1, length, sampleRate);
-    audioBuffer.copyToChannel(audio, 0, 0);
+        bassDrumSynth = new mm.Player.tone.MembraneSynth().toMaster();
 
-    // Plays the sample using tone.js by using C4 as a base note,
-    // since this is what we asked the model for (MIDI pitch 60).
-    // If the sequence contains other notes, the pitch will be
-    // changed automatically
-    const volume = new mm.Player.tone.Volume(-10);
-    const instrument = new mm.Player.tone.Sampler({"C4": audioBuffer});
-    instrument.chain(volume, mm.Player.tone.Master);
-    window.player.leadSynth = instrument;
+        bassSynth = new mm.Player.tone.Synth({
+            volume: 5,
+            oscillator: {type: "triangle"}
+        }).toMaster();
 
-    // Plots the resulting spectrograms
-    await plotSpectra(specgrams, 0);
-    await plotSpectra(specgrams, 1);
-  }
+        leadSynth = null;
 
-  // Add on click handler to call the MusicVAE sampling
-  buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
-    sampleMusicVaeTrio();
-    event.target.disabled = true;
-    buttonSampleGanSynthNote.disabled = false;
-  });
+        // Plays the note at the proper time using tone.js
+        playNote(time, note) {
+            let frequency, duration, synth;
+            if (note.isDrum) {
+                if (note.pitch === 35 || note.pitch === 36) {
+                    // If this is a bass drum, we use the kick pitch for
+                    // an eight note and the bass drum synth
+                    frequency = "C2";
+                    duration = "8n";
+                    synth = this.bassDrumSynth;
+                }
+            } else {
+                // If this is a bass note or lead note, we convert the
+                // frequency and the duration for tone.js and fetch
+                // the proper synth
+                frequency = new mm.Player.tone.Frequency(note.pitch, "midi");
+                duration = note.endTime - note.startTime;
+                if (note.program >= 32 && note.program <= 39) {
+                    synth = this.bassSynth;
+                } else {
+                    synth = this.leadSynth;
+                }
+            }
+            if (synth) {
+                synth.triggerAttackRelease(frequency, duration, time, 1);
+            }
+        }
+    }
 
-  // Add on click handler to call the GANSynth sampling
-  buttonSampleGanSynthNote.addEventListener("click", () => {
-    sampleGanNote();
-  });
+    // Samples a trio of drum kit, bass and lead from MusicVAE and
+    // plays it repeatedly at 120 QPM
+    async function sampleMusicVaeTrio() {
+        const samples = await window.musicvae.sample(1);
+        const sample = samples[0];
+        new mm.PianoRollCanvasVisualizer(sample, canvasMusicVaePlot,
+            {"pixelsPerTimeStep": 50});
 
-  // Calls the initialization of MusicVAE and GanSynth
-  try {
-    Promise.all([startMusicVae(), startGanSynth()]);
-  } catch (error) {
-    console.error(error);
-  }
+        const player = new Player();
+        mm.Player.tone.Transport.loop = true;
+        mm.Player.tone.Transport.loopStart = 0;
+        mm.Player.tone.Transport.loopEnd = 8;
+        player.start(sample, 120);
+        window.player = player;
+    }
+
+    // Samples a single note of 4 seconds from GANSynth and plays it repeatedly
+    async function sampleGanNote() {
+        const lengthInSeconds = 4.0;
+        const sampleRate = 16000;
+        const length = lengthInSeconds * sampleRate;
+
+        // The sampling returns a spectrogram, convert that to audio in
+        // a tone.js buffer
+        const specgrams = await ganSynth.randomSample(60);
+        const audio = await ganSynth.specgramsToAudio(specgrams);
+        const audioBuffer = mm.Player.tone.context.createBuffer(
+            1, length, sampleRate);
+        audioBuffer.copyToChannel(audio, 0, 0);
+
+        // Plays the sample using tone.js by using C4 as a base note,
+        // since this is what we asked the model for (MIDI pitch 60).
+        // If the sequence contains other notes, the pitch will be
+        // changed automatically
+        const volume = new mm.Player.tone.Volume(-10);
+        const instrument = new mm.Player.tone.Sampler({"C4": audioBuffer});
+        instrument.chain(volume, mm.Player.tone.Master);
+        window.player.leadSynth = instrument;
+
+        // Plots the resulting spectrograms
+        await plotSpectra(specgrams, 0);
+        await plotSpectra(specgrams, 1);
+    }
+
+    // Add on click handler to call the MusicVAE sampling
+    buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
+        sampleMusicVaeTrio();
+        event.target.disabled = true;
+        buttonSampleGanSynthNote.disabled = false;
+    });
+
+    // Add on click handler to call the GANSynth sampling
+    buttonSampleGanSynthNote.addEventListener("click", () => {
+        sampleGanNote();
+    });
+
+    // Calls the initialization of MusicVAE and GanSynth
+    try {
+        Promise.all([startMusicVae(), startGanSynth()]);
+    } catch (error) {
+        console.error(error);
+    }
 </script>
 </body>
 </html>

@@ -17,7 +17,7 @@
   <p>
     Press "Sample MusicVAE trio" to sample a new sequence of a trio of
     instruments (drum kit, bass, lead) using MusicVAE in a Web Worker and
-    plays it immediately.
+    play it immediately.
   </p>
   <p>
     Reload the page to stop.
@@ -31,41 +31,41 @@
 <script
     src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.js"></script>
 <script>
-  // Get DOM elements
-  const buttonSampleMusicVaeTrio = document
-      .getElementById("button-sample-musicae-trio");
+    // Get DOM elements
+    const buttonSampleMusicVaeTrio = document
+        .getElementById("button-sample-musicae-trio");
 
-  // Starts a new worker that will load the MusicVAE model
-  const worker = new Worker("chapter_09_example_05.js");
-  worker.onmessage = function (event) {
-    const message = event.data[0];
-    if (message === "initialized") {
-      // When the worker sends the "initialized" message,
-      // we enable the button to sample the model
-      buttonSampleMusicVaeTrio.disabled = false;
-    }
-    if (message === "sample") {
-      // When the worked sends the "sample" message,
-      // we take the data (the note sequence sample)
-      // from the event, create and start a new player
-      // using the sequence
-      const data = event.data[1];
-      const sample = data[0];
-      const player = new mm.Player();
-      mm.Player.tone.Transport.loop = true;
-      mm.Player.tone.Transport.loopStart = 0;
-      mm.Player.tone.Transport.loopEnd = 8;
-      player.start(sample, 120);
-    }
-  };
+    // Starts a new worker that will load the MusicVAE model
+    const worker = new Worker("chapter_09_example_05.js");
+    worker.onmessage = function (event) {
+        const message = event.data[0];
+        if (message === "initialized") {
+            // When the worker sends the "initialized" message,
+            // we enable the button to sample the model
+            buttonSampleMusicVaeTrio.disabled = false;
+        }
+        if (message === "sample") {
+            // When the worked sends the "sample" message,
+            // we take the data (the note sequence sample)
+            // from the event, create and start a new player
+            // using the sequence
+            const data = event.data[1];
+            const sample = data[0];
+            const player = new mm.Player();
+            mm.Player.tone.Transport.loop = true;
+            mm.Player.tone.Transport.loopStart = 0;
+            mm.Player.tone.Transport.loopEnd = 8;
+            player.start(sample, 120);
+        }
+    };
 
-  // Add click handler to call the MusicVAE sampling,
-  // by posting a message to the web worker which
-  // sample and return the sequence using a message
-  buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
-    worker.postMessage([]);
-    event.target.disabled = true;
-  });
+    // Add click handler to call the MusicVAE sampling,
+    // by posting a message to the web worker which
+    // sample and return the sequence using a message
+    buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
+        worker.postMessage([]);
+        event.target.disabled = true;
+    });
 </script>
 </body>
 </html>

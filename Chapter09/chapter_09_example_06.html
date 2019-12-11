@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+  <title>Music Generation With Magenta.js - MIDI example</title>
+  <style>
+    * {
+      font-family: monospace;
+    }
+
+    canvas {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <h1>Music Generation With Magenta.js - MIDI example</h1>
+  <p>
+    Press "Sample MusicVAE trio" to sample a new sequence of a trio of
+    instruments (drum kit, bass, lead) using MusicVAE and send it to the
+    given MIDI output. The sequence will loop.
+  </p>
+  <p>
+    Reload the page to stop.
+  </p>
+  <p>
+    <button disabled id="button-sample-musicae-trio">
+      Sample MusicVAE trio
+    </button>
+    <label for="select-midi-output">Select MIDI output:</label>
+    <select disabled id="select-midi-output">
+    </select>
+  </p>
+</div>
+<script
+    src="https://cdn.jsdelivr.net/npm/@magenta/music@1.12.0/dist/magentamusic.min.js"></script>
+<script>
+    // Get DOM elements
+    const buttonSampleMusicVaeTrio = document
+        .getElementById("button-sample-musicae-trio");
+    const selectMidiOutput = document
+        .getElementById("select-midi-output");
+    const canvasMusicVaePlot = document
+        .getElementById("canvas-musicvae-plot");
+
+    // Starts the MusicVAE model and initializes it. When finished, enables
+    // the button to start the sampling
+    async function startMusicVae() {
+        const musicvae = new mm.MusicVAE("https://storage.googleapis.com/" +
+            "magentadata/js/checkpoints/music_vae/trio_4bar");
+        await musicvae.initialize();
+        window.musicvae = musicvae;
+        buttonSampleMusicVaeTrio.disabled = false;
+
+        // Starts a MIDI player, and for each available MIDI outputs,
+        // adds an option to the select drop down.
+        const player = new mm.MIDIPlayer();
+        player.requestMIDIAccess()
+            .then((outputs) => {
+                if (outputs && outputs.length) {
+                    const option = document.createElement("option");
+                    selectMidiOutput.appendChild(option);
+                    outputs.forEach(output => {
+                        const option = document.createElement("option");
+                        option.innerHTML = output.name;
+                        selectMidiOutput.appendChild(option);
+                    });
+                    selectMidiOutput.disabled = false;
+                } else {
+                    selectMidiOutput.disabled = true;
+                }
+            });
+        window.player = player;
+    }
+
+    // Samples a trio of drum kit, bass and lead from MusicVAE and
+    // plays it repeatedly at 120 QPM
+    async function sampleMusicVaeTrio() {
+        const samples = await window.musicvae.sample(1);
+        const sample = samples[0];
+
+        // Gets the selected MIDI output (if any) and uses the
+        // output in the MIDI player
+        const midiOutputIndex = selectMidiOutput.selectedIndex;
+        if (midiOutputIndex) {
+            player.outputs = [player.availableOutputs[midiOutputIndex - 1]];
+            mm.Player.tone.Transport.loop = true;
+            mm.Player.tone.Transport.loopStart = 0;
+            mm.Player.tone.Transport.loopEnd = 8;
+            player.start(sample, 120);
+        }
+        selectMidiOutput.disabled = true;
+    }
+
+    // Add on click handler to call the MusicVAE sampling
+    buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
+        sampleMusicVaeTrio();
+        event.target.disabled = true;
+    });
+
+    // Calls the initialization of MusicVAE
+    try {
+        Promise.all([startMusicVae()]);
+    } catch (error) {
+        console.error(error);
+    }
+</script>
+</body>
+</html>
