@@ -15,3 +15,6 @@ __pycache__
 # jupyter notebook cache
 .ipynb_checkpoints
 
+# node.js
+node_modules
+

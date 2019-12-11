@@ -35,16 +35,20 @@
   const buttonSampleMusicVaeTrio = document
       .getElementById("button-sample-musicae-trio");
 
-  // TODO worker
+  // Starts a new worker that will load the MusicVAE model
   const worker = new Worker("chapter_09_example_05.js");
   worker.onmessage = function (event) {
     const message = event.data[0];
     if (message === "initialized") {
-      // TODO worker
+      // When the worker sends the "initialized" message,
+      // we enable the button to sample the model
       buttonSampleMusicVaeTrio.disabled = false;
     }
     if (message === "sample") {
-      // TODO worker
+      // When the worked sends the "sample" message,
+      // we take the data (the note sequence sample)
+      // from the event, create and start a new player
+      // using the sequence
       const data = event.data[1];
       const sample = data[0];
       const player = new mm.Player();
@@ -55,7 +59,9 @@
     }
   };
 
-  // TODO add onclick handler to call the MusicVAE sampling
+  // Add click handler to call the MusicVAE sampling,
+  // by posting a message to the web worker which
+  // sample and return the sequence using a message
   buttonSampleMusicVaeTrio.addEventListener("click", (event) => {
     worker.postMessage([]);
     event.target.disabled = true;
