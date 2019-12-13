@@ -11,7 +11,6 @@ The "Hands-On Music Generation with Magenta" book code repository and info resou
 5. Audio generation with GANSynth ([source](Chapter05))([notebook](Chapter05/notebook.ipynb))
 6. Data preparation and pipelines ([source](Chapter06))([notebook](Chapter06/notebook.ipynb))
 7. Training an existing model on a specific style ([source](Chapter07))([notebook](Chapter07/notebook.ipynb))
-8. Creating a model for a specific musical representation ([source](Chapter08))([notebook](Chapter08/notebook.ipynb))
-9. Using MIDI to interact with a DAW ([source](Chapter09))([notebook](Chapter09/notebook.ipynb))
-10. Using Magenta.js and Magenta Studio ([source](Chapter10))([notebook](Chapter10/notebook.ipynb))
+8. Magenta in the browser with Magenta.js ([source](Chapter08))([notebook](Chapter08/notebook.ipynb))
+9. Using Magenta.js and Magenta Studio ([source](Chapter09))([notebook](Chapter09/notebook.ipynb))
 
