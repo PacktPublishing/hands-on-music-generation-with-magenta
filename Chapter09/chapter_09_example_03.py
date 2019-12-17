@@ -9,11 +9,13 @@ import time
 import magenta.music as mm
 import mido
 import tensorflow as tf
+from magenta.common import concurrency
 from magenta.interfaces.midi import midi_hub as mh
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.music import constants
-from magenta.protobuf import generator_pb2, music_pb2
+from magenta.protobuf import generator_pb2
+from magenta.protobuf import music_pb2
 from visual_midi import Plotter
 
 
@@ -56,7 +58,7 @@ def generate(unused_argv):
   print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
   input_ports = [name for name in mido.get_output_names()
-                 if "Virtual Raw MIDI" in name]
+                 if "FLUID Synth" in name]
   if not input_ports:
     raise Exception(f"Cannot find proper input port in: "
                     f"{mido.get_output_names()}")
@@ -76,6 +78,7 @@ def generate(unused_argv):
 
   # We get the current wall time before the loop starts
   wall_start_time = time.time()
+  sleeper = concurrency.Sleeper()
   while True:
     try:
       # We get the current wall time for this loop start
@@ -88,7 +91,7 @@ def generate(unused_argv):
       player.update_sequence(sequence_adjusted,
                              start_time=tick_wall_start_time)
 
-      # We calculate the elapsed time from the start of the program
+      # We calculate the elapsed time from the start of the loop
       tick_start_time = time.time() - wall_start_time
 
       # We sleep for the remaining time in the loop. It means that whatever
@@ -99,10 +102,12 @@ def generate(unused_argv):
       # up with proper timing.
       sleep_time = loop_time - (tick_start_time % loop_time)
       print(f"Sleeping for {sleep_time}")
-      time.sleep(sleep_time)
+      sleeper.sleep(sleep_time)
     except KeyboardInterrupt:
       print(f"Stopping")
       return 0
+
+
 
 if __name__ == "__main__":
   tf.app.run(generate)
