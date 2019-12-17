@@ -13,14 +13,13 @@ from magenta.models.music_vae.data import NoteSequenceAugmenter
 from magenta.models.music_vae.data import OneHotMelodyConverter
 from magenta.models.music_vae.music_vae_train import FLAGS
 from magenta.models.music_vae.music_vae_train import run
-from tensorflow.contrib.training import HParams
 
 CONFIG_MAP["cat-bass_2bar_small"] = Config(
   model=MusicVAE(lstm_models.BidirectionalLstmEncoder(),
                  lstm_models.CategoricalLstmDecoder()),
   hparams=merge_hparams(
     lstm_models.get_default_hparams(),
-    HParams(
+    tf.contrib.training.HParams(
       batch_size=512,
       max_seq_len=32,
       z_size=256,

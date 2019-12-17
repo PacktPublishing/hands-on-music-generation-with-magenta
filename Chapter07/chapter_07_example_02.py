@@ -5,7 +5,6 @@ for the MusicVAE model.
 import argparse
 
 from magenta.models.music_vae.configs import CONFIG_MAP
-from magenta.music.protobuf.music_pb2 import NoteSequence
 from magenta.pipelines.dag_pipeline import DAGPipeline
 from magenta.pipelines.dag_pipeline import DagInput
 from magenta.pipelines.dag_pipeline import DagOutput
@@ -13,6 +12,7 @@ from magenta.pipelines.pipeline import Pipeline
 from magenta.pipelines.pipeline import run_pipeline_serial
 from magenta.pipelines.pipeline import tf_record_iterator
 from magenta.pipelines.pipelines_common import RandomPartition
+from magenta.protobuf.music_pb2 import NoteSequence
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--config", type=str, required=True)
