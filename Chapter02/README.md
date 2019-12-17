@@ -26,7 +26,7 @@ For the Jupyter notebook:
 jupyter notebook notebook.ipynb
 ```
 
-### [Example 2](chapter_02_example_02.py)
+### [Example 2](chapter_09_example_02.py)
 
 This example shows a basic Drums RNN generation with synthesizer playback. For
 the Python script, you'll need to first install and configure a software
