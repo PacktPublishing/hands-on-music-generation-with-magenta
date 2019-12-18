@@ -13,7 +13,7 @@ from magenta.common import concurrency
 from magenta.interfaces.midi import midi_hub as mh
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
-from magenta.music import constants
+from magenta.music import constants, DEFAULT_STEPS_PER_QUARTER, DEFAULT_STEPS_PER_BAR
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 from visual_midi import Plotter
@@ -54,7 +54,7 @@ def generate(unused_argv):
   os.makedirs("output", exist_ok=True)
   plot_file = os.path.join("output", "out.html")
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-  plotter = Plotter()
+  plotter = Plotter(live_reload=True)
   plotter.show(pretty_midi, plot_file)
   print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
@@ -80,11 +80,33 @@ def generate(unused_argv):
   # We get the current wall time before the loop starts
   wall_start_time = time.time()
   sleeper = concurrency.Sleeper()
+  bar_count = 0
   while True:
     try:
       # We get the current wall time for this loop start
       tick_wall_start_time = time.time()
 
+      # TODO calculates
+      step_per_quarter = DEFAULT_STEPS_PER_QUARTER
+      step_per_bar = DEFAULT_STEPS_PER_BAR
+      seconds_per_step = 60.0 / qpm / step_per_quarter
+      seconds_per_bar = step_per_bar * seconds_per_step
+      seconds_per_loop = 4 * seconds_per_bar
+      expected_start_time = bar_count * seconds_per_bar
+      loop_start_time = expected_start_time
+      loop_end_time = loop_start_time + seconds_per_loop
+      generation_start_time = loop_end_time
+      generation_end_time = generation_start_time + seconds_per_loop
+
+      # TODO gen
+      generator_options = generator_pb2.GeneratorOptions()
+      generator_options.args['temperature'].float_value = 1.1
+      generator_options.generate_sections.add(
+        start_time=generation_start_time,
+        end_time=generation_end_time)
+      sequence = generator.generate(primer_sequence, generator_options)
+
+      # TODO olayer
       sequence_adjusted = music_pb2.NoteSequence()
       sequence_adjusted.CopyFrom(sequence)
       sequence_adjusted = adjust_sequence_times(sequence_adjusted,
@@ -104,6 +126,8 @@ def generate(unused_argv):
       sleep_time = loop_time - (tick_start_time % loop_time)
       print(f"Sleeping for {sleep_time}")
       sleeper.sleep(sleep_time)
+
+      bar_count = bar_count + 1
     except KeyboardInterrupt:
       print(f"Stopping")
       return 0

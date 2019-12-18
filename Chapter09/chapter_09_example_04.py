@@ -17,6 +17,7 @@ class Metronome(Thread):
                start_time=0,
                stop_time=None):
     self._outport = outport
+    self._message = mido.Message(type='clock')
     self.update(qpm, start_time, stop_time)
     super(Metronome, self).__init__()
 
@@ -36,10 +37,7 @@ class Metronome(Thread):
         break
 
       sleeper.sleep_until(tick_time)
-
-      print(f"sending {tick_number} - {tick_time} - {self._outport}")
-      message = mido.Message(type='clock')
-      self._outport.send(message)
+      self._outport.send(self._message)
 
   def stop(self, stop_time=0, block=True):
     self._stop_time = stop_time
@@ -47,7 +45,7 @@ class Metronome(Thread):
       self.join()
 
 
-def main():
+def send_clock():
   input_ports = [name for name in mido.get_output_names()
                  if "magenta_out" in name]
   if not input_ports:
@@ -58,3 +56,7 @@ def main():
   metronome = Metronome(outport, 120)
   metronome.start()
   metronome.join()
+
+
+if __name__ == "__main__":
+  send_clock()
