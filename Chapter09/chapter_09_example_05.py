@@ -5,6 +5,7 @@ looping synthesizer playback.
 
 import os
 import time
+from decimal import Decimal
 
 import magenta.music as mm
 import mido
@@ -13,10 +14,11 @@ from magenta.common import concurrency
 from magenta.interfaces.midi import midi_hub as mh
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
-from magenta.music import constants, DEFAULT_STEPS_PER_QUARTER, DEFAULT_STEPS_PER_BAR
+from magenta.music import constants
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 from visual_midi import Plotter
+
 
 # TODO check import names midi_hub
 
@@ -54,7 +56,7 @@ def generate(unused_argv):
   os.makedirs("output", exist_ok=True)
   plot_file = os.path.join("output", "out.html")
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-  plotter = Plotter(live_reload=True)
+  plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
   print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
@@ -71,67 +73,44 @@ def generate(unused_argv):
   player = midi_hub.start_playback(empty_sequence,
                                    allow_updates=True)
   player._channel = 9
+  outport = midi_hub._outport
+  message_clock = mido.Message(type='clock')
+  message_start = mido.Message(type='start')
+  message_stop = mido.Message(type='stop')
+  message_reset = mido.Message(type='reset')
 
   # We calculate the length of the generated sequence in seconds,
   # which gives up the loop time in seconds
   loop_time = generation_end_time - primer_start_time
   print(f"Loop time is {loop_time}")
 
-  # We get the current wall time before the loop starts
-  wall_start_time = time.time()
   sleeper = concurrency.Sleeper()
-  bar_count = 0
+  # TODO One time per bar
+  period = Decimal(240) / qpm
+  period = period * (num_bars + 1)
   while True:
     try:
-      # We get the current wall time for this loop start
-      tick_wall_start_time = time.time()
+      # TODO
+      now = Decimal(time.time())
+      tick_number_next = max(0, int(now // period) + 1)
+      tick_number = tick_number_next - 1
+      tick_time_next = tick_number_next * period
+      tick_time = tick_number * period
 
-      # TODO calculates
-      step_per_quarter = DEFAULT_STEPS_PER_QUARTER
-      step_per_bar = DEFAULT_STEPS_PER_BAR
-      seconds_per_step = 60.0 / qpm / step_per_quarter
-      seconds_per_bar = step_per_bar * seconds_per_step
-      seconds_per_loop = 4 * seconds_per_bar
-      expected_start_time = bar_count * seconds_per_bar
-      loop_start_time = expected_start_time
-      loop_end_time = loop_start_time + seconds_per_loop
-      generation_start_time = loop_end_time
-      generation_end_time = generation_start_time + seconds_per_loop
-
-      # TODO gen
-      generator_options = generator_pb2.GeneratorOptions()
-      generator_options.args['temperature'].float_value = 1.1
-      generator_options.generate_sections.add(
-        start_time=generation_start_time,
-        end_time=generation_end_time)
-      sequence = generator.generate(primer_sequence, generator_options)
-
-      # TODO olayer
+      # TODO
       sequence_adjusted = music_pb2.NoteSequence()
       sequence_adjusted.CopyFrom(sequence)
       sequence_adjusted = adjust_sequence_times(sequence_adjusted,
-                                                tick_wall_start_time)
+                                                float(tick_time))
+      # TODO
       player.update_sequence(sequence_adjusted,
-                             start_time=tick_wall_start_time)
+                             start_time=float(tick_time))
 
-      # We calculate the elapsed time from the start of the loop
-      tick_start_time = time.time() - wall_start_time
-
-      # We sleep for the remaining time in the loop. It means that whatever
-      # how much time this loop took, we'll be waking up at the proper
-      # next bar.
-      # For example, if the loop needs to be 8 seconds, and we took 2.4 seconds
-      # executing and arriving here, then we'll sleep only 5.6 seconds to wake
-      # up with proper timing.
-      sleep_time = loop_time - (tick_start_time % loop_time)
-      print(f"Sleeping for {sleep_time}")
-      sleeper.sleep(sleep_time)
-
-      bar_count = bar_count + 1
+      # TODO
+      sleeper.sleep_until(float(tick_time_next))
     except KeyboardInterrupt:
       print(f"Stopping")
       return 0
-
 
 
 if __name__ == "__main__":

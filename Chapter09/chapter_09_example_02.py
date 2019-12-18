@@ -1,14 +1,14 @@
 """
 This example shows a basic Drums RNN generation with synthesizer playback.
 """
-
+import argparse
 import os
 import time
 
 import magenta.music as mm
 import mido
 import tensorflow as tf
-from magenta.interfaces.midi import midi_hub as mh
+from magenta.interfaces.midi.midi_hub import MidiHub
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.music import constants
@@ -16,7 +16,10 @@ from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 from visual_midi import Plotter
 
-# TODO check import names midi_hub
+parser = argparse.ArgumentParser()
+parser.add_argument("--midi_port", type=str, default="FLUID Synth")
+args = parser.parse_args()
+
 
 def generate(unused_argv):
   mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
@@ -58,15 +61,18 @@ def generate(unused_argv):
   print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
   # We find the proper input port for the software synth
-  input_ports = [name for name in mido.get_output_names()
-                 if "FLUID Synth" in name]
-  if not input_ports:
-    raise Exception(f"Cannot find proper input port in: "
+  # (which is the output port for Magenta)
+  output_ports = [name for name in mido.get_output_names()
+                  if args.midi_port in name]
+  if not output_ports:
+    raise Exception(f"Cannot find proper output ports in: "
                     f"{mido.get_output_names()}")
-  print(f"Playing generated MIDI in input port names: {input_ports}")
+  print(f"Playing generated MIDI in output port names: {output_ports}")
 
-  # Start a new MIDI hub on that port (incoming only)
-  midi_hub = mh.MidiHub([], input_ports, None)
+  # Start a new MIDI hub on that port (output only)
+  midi_hub = MidiHub(input_midi_ports=[],
+                     output_midi_ports=output_ports,
+                     texture_type=None)
 
   # Start on a empty sequence, allowing the update of the
   # sequence for later. We don't especially need that right
