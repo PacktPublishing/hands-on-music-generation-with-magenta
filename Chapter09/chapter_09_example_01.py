@@ -12,10 +12,11 @@ def find_midi_ports():
 
 
 def create_virtual_midi_ports():
-  MidiHub(input_midi_ports="magenta_in",
-          output_midi_ports="magenta_out",
+  MidiHub(input_midi_ports=["magenta_in"],
+          output_midi_ports=["magenta_out"],
           texture_type=None)
 
 
 if __name__ == "__main__":
   find_midi_ports()
+  # create_virtual_midi_ports()
