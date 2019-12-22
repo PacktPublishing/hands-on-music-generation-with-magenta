@@ -1,7 +1,7 @@
 """
 This example shows a basic Drums RNN generation with a
-looping synthesizer playback, using a MIDI hub to send the sequence
-to an external device.
+looping synthesizer playback, generating a new sequence at each loop,
+using a MIDI hub to send the sequence to an external device.
 """
 import argparse
 import os
@@ -15,7 +15,7 @@ from magenta.common import concurrency
 from magenta.interfaces.midi.midi_hub import MidiHub
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
-from magenta.music import constants
+from magenta.music import constants, trim_note_sequence
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
 from visual_midi import Plotter
@@ -23,9 +23,6 @@ from visual_midi import Plotter
 parser = argparse.ArgumentParser()
 parser.add_argument("--midi_port", type=str, default="FLUID Synth")
 args = parser.parse_args()
-
-
-# TODO doc
 
 
 def generate(unused_argv):
@@ -68,7 +65,7 @@ def generate(unused_argv):
   os.makedirs("output", exist_ok=True)
   plot_file = os.path.join("output", "out.html")
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-  plotter = Plotter()
+  plotter = Plotter(live_reload=True)
   plotter.show(pretty_midi, plot_file)
   print(f"Generated plot file: {os.path.abspath(plot_file)}")
 
@@ -93,29 +90,20 @@ def generate(unused_argv):
                                    allow_updates=True)
   player._channel = 9
 
-  # We want a period in seconds of 4 bars (which is the loop
-  # length). Using 240 / qpm, we have a period of 1 bar, or
-  # 2 seconds at 120 qpm. We multiply that by 4 bars.
-  # (using the Decimal class for more accuracy)
+  # We want a period in seconds of 4 bars
   period = Decimal(240) / qpm
   period = period * (num_bars + 1)
   sleeper = concurrency.Sleeper()
+  index = 0
   while True:
     try:
       # We get the next tick time by using the period
-      # to find the absolute tick number (since epoch),
-      # and multiplying by the period length. This is
-      # used to sleep until that time.
-      # We also find the current tick time for the player
-      # to update.
-      # (using the Decimal class for more accuracy)
+      # to find the absolute tick number.
       now = Decimal(time.time())
       tick_number = int(now // period)
       tick_number_next = tick_number + 1
       tick_time = tick_number * period
       tick_time_next = tick_number_next * period
-
-      print(f"now {now} tick_time {tick_time} tick_time_next {tick_time_next}")
 
       # Update the player time to the current tick time
       sequence_adjusted = music_pb2.NoteSequence()
@@ -124,6 +112,20 @@ def generate(unused_argv):
                                                 float(tick_time))
       player.update_sequence(sequence_adjusted,
                              start_time=float(tick_time))
+
+      # Generate a new sequence based on the previous sequence
+      index = index + 1
+      generator_options = generator_pb2.GeneratorOptions()
+      generator_options.args['temperature'].float_value = 1
+      generation_start_time = index * period
+      generation_end_time = generation_start_time + period
+      generator_options.generate_sections.add(
+        start_time=generation_start_time,
+        end_time=generation_end_time)
+      sequence = generator.generate(sequence, generator_options)
+      sequence = trim_note_sequence(sequence,
+                                    generation_start_time,
+                                    generation_end_time)
 
       # Sleep until the next tick time
       sleeper.sleep_until(float(tick_time_next))

@@ -1,5 +1,5 @@
 """
-TODO
+Utility functions for finding and creating MIDI ports.
 """
 
 import mido

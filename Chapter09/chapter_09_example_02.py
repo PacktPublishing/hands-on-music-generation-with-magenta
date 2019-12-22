@@ -1,5 +1,6 @@
 """
-This example shows a basic Drums RNN generation with synthesizer playback.
+This example shows a basic Drums RNN generation with synthesizer playback,
+using a MIDI hub to send the sequence to an external device.
 """
 import argparse
 import os
@@ -22,37 +23,42 @@ args = parser.parse_args()
 
 
 def generate(unused_argv):
+  # Downloads the bundle from the magenta website
   mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
   bundle = mm.sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", "drum_kit_rnn.mag"))
 
+  # Initialize the generator "drum_kit"
   generator_map = drums_rnn_sequence_generator.get_generator_map()
   generator = generator_map["drum_kit"](checkpoint=None, bundle=bundle)
   generator.initialize()
 
+  # Define constants
   qpm = 120
   num_bars = 3
   seconds_per_step = 60.0 / qpm / generator.steps_per_quarter
   num_steps_per_bar = constants.DEFAULT_STEPS_PER_BAR
   seconds_per_bar = num_steps_per_bar * seconds_per_step
 
-  # This time we get the primer from disk instead of hard coding it
+  # Use a priming sequence
   primer_sequence = mm.midi_io.midi_file_to_note_sequence(
     os.path.join("primers", "Jazz_Drum_Basic_1_bar.mid"))
   primer_start_time = 0
   primer_end_time = primer_start_time + seconds_per_bar
 
+  # Calculates the generation start and end time
   generation_start_time = primer_end_time
   generation_end_time = generation_start_time + (seconds_per_bar * num_bars)
-
   generator_options = generator_pb2.GeneratorOptions()
   generator_options.args['temperature'].float_value = 1.1
   generator_options.generate_sections.add(
     start_time=generation_start_time,
     end_time=generation_end_time)
 
+  # Generates on primer sequence
   sequence = generator.generate(primer_sequence, generator_options)
 
+  # Outputs the plot
   os.makedirs("output", exist_ok=True)
   plot_file = os.path.join("output", "out.html")
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)

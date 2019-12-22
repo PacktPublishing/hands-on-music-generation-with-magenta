@@ -1,3 +1,8 @@
+"""
+This example shows how to synchronize a Magenta application with an external
+device using MIDI clock and transport messages.
+"""
+
 import argparse
 import time
 from decimal import Decimal
@@ -21,8 +26,7 @@ class Metronome(Thread):
     self._message_stop = mido.Message(type='stop')
     self._message_reset = mido.Message(type='reset')
     self._outport = outport
-    # TODO how do we calculate that
-    # this is 4 clicks per bar, in live at (1, 1.2, 1.3, 1.4), (2, ...)
+    # Period of 4 ticks per bar, or 1 tick per beat
     self._period = Decimal(2.5) / qpm
     self._stop_signal = False
 
