@@ -2,11 +2,11 @@
 This example shows a polyphonic generation with the performance rnn model.
 """
 
+import math
 import os
 import time
 
 import magenta.music as mm
-import math
 import tensorflow as tf
 from magenta.models.performance_rnn import performance_sequence_generator
 from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
@@ -192,7 +192,7 @@ def generate(bundle_name: str,
                                      date_and_time)
   plot_path = os.path.join("output", plot_filename)
   pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
-  plotter = Plotter(plot_max_length_time=64)
+  plotter = Plotter()
   plotter.save(pretty_midi, plot_path)
   print(f"Generated plot file: {os.path.abspath(plot_path)}")
 
