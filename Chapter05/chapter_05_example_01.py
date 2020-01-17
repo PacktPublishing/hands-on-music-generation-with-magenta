@@ -100,7 +100,7 @@ def mix_encoding_pairs(encodings: List[np.ndarray],
   # Takes the pair of encodings two by two
   for encoding1, encoding1_name in zip(encodings, encodings_name):
     for encoding2, encoding2_name in zip(encodings, encodings_name):
-      if encoding1 is encoding2:
+      if encoding1_name == encoding2_name:
         continue
       # Adds the encodings together
       encoding_mix = encoding1 + encoding2 / 2.0
