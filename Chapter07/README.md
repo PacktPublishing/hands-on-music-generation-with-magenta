@@ -1,14 +1,6 @@
 # Chapter 7 - Training Magenta models
 
-In this chapter, we’ll use the prepared data from the previous chapter to train
-the some the RNN and VAE networks. Machine learning training is a finicky
-process involving a lot of tuning, experimentation, and back and forth between
-your data and your model. We’ll learn to tune hyperparameters, like batch size,
-learning rate, and network size, to optimize network performance and training
-time. We’ll also show common training problems such as overfitting and models
-not converging. Once a model's training is complete, we'll show how to use the
-trained model to generate new sequences. Finally, we'll show how to use Google
-Cloud Platform to train models faster on the cloud.
+This chapter will show how to tune hyperparameters, like batch size, learning rate, and network size, to optimize network performance and training time. We’ll also show common training problems such as overfitting and models not converging. Once a model's training is complete, we'll show how to use the trained model to generate new sequences. Finally, we'll show how to use the Google Cloud Platform to train models faster on the cloud.
 
 ## Code
 

@@ -1,13 +1,6 @@
 # Chapter 3 - Generating polyphonic melodies
 
-Building on the last chapter where we created a drum sequence, we can now
-proceed to create the heart of music: its melody. In this chapter, you'll learn
-the importance of Long Short-Term Memory (LSTM) networks in generating longer
-sequences. We'll see how to use a monophonic models, Melody RNN, an LSTM
-network with loopback and attention configuration. You'll also learn to use two
-polyphonic models, Polyphony RNN and Performance RNN, both LSTM networks using
-a specific encoding, with the latter having support for velocity and
-expressive timing.
+This chapter will show the importance of Long Short-Term Memory (LSTM) networks in generating longer sequences. We'll see how to use a monophonic Magenta model, the Melody RNN—an LSTM network with a loopback and attention configuration. You'll also learn to use two polyphonic models, the Polyphony RNN and Performance RNN, both LSTM networks using a specific encoding, with the latter having support for note velocity and expressive timing.
 
 ## Code
 

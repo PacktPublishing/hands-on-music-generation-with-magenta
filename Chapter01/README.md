@@ -1,12 +1,6 @@
 # Chapter 1 - Introduction on Magenta and generative art
 
-In this chapter, you'll learn the basics of generative artwork and what already
-exists. You'll learn about the new techniques of artwork generation, like
-machine learning, and how those techniques can be applied to produce music and
-art. Magenta will be introduced, along with Tensorflow, with an overview of its
-different parts and the installation of the required software for this book.
-We'll finish the installation by generating a simple MIDI file on the command
-line.
+This chapter will show you the basics of generative music and what already exists. You'll learn about the new techniques of artwork generation, such as machine learning, and how those techniques can be applied to produce music and art. Google's Magenta open source research platform will be introduced, along with Google's open source machine learning platform TensorFlow, along with an overview of its different parts and the installation of the required software for this book. We'll finish the installation by generating a simple MIDI file on the command line.
 
 ## Code
 

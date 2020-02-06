@@ -1,13 +1,6 @@
 # Chapter 6 - Data preparation for training
 
-Up until now, we’ve used existing Magenta's pre-trained models, since they are
-quite powerful and easy to use. But training our own models is crucial, since
-it allows us to generate music in a specific style, generate specific
-structures or instruments. Building and preparing a dataset is the first step
-before training our own model. To do that, we first look at existing datasets
-and APIs to help us find meaningful data. Then, we build two datasets in MIDI
-for specific styles: dance and jazz. Finally, we prepare the MIDI files for
-training using data transformations and pipelines.
+This chapter will show how training our own models is crucial since it allows us to generate music in a specific style, generate specific structures or instruments. Building and preparing a dataset is the first step before training our own model. To do that, we first look at existing datasets and APIs to help us find meaningful data. Then, we build two datasets in MIDI for specific styles—dance and jazz. Finally, we prepare the MIDI files for training using data transformations and pipelines.
 
 ## Utils
 

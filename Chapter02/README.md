@@ -1,12 +1,6 @@
 # Chapter 2 - Generating drum sequences with DrumsRNN
 
-In this chapter, you'll learn what many consider the foundation of music:
-percussion. We'll show the importance of Recurrent Neural Network (RNN) for
-music generation. You'll then learn how to use an existing Magenta model called
-"Drums RNN", by calling it on the command line and also directly in Python,
-to generate drum sequences. We'll introduce the different model parameters,
-including the model's MIDI encoding, and show how to interpret the output of
-the model.
+This chapter will show you what many consider the foundation of music—percussion. We'll show the importance of Recurrent Neural Networks (RNNs) for music generation. You'll then learn how to use the Drums RNN model using a pre-trained drum kit model, by calling it in the command-line window and directly in Python, to generate drum sequences.  We'll introduce the different model parameters, including the model's MIDI encoding, and show how to interpret the output of the model.
 
 ## Code
 
