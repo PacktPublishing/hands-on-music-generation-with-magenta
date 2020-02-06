@@ -3,6 +3,7 @@
 In Hands-On Music Generation with Magenta, we explore the role of deep learning in music generation and assisted music composition. Design and use machine learning models for music generation using Magenta and make them interact with existing music creation tools.
 
 - **[Packt Publishing](https://www.packtpub.com/eu/data/hands-on-music-generation-with-magenta)** - Buy the book in ebook format or paperback
+- [Amazon Kindle](https://www.amazon.com/Hands-Music-Generation-Magenta-composition-ebook/dp/B0847S8R48) or [Amazon Paperback](https://www.amazon.com/Hands-Music-Generation-Magenta-composition/dp/1838824413)
 - [Code in Action](https://www.youtube.com/playlist?list=PLWPX7CYPrFFqvJW-vPU0puAo8vqyzq0A6) - Videos that shows the code examples being executed and the resulting generation.
 
 ## Table of Contents
