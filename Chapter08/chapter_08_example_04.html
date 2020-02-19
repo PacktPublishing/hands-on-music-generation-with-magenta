@@ -89,14 +89,15 @@
     // bass drum), the bass and the lead.
     class Player extends mm.BasePlayer {
 
-        bassDrumSynth = new mm.Player.tone.MembraneSynth().toMaster();
-
-        bassSynth = new mm.Player.tone.Synth({
-            volume: 5,
-            oscillator: {type: "triangle"}
-        }).toMaster();
-
-        leadSynth = null;
+        constructor() {
+            super();
+            this.bassDrumSynth = new mm.Player.tone.MembraneSynth().toMaster();
+            this.bassSynth = new mm.Player.tone.Synth({
+                volume: 5,
+                oscillator: {type: "triangle"}
+            }).toMaster();
+            this.leadSynth = null;
+        }
 
         // Plays the note at the proper time using tone.js
         playNote(time, note) {
