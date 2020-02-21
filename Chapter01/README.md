@@ -18,14 +18,22 @@ conda create --name magenta python=3.6
 conda activate magenta
 ```
 
-Then you can install Magenta and dependencies for the book with:
+Then you can install Magenta version 1.1.7 and the dependencies for the book using:
 
 ```bash
-# Install
-pip install magenta visual_midi
+pip install magenta==1.1.7 visual_midi tables
+```
 
-# Test installation
+We're using version 1.1.7 for this code repository. You might be able to follow the examples using another version, but since Magenta's code changes quite a lot, imports might change depending on the version.
+
+```bash
+# Check Magenta versoin
 python -c "import magenta; print(magenta.__version__)"
+## 1.1.7
+
+# Check Tensorflow versoin
+python -c "import tensorflow; print(tensorflow.__version__)"
+## 1.15.0
 ```
 
 ## Utility Scripts

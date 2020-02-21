@@ -4,6 +4,8 @@ This chapter will show you what many consider the foundation of music—percussi
 
 ## Code
 
+Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+
 ### [Example 1](chapter_02_example_01.py) or [notebook](notebook.ipynb)
 
 This example shows a basic Drums RNN generation with a hard coded primer. For the Python script, while in the Magenta environment (`conda activate magenta`):

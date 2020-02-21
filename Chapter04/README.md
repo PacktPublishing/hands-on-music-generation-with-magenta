@@ -4,6 +4,8 @@ This chapter will show the importance of continuous latent space of Variational 
 
 ## Code
 
+Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+
 ### [Example 1](chapter_04_example_01.py) or [notebook](notebook.ipynb)
 
 This example shows how to sample, interpolate and humanize a drums sequence using MusicVAE and various configurations. For the Python script, while in the Magenta environment (`conda activate magenta`):

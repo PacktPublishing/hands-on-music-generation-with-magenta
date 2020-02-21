@@ -4,6 +4,8 @@ This chapter will show how Magenta fits in a broader picture by showing how to m
 
 ## Code
 
+Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+
 ### [Example 1](chapter_09_example_01.py)
 
 Utility functions for finding and creating MIDI ports.

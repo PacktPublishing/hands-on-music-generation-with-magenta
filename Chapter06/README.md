@@ -14,6 +14,8 @@ python /path/to/the/pipeline/melody_rnn_pipeline_example.py --config="attention_
 
 ## Code
 
+Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+
 ### [Example 0](chapter_06_example_00.py)
 
 Extract techno (four on the floor) drum rhythms.

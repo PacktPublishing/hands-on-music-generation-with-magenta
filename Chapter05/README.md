@@ -18,6 +18,8 @@ We provide some sound samples and MIDI files for the examples.
 
 ## Code
 
+Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+
 ### [Example 1](chapter_05_example_01.py)
 
 This example shows how to use NSynth to interpolate between pairs of sounds.

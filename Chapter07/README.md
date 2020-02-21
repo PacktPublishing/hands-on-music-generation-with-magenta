@@ -4,7 +4,7 @@ This chapter will show how to tune hyperparameters, like batch size, learning ra
 
 ## Code
 
-This chapter doesn't contain a lot of code, refer to the book for the content.
+This chapter doesn't contain a lot of code, refer to the book for the content. Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
 
 ### [Example 1](chapter_07_example_01.py)
 

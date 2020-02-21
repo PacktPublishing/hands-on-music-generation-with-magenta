@@ -4,6 +4,8 @@ This chapter will show a JavaScript implementation of Magenta that gained popula
  
 ## Code 
 
+Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+
 ### [Example 1](chapter_08_example_01.html)
 
 An example on how to use a converted model (from a previously trained model) locally.
