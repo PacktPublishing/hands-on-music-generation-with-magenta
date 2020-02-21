@@ -6,6 +6,8 @@ In Hands-On Music Generation with Magenta, we explore the role of deep learning 
 - [Amazon Kindle](https://www.amazon.com/Hands-Music-Generation-Magenta-composition-ebook/dp/B0847S8R48) or [Amazon Paperback](https://www.amazon.com/Hands-Music-Generation-Magenta-composition/dp/1838824413)
 - [Code in Action](https://www.youtube.com/playlist?list=PLWPX7CYPrFFqvJW-vPU0puAo8vqyzq0A6) - Videos that shows the code examples being executed and the resulting generation.
 
+<img width="50%" alt="Music Generation With Magenta Book Cover" title="Music Generation With Magenta Book Cover" src="docs/music-generation-with-magenta-book-cover.jpeg">
+
 ## Table of Contents
 
 1. Introduction on Magenta and generative art ([source](Chapter01))
@@ -17,4 +19,3 @@ In Hands-On Music Generation with Magenta, we explore the role of deep learning 
 7. Training an existing model on a specific style ([source](Chapter07))
 8. Magenta in the browser with Magenta.js ([source](Chapter08))
 9. Making Magenta interact with music applications ([source](Chapter09))
-
