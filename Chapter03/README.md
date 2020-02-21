@@ -6,9 +6,7 @@ This chapter will show the importance of Long Short-Term Memory (LSTM) networks 
 
 ### [Example 1](chapter_03_example_01.py) or [notebook](notebook.ipynb)
 
-This example shows a melody (monophonic) generation using the Melody RNN model
-and 3 configurations: basic, lookback and attention. For
-the Python script, while in the Magenta environment (`conda activate magenta`):
+This example shows a melody (monophonic) generation using the Melody RNN model and 3 configurations: basic, lookback and attention. For the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs 3 melody rnn generation using the basic, lookback and attention config
@@ -23,9 +21,7 @@ jupyter notebook notebook.ipynb
 
 ### [Example 2](chapter_03_example_02.py)
 
-This example shows polyphonic generations with the Polyphony RNN model. For
-the Python script, while in the Magenta environment
-(`conda activate magenta`):
+This example shows polyphonic generations with the Polyphony RNN model. For the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs 4 polyphonic generations using polyphony rnn and
@@ -35,9 +31,7 @@ python chapter_03_example_02.py
 
 ### [Example 3](chapter_03_example_03.py)
 
-This example shows polyphonic generations with the Performance RNN model. For
-the Python script, while in the Magenta environment
-(`conda activate magenta`):
+This example shows polyphonic generations with the Performance RNN model. For the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs 3 polyphonic generations using performance rnn and 

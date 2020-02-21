@@ -4,14 +4,11 @@ This chapter will show you the basics of generative music and what already exist
 
 ## Code
 
-This chapter doesn't have any code, since it serves as an introduction to the
-book and as an installation procedure. You can check out the
-[Jupyter Notebook](notebook.ipynb) to test your installation.
+This chapter doesn't have any code, since it serves as an introduction to the book and as an installation procedure. You can check out the [Jupyter Notebook](notebook.ipynb) to test your installation.
 
 ## Installing Magenta
 
-Installing Magenta using Conda is easier. First
-[install Miniconda](https://conda.io/en/latest/miniconda.html), then:
+Installing Magenta using Conda is easier. First [install Miniconda](https://conda.io/en/latest/miniconda.html), then:
 
 ```bash
 # Create a new environment for Magenta with Python 3.6.x as interpreter
@@ -31,16 +28,11 @@ pip install magenta visual_midi
 python -c "import magenta; print(magenta.__version__)"
 ```
 
-## Installing Magenta GPU
-
-TODO compatibility version grid
-
 ## Utility Scripts
 
 ### [Visual MIDI](https://github.com/dubreuia/visual_midi)
 
-Transforms a MIDI file to a plot, most of the diagram in this book has been done
- with this tool.
+Transforms a MIDI file to a plot, most of the diagram in this book has been done with this tool.
 
 ### `wav2plot.py`
 

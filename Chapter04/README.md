@@ -6,9 +6,7 @@ This chapter will show the importance of continuous latent space of Variational 
 
 ### [Example 1](chapter_04_example_01.py) or [notebook](notebook.ipynb)
 
-This example shows how to sample, interpolate and humanize a drums sequence
-using MusicVAE and various configurations. For the Python script, 
-while in the Magenta environment (`conda activate magenta`):
+This example shows how to sample, interpolate and humanize a drums sequence using MusicVAE and various configurations. For the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs the example, the output files (plot, midi) will be in the "output" folder
@@ -23,9 +21,7 @@ jupyter notebook notebook.ipynb
 
 ### [Example 2](chapter_04_example_02.py)
 
-This example shows how to sample and interpolate a melody sequence
-using MusicVAE and various configurations. For the Python script, 
-while in the Magenta environment (`conda activate magenta`):
+This example shows how to sample and interpolate a melody sequence using MusicVAE and various configurations. For the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs the example, the output files (plot, midi) will be in the "output" folder
@@ -34,10 +30,7 @@ python chapter_04_example_02.py
 
 ### [Example 3](chapter_04_example_03.py)
 
-This example shows how to sample a trio (drums, melody, bass) sequence
-using MusicVAE and various configurations. For the Python script,
-while in the Magenta environment
-(`conda activate magenta`):
+This example shows how to sample a trio (drums, melody, bass) sequence using MusicVAE and various configurations. For the Python script, while in the Magenta environment (`conda activate magenta`):
 
 ```bash
 # Runs the example, the output files (plot, midi) will be in the "output" folder

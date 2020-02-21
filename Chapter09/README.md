@@ -14,8 +14,7 @@ python chapter_09_example_01.py
 
 ### [Example 2](chapter_09_example_02.py)
 
-This example shows a basic Drums RNN generation with synthesizer playback,
-using a MIDI hub to send the sequence to an external device.
+This example shows a basic Drums RNN generation with synthesizer playback, using a MIDI hub to send the sequence to an external device.
 
 ```bash
 python chapter_09_example_02.py --midi_port="midi_port_name"
@@ -23,9 +22,7 @@ python chapter_09_example_02.py --midi_port="midi_port_name"
 
 ### [Example 3](chapter_09_example_03.py)
 
-This example shows a basic Drums RNN generation with a
-looping synthesizer playback, using a MIDI hub to send the sequence
-to an external device.
+This example shows a basic Drums RNN generation with a looping synthesizer playback, using a MIDI hub to send the sequence to an external device.
 
 ```bash
 python chapter_09_example_03.py --midi_port="midi_port_name"
@@ -33,8 +30,7 @@ python chapter_09_example_03.py --midi_port="midi_port_name"
 
 ### [Example 4](chapter_09_example_04.py)
 
-This example shows how to synchronize a Magenta application with an external
-device using MIDI clock and transport messages.
+This example shows how to synchronize a Magenta application with an external device using MIDI clock and transport messages.
 
 ```bash
 python chapter_09_example_04.py --midi_port="midi_port_name"
@@ -42,9 +38,7 @@ python chapter_09_example_04.py --midi_port="midi_port_name"
 
 ### [Example 5](chapter_09_example_05.py)
 
-This example shows a basic Drums RNN generation with a
-looping synthesizer playback, generating a new sequence at each loop,
-using a MIDI hub to send the sequence to an external device.
+This example shows a basic Drums RNN generation with a looping synthesizer playback, generating a new sequence at each loop, using a MIDI hub to send the sequence to an external device.
 
 ```bash
 python chapter_09_example_05.py --midi_port="midi_port_name"

@@ -8,8 +8,7 @@ This chapter doesn't contain a lot of code, refer to the book for the content.
 
 ### [Example 1](chapter_07_example_01.py)
 
-Configuration for the MusicVAE model, using the MIDI bass programs. To
-launch the training:
+Configuration for the MusicVAE model, using the MIDI bass programs. To launch the training:
 
 ```bash
 python chapter_07_example_01.py --config="cat-bass_2bar_small" --run_dir="..."
@@ -17,8 +16,7 @@ python chapter_07_example_01.py --config="cat-bass_2bar_small" --run_dir="..."
 
 ### [Example 3](chapter_07_example_02.py)
 
-Tensor validator and note sequence splitter (training and evaluation datasets)
-for the MusicVAE model.
+Tensor validator and note sequence splitter (training and evaluation datasets) for the MusicVAE model.
 
 ```bash
 python chapter_07_example_02.py --config="cat-drums_2bar_small" --input="notesequences.tfrecord" --output_dir="sequence_examples"

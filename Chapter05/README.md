@@ -4,10 +4,7 @@ This chapter will show audio generation. We'll first provide an overview of Wave
 
 ## Utils
 
-There are some audio utilities in the [audio_utils.py](./audio_utils.py) file,
-useful for saving and loading the encodings (`save_encoding` and 
-`load_encodings`), time stretching (`timestretch`) them and saving
-spectrogram plots (`save_spectrogram_plot` and `save_rainbowgram_plot`).
+There are some audio utilities in the [audio_utils.py](./audio_utils.py) file, useful for saving and loading the encodings (`save_encoding` and `load_encodings`), time stretching (`timestretch`) them and saving spectrogram plots (`save_spectrogram_plot` and `save_rainbowgram_plot`).
 
 ## Sounds and MIDI
 
