@@ -27,9 +27,6 @@ parser.add_argument("--midi_port", type=str, default="FLUID Synth")
 args = parser.parse_args()
 
 
-# TODO doc
-
-
 def generate(unused_argv):
   # Downloads the bundle from the magenta website
   mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")

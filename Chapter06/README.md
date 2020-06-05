@@ -89,11 +89,3 @@ Extract piano MIDI files corresponding to specific tags.
 ```bash
 python chapter_06_example_08.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_match_scores_file=PATH_MATCH_SCORES --path_output_dir=PATH_OUTPUT --last_fm_api_key=LAST_FM_API_KEY --tags="['jazz', 'blues']"
 ```
-
-### [Example 9](chapter_06_example_09.py)
-
-Extract drums tracks from GMD.
-
-```bash
-python chapter_06_example_09.py --sample_size=1000 --pool_size=4 --path_dataset_dir=PATH_DATASET --path_output_dir=PATH_OUTPUT
-```
