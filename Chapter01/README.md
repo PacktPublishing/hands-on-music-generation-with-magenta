@@ -1,6 +1,6 @@
 # Chapter 1 - Introduction on Magenta and generative art
 
-[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+[![Magenta Version 2.0.1](../docs/magenta-v2.0.1-badge.svg)](https://github.com/magenta/magenta/releases/tag/2.0.1)
 
 This chapter will show you the basics of generative music and what already exists. You'll learn about the new techniques of artwork generation, such as machine learning, and how those techniques can be applied to produce music and art. Google's Magenta open source research platform will be introduced, along with Google's open source machine learning platform TensorFlow, along with an overview of its different parts and the installation of the required software for this book. We'll finish the installation by generating a simple MIDI file on the command line.
 
@@ -20,22 +20,22 @@ conda create --name magenta python=3.6
 conda activate magenta
 ```
 
-Then you can install Magenta Version 1.1.7 and the dependencies for the book using:
+Then you can install Magenta Version 2.0.1 and the dependencies for the book using:
 
 ```bash
-pip install magenta==1.1.7 visual_midi tables
+pip install magenta==2.0.1 visual_midi tables
 ```
 
-We're using version 1.1.7 for this code repository. You might be able to follow the examples using another version, but since Magenta's code changes quite a lot, imports might change depending on the version.
+We're using version 2.0.1 for this code repository. You might be able to follow the examples using another version, but since Magenta's code changes quite a lot, imports might change depending on the version.
 
 ```bash
 # Check Magenta versoin
 python -c "import magenta; print(magenta.__version__)"
-## 1.1.7
+## 2.0.1
 
 # Check Tensorflow versoin
 python -c "import tensorflow; print(tensorflow.__version__)"
-## 1.15.0
+## 2.2.0
 ```
 
 ## Utility Scripts

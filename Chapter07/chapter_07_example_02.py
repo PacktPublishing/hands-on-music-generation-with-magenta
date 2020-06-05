@@ -2,7 +2,7 @@
 Tensor validator and note sequence splitter (training and evaluation datasets)
 for the MusicVAE model.
 
-VERSION: Magenta 1.1.7
+VERSION: Magenta 2.0.1
 """
 import argparse
 

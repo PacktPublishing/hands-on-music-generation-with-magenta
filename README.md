@@ -1,6 +1,6 @@
 # Hands-On Music Generation with Magenta
 
-[![Magenta Version 1.1.7](./docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+[![Magenta Version 2.0.1](./docs/magenta-v2.0.1-badge.svg)](https://github.com/magenta/magenta/releases/tag/2.0.1)
 
 In Hands-On Music Generation with Magenta, we explore the role of deep learning in music generation and assisted music composition. Design and use machine learning models for music generation using Magenta and make them interact with existing music creation tools.
 

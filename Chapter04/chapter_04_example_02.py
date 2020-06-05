@@ -2,7 +2,7 @@
 This example shows how to sample and interpolate a melody sequence
 using MusicVAE and various configurations.
 
-VERSION: Magenta 1.1.7
+VERSION: Magenta 2.0.1
 """
 
 import os

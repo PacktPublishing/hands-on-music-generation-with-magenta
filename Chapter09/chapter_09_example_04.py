@@ -2,7 +2,7 @@
 This example shows how to synchronize a Magenta application with an external
 device using MIDI clock and transport messages.
 
-VERSION: Magenta 1.1.7
+VERSION: Magenta 2.0.1
 """
 
 import argparse

@@ -1,12 +1,12 @@
 # Chapter 9 - Making Magenta interact with music applications
 
-[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+[![Magenta Version 2.0.1](../docs/magenta-v2.0.1-badge.svg)](https://github.com/magenta/magenta/releases/tag/2.0.1)
 
 This chapter will show how Magenta fits in a broader picture by showing how to make it interact with other music applications such as Digital Audio Workstations (DAWs) and synthesizers. We'll explain how to send MIDI sequences from Magenta to FluidSynth and DAWs using the MIDI interface. By doing so, we'll learn how to handle MIDI ports on all platforms and how to loop MIDI sequences in Magenta. We'll show how to synchronize multiple applications using MIDI clocks and transport information. Finally, we'll cover Magenta Studio, a standalone packaging of Magenta based on Magenta.js that can also integrate into Ableton Live as a plugin.
 
 ## Code
 
-Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+Before you start, follow the [installation instructions for Magenta 2.0.1](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
 
 ### [Example 1](chapter_09_example_01.py)
 

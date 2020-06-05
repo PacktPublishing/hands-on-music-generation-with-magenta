@@ -3,7 +3,7 @@ Extract piano MIDI files. Some piano tracks are split into multiple separate
 piano instruments, in which case we keep them split and merge them into
 multiple MIDI files.
 
-VERSION: Magenta 1.1.7
+VERSION: Magenta 2.0.1
 """
 
 import argparse

@@ -1,7 +1,7 @@
 """
 Extract piano MIDI files corresponding to specific tags.
 
-VERSION: Magenta 1.1.7
+VERSION: Magenta 2.0.1
 """
 
 import argparse

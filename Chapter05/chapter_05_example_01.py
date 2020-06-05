@@ -1,7 +1,7 @@
 """
 This example shows how to use NSynth to interpolate between pairs of sounds.
 
-VERSION: Magenta 1.1.7
+VERSION: Magenta 2.0.1
 """
 
 import os

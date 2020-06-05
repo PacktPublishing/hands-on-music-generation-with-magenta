@@ -1,6 +1,6 @@
 # Chapter 6 - Data preparation for training
 
-[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+[![Magenta Version 2.0.1](../docs/magenta-v2.0.1-badge.svg)](https://github.com/magenta/magenta/releases/tag/2.0.1)
 
 This chapter will show how training our own models is crucial since it allows us to generate music in a specific style, generate specific structures or instruments. Building and preparing a dataset is the first step before training our own model. To do that, we first look at existing datasets and APIs to help us find meaningful data. Then, we build two datasets in MIDI for specific styles—dance and jazz. Finally, we prepare the MIDI files for training using data transformations and pipelines.
 
@@ -16,7 +16,7 @@ python /path/to/the/pipeline/melody_rnn_pipeline_example.py --config="attention_
 
 ## Code
 
-Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+Before you start, follow the [installation instructions for Magenta 2.0.1](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
 
 ### [Example 0](chapter_06_example_00.py)
 
