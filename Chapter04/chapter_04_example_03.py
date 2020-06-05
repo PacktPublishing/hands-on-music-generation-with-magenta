@@ -1,6 +1,8 @@
 """
 This example shows how to sample a trio (drums, melody, bass) sequence
 using MusicVAE and various configurations.
+
+VERSION: Magenta 1.1.7
 """
 
 import os

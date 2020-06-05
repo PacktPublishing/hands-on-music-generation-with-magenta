@@ -1,6 +1,8 @@
 """
 This example shows a melody (monophonic) generation using the melody rnn model
 and 3 configurations: basic, lookback and attention.
+
+VERSION: Magenta 1.1.7
 """
 
 import math

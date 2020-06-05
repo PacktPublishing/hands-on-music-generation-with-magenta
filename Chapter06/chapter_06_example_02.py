@@ -1,6 +1,8 @@
 """
 Lists most common genres from the Last.fm API using the LAKHs dataset
 matched with the MSD dataset.
+
+VERSION: Magenta 1.1.7
 """
 
 import argparse

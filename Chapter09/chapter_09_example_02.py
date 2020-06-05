@@ -1,6 +1,8 @@
 """
 This example shows a basic Drums RNN generation with synthesizer playback,
 using a MIDI hub to send the sequence to an external device.
+
+VERSION: Magenta 1.1.7
 """
 import argparse
 import os

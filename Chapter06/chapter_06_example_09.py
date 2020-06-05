@@ -1,5 +1,7 @@
 """
 Extract drums tracks from GMD.
+
+VERSION: Magenta 1.1.7
 """
 
 import argparse

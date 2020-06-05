@@ -1,5 +1,7 @@
 """
 Utility functions for finding and creating MIDI ports.
+
+VERSION: Magenta 1.1.7
 """
 
 import mido

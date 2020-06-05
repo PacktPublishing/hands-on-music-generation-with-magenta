@@ -1,5 +1,7 @@
 """
 This example shows a polyphonic generation with the polyphony rnn model.
+
+VERSION: Magenta 1.1.7
 """
 
 import math

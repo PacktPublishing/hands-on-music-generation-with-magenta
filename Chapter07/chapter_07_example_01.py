@@ -1,5 +1,7 @@
 """
 Configuration for the MusicVAE model, using the MIDI bass programs.
+
+VERSION: Magenta 1.1.7
 """
 
 import tensorflow as tf

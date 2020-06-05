@@ -1,5 +1,7 @@
 # Chapter 5 - Audio generation with NSynth and GANSynth
 
+[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+
 This chapter will show audio generation. We'll first provide an overview of WaveNet, an existing model for audio generation, especially efficient in text to speech applications. In Magenta, we'll use NSynth, a Wavenet Autoencoder model, to generate small audio clips, that can serve as instruments for a backing MIDI score. NSynth also enables audio transformation like scaling, time stretching and interpolation. We'll also use GANSynth, a faster approach based on generative adversarial network (GAN).
 
 ## Utils

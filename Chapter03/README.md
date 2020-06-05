@@ -1,5 +1,7 @@
 # Chapter 3 - Generating polyphonic melodies
 
+[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+
 This chapter will show the importance of Long Short-Term Memory (LSTM) networks in generating longer sequences. We'll see how to use a monophonic Magenta model, the Melody RNN—an LSTM network with a loopback and attention configuration. You'll also learn to use two polyphonic models, the Polyphony RNN and Performance RNN, both LSTM networks using a specific encoding, with the latter having support for note velocity and expressive timing.
 
 ## Code

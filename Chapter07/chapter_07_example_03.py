@@ -1,5 +1,7 @@
 """
 Configuration for the Drums RNN model that inverts the snares and bass drums.
+
+VERSION: Magenta 1.1.7
 """
 
 import tensorflow as tf

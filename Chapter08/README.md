@@ -1,5 +1,7 @@
 # Chapter 8 - Magenta in the browser with Magenta.js
 
+[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+
 This chapter will show a JavaScript implementation of Magenta that gained popularity for its ease of use, since it runs in the browser and can be shared as a web page. We'll introduce TensorFlow.js, the technology Magenta.js is built upon, and show what models are available in Magenta.js, including how to convert our previously trained models. Then, we'll create small web applications using GANSynth and MusicVAE for sampling audio and sequences respectively. Finally, we'll see how Magenta.js can interact with other applications, using the Web MIDI API and Node.js.
  
 ## Code 

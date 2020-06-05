@@ -1,5 +1,7 @@
 """
 This example shows a basic Drums RNN generation with a hard coded primer.
+
+VERSION: Magenta 1.1.7
 """
 
 import os

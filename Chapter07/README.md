@@ -1,5 +1,7 @@
 # Chapter 7 - Training Magenta models
 
+[![Magenta Version 1.1.7](../docs/magenta-v1.1.7-badge.svg)](https://github.com/magenta/magenta/releases/tag/1.1.7)
+
 This chapter will show how to tune hyperparameters, like batch size, learning rate, and network size, to optimize network performance and training time. We’ll also show common training problems such as overfitting and models not converging. Once a model's training is complete, we'll show how to use the trained model to generate new sequences. Finally, we'll show how to use the Google Cloud Platform to train models faster on the cloud.
 
 ## Code

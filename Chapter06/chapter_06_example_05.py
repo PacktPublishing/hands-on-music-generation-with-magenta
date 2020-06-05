@@ -2,6 +2,8 @@
 Extract drums MIDI files. Some drum tracks are split into multiple separate
 drum instruments, in which case we try to merge them into a single instrument
 and save only 1 MIDI file.
+
+VERSION: Magenta 1.1.7
 """
 
 import argparse

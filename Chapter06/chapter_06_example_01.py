@@ -1,5 +1,7 @@
 """
 Artist extraction using LAKHs dataset matched with the MSD dataset.
+
+VERSION: Magenta 1.1.7
 """
 
 import argparse
