@@ -1,4 +1,3 @@
-// TODO doesn't work
 const music_rnn = require("@magenta/music/node/music_rnn");
 const core = require("@magenta/music/node/core");
 
