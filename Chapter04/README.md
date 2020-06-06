@@ -4,6 +4,14 @@
 
 This chapter will show the importance of continuous latent space of Variational Autoencoders (VAEs) and its importance in music generation compared to standard Autoencoders (AEs). We'll use the MusicVAE model, a hierarchical recurrent VAE, from Magenta to sample sequences and then interpolate between them, effectively morphing smoothly from one to another. We'll then see how to add groove, or humanization, to an existing sequence, using the GrooVAE model. We'll finish by looking at the TensorFlow code used to build the VAE model.
 
+## Magenta Versioning
+
+```diff
+- A newer version of this code is available.
+```
+
+This branch shows the code for Magenta v1.1.7, which corresponds to the code in the book. For a more recent version, use the updated [Magenta v2.0.1 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/magenta-v2.0.1/Chapter04).
+
 ## Code
 
 Before you start, follow the [installation instructions for Magenta 1.1.7](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
