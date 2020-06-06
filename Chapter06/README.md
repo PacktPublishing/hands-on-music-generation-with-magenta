@@ -7,10 +7,10 @@ This chapter will show how training our own models is crucial since it allows us
 ## Magenta Versioning
 
 ```diff
-- A newer version of this code is available.
+! This code doesn't correspond to the book's code
 ```
 
-This branch shows the code for Magenta v1.1.7, which corresponds to the code in the book. For a more recent version, use the updated [Magenta v2.0.1 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/magenta-v2.0.1/Chapter06).
+This branch shows the code for Magenta v2.0.1, which is the most recent version. For the book version, use the original [Magenta v1.1.7 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter06).
 
 ## Utils
 
