@@ -11,6 +11,7 @@ import time
 import magenta.music as mm
 import tensorflow as tf
 from magenta.models.polyphony_rnn import polyphony_sequence_generator
+from magenta.models.shared import sequence_generator_bundle
 from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
 from magenta.protobuf.generator_pb2 import GeneratorOptions
 from magenta.protobuf.music_pb2 import NoteSequence
@@ -87,7 +88,7 @@ def generate(bundle_name: str,
   # Downloads the bundle from the magenta website, a bundle (.mag file) is a
   # trained model that is used by magenta
   mm.notebook_utils.download_bundle(bundle_name, "bundles")
-  bundle = mm.sequence_generator_bundle.read_bundle_file(
+  bundle = sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", bundle_name))
 
   # Initialize the generator from the generator id, this need to fit the
@@ -244,4 +245,5 @@ def app(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.app.run(app)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.app.run(app)

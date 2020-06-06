@@ -30,7 +30,7 @@ def download_checkpoint(model_name: str,
       :param checkpoint_name: magenta checkpoint name to download
       :param target_dir: local directory in which to write the checkpoint
   """
-  tf.gfile.MakeDirs(target_dir)
+  tf.io.gfile.makedirs(target_dir)
   checkpoint_target = os.path.join(target_dir, checkpoint_name)
   if not os.path.exists(checkpoint_target):
     response = urllib.request.urlopen(
@@ -161,4 +161,5 @@ def app(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.app.run(app)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.app.run(app)

@@ -6,6 +6,7 @@ VERSION: Magenta 2.0.1
 
 import tensorflow as tf
 from magenta.common import merge_hparams
+from magenta.contrib import training as contrib_training
 from magenta.models.music_vae import Config
 from magenta.models.music_vae import MusicVAE
 from magenta.models.music_vae import lstm_models
@@ -21,7 +22,7 @@ CONFIG_MAP["cat-bass_2bar_small"] = Config(
                  lstm_models.CategoricalLstmDecoder()),
   hparams=merge_hparams(
     lstm_models.get_default_hparams(),
-    tf.contrib.training.HParams(
+    contrib_training.HParams(
       batch_size=512,
       max_seq_len=32,
       z_size=256,
@@ -50,5 +51,6 @@ def main(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.logging.set_verbosity(FLAGS.log)
-  tf.app.run(main)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.logging.set_verbosity(FLAGS.log)
+  tf.compat.v1.app.run(main)

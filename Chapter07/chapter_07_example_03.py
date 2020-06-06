@@ -4,7 +4,7 @@ Configuration for the Drums RNN model that inverts the snares and bass drums.
 VERSION: Magenta 2.0.1
 """
 
-import tensorflow as tf
+from magenta.contrib import training as contrib_training
 from magenta.models.drums_rnn.drums_rnn_model import default_configs
 from magenta.models.shared.events_rnn_model import EventSequenceRnnConfig
 from magenta.music import LookbackEventSequenceEncoderDecoder
@@ -28,7 +28,7 @@ inverted_drum_kit = EventSequenceRnnConfig(
     MultiDrumOneHotEncoding(INVERTED_DRUM_TYPE_PITCHES, True),
     lookback_distances=[],
     binary_counter_bits=6),
-  tf.contrib.training.HParams(
+  contrib_training.HParams(
     batch_size=128,
     rnn_layer_sizes=[256, 256, 256],
     dropout_keep_prob=0.5,

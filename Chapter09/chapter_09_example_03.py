@@ -17,6 +17,7 @@ from magenta.common import concurrency
 from magenta.interfaces.midi.midi_hub import MidiHub
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
+from magenta.models.shared import sequence_generator_bundle
 from magenta.music import constants
 from magenta.protobuf import generator_pb2
 from magenta.protobuf import music_pb2
@@ -30,7 +31,7 @@ args = parser.parse_args()
 def generate(unused_argv):
   # Downloads the bundle from the magenta website
   mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
-  bundle = mm.sequence_generator_bundle.read_bundle_file(
+  bundle = sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", "drum_kit_rnn.mag"))
 
   # Initialize the generator "drum_kit"
@@ -132,4 +133,5 @@ def generate(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.app.run(generate)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.app.run(generate)

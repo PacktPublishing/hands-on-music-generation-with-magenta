@@ -17,8 +17,8 @@ from magenta.pipelines.note_sequence_pipelines import NoteSequencePipeline
 from magenta.protobuf import music_pb2
 from magenta.protobuf.music_pb2 import NoteSequence
 
-flags = tf.app.flags
-FLAGS = tf.app.flags.FLAGS
+flags = tf.compat.v1.app.flags
+FLAGS = tf.compat.v1.app.flags.FLAGS
 flags.DEFINE_string(
   'input', None,
   'TFRecord to read NoteSequence protos from.')
@@ -83,7 +83,7 @@ class RepeatSequence(NoteSequencePipeline):
 
 
 def main(unused_argv):
-  tf.logging.set_verbosity(FLAGS.log)
+  tf.compat.v1.logging.set_verbosity(FLAGS.log)
 
   config = melody_rnn_config_flags.config_from_flags()
   pipeline_instance = get_pipeline(config, eval_ratio=FLAGS.eval_ratio)
@@ -97,7 +97,8 @@ def main(unused_argv):
 
 
 def console_entry_point():
-  tf.app.run(main)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.app.run(main)
 
 
 if __name__ == '__main__':

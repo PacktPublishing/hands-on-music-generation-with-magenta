@@ -14,9 +14,9 @@ from magenta.models.nsynth import utils
 from magenta.models.nsynth.wavenet import fastgen
 from six.moves import urllib
 
-FLAGS = tf.app.flags.FLAGS
+FLAGS = tf.compat.v1.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string(
+tf.compat.v1.app.flags.DEFINE_string(
   "log", "WARN",
   "The threshold for what messages will be logged. DEBUG, INFO, WARN, ERROR, "
   "or FATAL.")
@@ -39,7 +39,7 @@ def download_checkpoint(checkpoint_name: str,
       one of "baseline-ckpt" or "wavenet-ckpt"
       :param target_dir: local directory in which to write the checkpoint
   """
-  tf.gfile.MakeDirs(target_dir)
+  tf.io.gfile.makedirs(target_dir)
   checkpoint_target = os.path.join(target_dir, f"{checkpoint_name}.tar")
   if not os.path.exists(checkpoint_target):
     response = urllib.request.urlopen(
@@ -154,5 +154,6 @@ def app(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.logging.set_verbosity(FLAGS.log)
-  tf.app.run(app)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.logging.set_verbosity(FLAGS.log)
+  tf.compat.v1.app.run(app)

@@ -22,9 +22,9 @@ from six.moves import urllib
 
 from audio_utils import save_spectrogram_plot
 
-FLAGS = tf.app.flags.FLAGS
+FLAGS = tf.compat.v1.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string(
+tf.compat.v1.app.flags.DEFINE_string(
   "log", "WARN",
   "The threshold for what messages will be logged. DEBUG, INFO, WARN, ERROR, "
   "or FATAL.")
@@ -41,7 +41,7 @@ def download_checkpoint(checkpoint_name: str,
       one of "acoustic_only" or "all_instruments"
       :param target_dir: local directory in which to write the checkpoint
   """
-  tf.gfile.MakeDirs(target_dir)
+  tf.io.gfile.makedirs(target_dir)
   checkpoint_target = os.path.join(target_dir, f"{checkpoint_name}.zip")
   if not os.path.exists(checkpoint_target):
     response = urllib.request.urlopen(
@@ -126,6 +126,8 @@ def save_audio(audio_clip: np.ndarray) -> None:
 
 
 def app(unused_argv):
+  tf.compat.v1.disable_v2_behavior()
+
   # Downloads and extracts the checkpoint to "checkpoint/acoustic_only"
   download_checkpoint("acoustic_only")
 
@@ -140,5 +142,6 @@ def app(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.logging.set_verbosity(FLAGS.log)
-  tf.app.run(app)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.logging.set_verbosity(FLAGS.log)
+  tf.compat.v1.app.run(app)

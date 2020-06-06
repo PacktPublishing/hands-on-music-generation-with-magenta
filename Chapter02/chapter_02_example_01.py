@@ -9,6 +9,7 @@ import os
 import magenta.music as mm
 import tensorflow as tf
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
+from magenta.models.shared import sequence_generator_bundle
 from magenta.music import constants
 from magenta.protobuf import generator_pb2
 from visual_midi import Plotter
@@ -18,7 +19,7 @@ def generate(unused_argv):
   # Downloads the bundle from the magenta website, a bundle (.mag file) is a
   # trained model that is used by magenta
   mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
-  bundle = mm.sequence_generator_bundle.read_bundle_file(
+  bundle = sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", "drum_kit_rnn.mag"))
 
   # Initialize the generator "drum_kit", this need to fit the bundle we
@@ -109,4 +110,5 @@ def generate(unused_argv):
 
 
 if __name__ == "__main__":
-  tf.app.run(generate)
+  tf.compat.v1.disable_v2_behavior()
+  tf.compat.v1.app.run(generate)
