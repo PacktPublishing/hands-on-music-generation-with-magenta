@@ -4,6 +4,14 @@
 
 This chapter will show you the basics of generative music and what already exists. You'll learn about the new techniques of artwork generation, such as machine learning, and how those techniques can be applied to produce music and art. Google's Magenta open source research platform will be introduced, along with Google's open source machine learning platform TensorFlow, along with an overview of its different parts and the installation of the required software for this book. We'll finish the installation by generating a simple MIDI file on the command line.
 
+## Magenta Versioning
+
+```diff
+- A newer version of this code is available.
+```
+
+This branch shows the code for Magenta v1.1.7, which corresponds to the code in the book. For a more recent version, use the updated [Magenta v2.0.1 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/magenta-v2.0.1/Chapter01).
+
 ## Code
 
 This chapter doesn't have any code, since it serves as an introduction to the book and as an installation procedure. You can check out the [Jupyter Notebook](notebook.ipynb) to test your installation.

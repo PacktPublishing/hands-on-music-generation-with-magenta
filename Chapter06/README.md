@@ -4,6 +4,14 @@
 
 This chapter will show how training our own models is crucial since it allows us to generate music in a specific style, generate specific structures or instruments. Building and preparing a dataset is the first step before training our own model. To do that, we first look at existing datasets and APIs to help us find meaningful data. Then, we build two datasets in MIDI for specific styles—dance and jazz. Finally, we prepare the MIDI files for training using data transformations and pipelines.
 
+## Magenta Versioning
+
+```diff
+- A newer version of this code is available.
+```
+
+This branch shows the code for Magenta v1.1.7, which corresponds to the code in the book. For a more recent version, use the updated [Magenta v2.0.1 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/magenta-v2.0.1/Chapter06).
+
 ## Utils
 
 There are some utilities for processing the Lakh MIDI Dataset (LMD) in the [lakh_utils.py](./lakh_utils.py) file and utilities for multiprocessing in the [multiprocessing_utils.py](./multiprocessing_utils.py) file with example usage.
