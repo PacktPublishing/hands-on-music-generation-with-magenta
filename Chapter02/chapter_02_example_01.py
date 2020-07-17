@@ -11,7 +11,7 @@ import tensorflow as tf
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.models.shared import sequence_generator_bundle
 from magenta.music import constants
-from magenta.protobuf import generator_pb2
+from note_seq.protobuf import generator_pb2
 from visual_midi import Plotter
 
 
