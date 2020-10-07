@@ -26,6 +26,19 @@ In Hands-On Music Generation with Magenta, we explore the role of deep learning 
 - [Chapter 8 - Magenta in the browser with Magenta.js](Chapter08)
 - [Chapter 9 - Making Magenta interact with music applications](Chapter09)
 
+## How to cite
+
+```
+@book{book,
+    author    = {DuBreuil, Alexandre},
+    title     = {Hands-On Music Generation with Magenta},
+    publisher = {Packt Publishing Ltd.},
+    address   = {Birmingham, UK},
+    year      = 2020,
+    isbn      = "9781838824419"
+}
+```
+
 ## Magenta Versioning
 
 You can see what Magenta version you should be using by looking at the badge at the top of the README and in the Python files.
