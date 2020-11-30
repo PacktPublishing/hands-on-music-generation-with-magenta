@@ -1,15 +1,15 @@
 """
 Configuration for the Drums RNN model that inverts the snares and bass drums.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 from magenta.contrib import training as contrib_training
 from magenta.models.drums_rnn.drums_rnn_model import default_configs
 from magenta.models.shared.events_rnn_model import EventSequenceRnnConfig
-from magenta.music import LookbackEventSequenceEncoderDecoder
-from magenta.music import MultiDrumOneHotEncoding
-from magenta.protobuf.generator_pb2 import GeneratorDetails
+from note_seq import LookbackEventSequenceEncoderDecoder
+from note_seq import MultiDrumOneHotEncoding
+from note_seq.protobuf.generator_pb2 import GeneratorDetails
 
 INVERTED_DRUM_TYPE_PITCHES = [
   # kick drum (inverted from snare drum)

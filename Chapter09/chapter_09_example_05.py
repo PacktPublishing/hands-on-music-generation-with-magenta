@@ -3,14 +3,13 @@ This example shows a basic Drums RNN generation with a
 looping synthesizer playback, generating a new sequence at each loop,
 using a MIDI hub to send the sequence to an external device.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 import argparse
 import os
 import time
 from decimal import Decimal
 
-import magenta.music as mm
 import mido
 import tensorflow as tf
 from magenta.common import concurrency
@@ -18,9 +17,12 @@ from magenta.interfaces.midi.midi_hub import MidiHub
 from magenta.interfaces.midi.midi_interaction import adjust_sequence_times
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.models.shared import sequence_generator_bundle
-from magenta.music import constants, trim_note_sequence
-from magenta.protobuf import generator_pb2
-from magenta.protobuf import music_pb2
+from note_seq import constants
+from note_seq import midi_io
+from note_seq import trim_note_sequence
+from note_seq import notebook_utils
+from note_seq.protobuf import generator_pb2
+from note_seq.protobuf import music_pb2
 from visual_midi import Plotter
 
 parser = argparse.ArgumentParser()
@@ -30,7 +32,7 @@ args = parser.parse_args()
 
 def generate(unused_argv):
   # Downloads the bundle from the magenta website
-  mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
+  notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
   bundle = sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", "drum_kit_rnn.mag"))
 
@@ -47,7 +49,7 @@ def generate(unused_argv):
   seconds_per_bar = num_steps_per_bar * seconds_per_step
 
   # Use a priming sequence
-  primer_sequence = mm.midi_io.midi_file_to_note_sequence(
+  primer_sequence = midi_io.midi_file_to_note_sequence(
     os.path.join("primers", "Jazz_Drum_Basic_1_bar.mid"))
   primer_start_time = 0
   primer_end_time = primer_start_time + seconds_per_bar
@@ -67,7 +69,7 @@ def generate(unused_argv):
   # Outputs the plot
   os.makedirs("output", exist_ok=True)
   plot_file = os.path.join("output", "out.html")
-  pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+  pretty_midi = midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter(live_reload=True)
   plotter.show(pretty_midi, plot_file)
   print(f"Generated plot file: {os.path.abspath(plot_file)}")

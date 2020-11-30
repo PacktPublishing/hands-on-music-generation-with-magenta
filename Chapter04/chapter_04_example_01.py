@@ -2,17 +2,17 @@
 This example shows how to sample, interpolate and humanize a drums sequence
 using MusicVAE and various configurations.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import os
 from typing import List
 
-import magenta.music as mm
 import tensorflow as tf
 from magenta.models.music_vae import TrainedModel, configs
-from magenta.music import DEFAULT_STEPS_PER_BAR
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq import sequences_lib
+from note_seq.constants import DEFAULT_STEPS_PER_BAR
+from note_seq.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 
 from note_sequence_utils import save_midi, save_plot
@@ -118,7 +118,7 @@ def interpolate(model_name: str,
   # for each input sequence. This is useful if some of the input
   # sequences do not have notes at the end (for example the last
   # note ends at 3.5 seconds instead of 4)
-  interpolate_sequence = mm.sequences_lib.concatenate_sequences(
+  interpolate_sequence = sequences_lib.concatenate_sequences(
     interpolate_sequences, [4] * num_output)
 
   # Saves the midi and the plot in the merge folder,
@@ -144,7 +144,7 @@ def groove(model_name: str,
 
   # Split the sequences in chunks of 4 seconds (which is 2 bars at 120 qpm),
   # which is necessary since the model is trained for 2 bars
-  split_interpolate_sequences = mm.sequences_lib.split_note_sequence(
+  split_interpolate_sequences = sequences_lib.split_note_sequence(
     interpolate_sequence, 4)
 
   if len(split_interpolate_sequences) != num_output:
@@ -174,7 +174,7 @@ def groove(model_name: str,
 
   # Concatenates the resulting sequences (of length num_output) into one
   # single sequence.
-  groove_sequence = mm.sequences_lib.concatenate_sequences(
+  groove_sequence = sequences_lib.concatenate_sequences(
     groove_sequences, [4] * num_output)
 
   # Saves the midi and the plot in the groove folder,

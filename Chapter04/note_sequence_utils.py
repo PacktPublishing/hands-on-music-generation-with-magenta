@@ -6,8 +6,8 @@ import os
 import time
 from typing import Union, List, Optional
 
-import magenta.music as mm
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq import midi_io
+from note_seq.protobuf.music_pb2 import NoteSequence
 from visual_midi import Plotter
 
 
@@ -30,7 +30,7 @@ def save_midi(sequences: Union[NoteSequence, List[NoteSequence]],
     date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
     filename = f"{prefix}_{index:02}_{date_and_time}.mid"
     path = os.path.join(output_dir, filename)
-    mm.midi_io.note_sequence_to_midi_file(sequence, path)
+    midi_io.note_sequence_to_midi_file(sequence, path)
     print(f"Generated midi file: {os.path.abspath(path)}")
 
 
@@ -55,7 +55,7 @@ def save_plot(sequences: Union[NoteSequence, List[NoteSequence]],
     date_and_time = time.strftime("%Y-%m-%d_%H%M%S")
     filename = f"{prefix}_{index:02}_{date_and_time}.html"
     path = os.path.join(output_dir, filename)
-    midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+    midi = midi_io.note_sequence_to_pretty_midi(sequence)
     plotter = Plotter(**kwargs)
     plotter.save(midi, path)
     print(f"Generated plot file: {os.path.abspath(path)}")

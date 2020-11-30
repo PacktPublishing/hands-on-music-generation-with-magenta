@@ -1,20 +1,21 @@
 """
 This example shows a polyphonic generation with the performance rnn model.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import math
 import os
 import time
 
-import magenta.music as mm
 import tensorflow as tf
 from magenta.models.performance_rnn import performance_sequence_generator
 from magenta.models.shared import sequence_generator_bundle
-from magenta.music import DEFAULT_QUARTERS_PER_MINUTE
-from magenta.protobuf.generator_pb2 import GeneratorOptions
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq import midi_io
+from note_seq import notebook_utils
+from note_seq.constants import DEFAULT_QUARTERS_PER_MINUTE
+from note_seq.protobuf.generator_pb2 import GeneratorOptions
+from note_seq.protobuf.music_pb2 import NoteSequence
 from visual_midi import Plotter
 
 
@@ -86,7 +87,7 @@ def generate(bundle_name: str,
 
   # Downloads the bundle from the magenta website, a bundle (.mag file) is a
   # trained model that is used by magenta
-  mm.notebook_utils.download_bundle(bundle_name, "bundles")
+  notebook_utils.download_bundle(bundle_name, "bundles")
   bundle = sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", bundle_name))
 
@@ -101,7 +102,7 @@ def generate(bundle_name: str,
   # If no primer sequence is given, the primer sequence is initialized
   # to an empty note sequence
   if primer_filename:
-    primer_sequence = mm.midi_io.midi_file_to_note_sequence(
+    primer_sequence = midi_io.midi_file_to_note_sequence(
       os.path.join("primers", primer_filename))
   else:
     primer_sequence = NoteSequence()
@@ -185,7 +186,7 @@ def generate(bundle_name: str,
   midi_filename = "%s_%s_%s.mid" % (generator_name, generator_id,
                                     date_and_time)
   midi_path = os.path.join("output", midi_filename)
-  mm.midi_io.note_sequence_to_midi_file(sequence, midi_path)
+  midi_io.note_sequence_to_midi_file(sequence, midi_path)
   print(f"Generated midi file: {os.path.abspath(midi_path)}")
 
   # Writes the resulting plot file to the output directory
@@ -194,7 +195,7 @@ def generate(bundle_name: str,
   plot_filename = "%s_%s_%s.html" % (generator_name, generator_id,
                                      date_and_time)
   plot_path = os.path.join("output", plot_filename)
-  pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+  pretty_midi = midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.save(pretty_midi, plot_path)
   print(f"Generated plot file: {os.path.abspath(plot_path)}")

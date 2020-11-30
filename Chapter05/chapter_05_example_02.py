@@ -2,7 +2,7 @@
 This example shows how to use GANSynth to generate instruments for a backing
 score from a MIDI file.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import os

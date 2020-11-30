@@ -7,15 +7,15 @@ import os
 import tensorflow as tf
 from magenta.models.melody_rnn import melody_rnn_config_flags
 from magenta.models.melody_rnn.melody_rnn_pipeline import EncoderPipeline
-from magenta.music.sequences_lib import repeat_sequence_to_duration
 from magenta.pipelines import dag_pipeline
 from magenta.pipelines import melody_pipelines
 from magenta.pipelines import note_sequence_pipelines
 from magenta.pipelines import pipeline
 from magenta.pipelines import pipelines_common
 from magenta.pipelines.note_sequence_pipelines import NoteSequencePipeline
-from magenta.protobuf import music_pb2
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq.protobuf import music_pb2
+from note_seq.protobuf.music_pb2 import NoteSequence
+from note_seq.sequences_lib import repeat_sequence_to_duration
 
 flags = tf.compat.v1.app.flags
 FLAGS = tf.compat.v1.app.flags.FLAGS

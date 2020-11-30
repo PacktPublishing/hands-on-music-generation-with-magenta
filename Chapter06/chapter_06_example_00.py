@@ -1,7 +1,7 @@
 """
 Extract techno (four on the floor) drum rhythms.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 import argparse
 import copy

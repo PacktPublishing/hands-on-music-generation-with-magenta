@@ -1,7 +1,7 @@
 """
 Extract drums MIDI files corresponding to specific tags.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import argparse

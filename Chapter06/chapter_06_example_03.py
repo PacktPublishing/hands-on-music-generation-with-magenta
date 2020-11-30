@@ -2,7 +2,7 @@
 Filter on specific tags from the Last.fm API using the LAKHs dataset
 matched with the MSD dataset.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import argparse

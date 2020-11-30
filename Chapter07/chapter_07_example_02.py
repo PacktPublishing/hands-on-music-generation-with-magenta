@@ -2,7 +2,7 @@
 Tensor validator and note sequence splitter (training and evaluation datasets)
 for the MusicVAE model.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 import argparse
 
@@ -14,7 +14,7 @@ from magenta.pipelines.pipeline import Pipeline
 from magenta.pipelines.pipeline import run_pipeline_serial
 from magenta.pipelines.pipeline import tf_record_iterator
 from magenta.pipelines.pipelines_common import RandomPartition
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq.protobuf.music_pb2 import NoteSequence
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--config", type=str, required=True)

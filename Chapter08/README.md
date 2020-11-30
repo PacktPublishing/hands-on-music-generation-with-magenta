@@ -1,6 +1,6 @@
 # Chapter 8 - Magenta in the browser with Magenta.js
 
-[![Magenta Version 2.0.1](../docs/magenta-v2.0.1-badge.svg)](https://github.com/magenta/magenta/releases/tag/2.0.1)
+[![Magenta v2.1.2](../docs/magenta-v2.1.2-badge.svg)](https://github.com/magenta/magenta/releases/tag/v2.1.2)
 
 This chapter will show a JavaScript implementation of Magenta that gained popularity for its ease of use, since it runs in the browser and can be shared as a web page. We'll introduce TensorFlow.js, the technology Magenta.js is built upon, and show what models are available in Magenta.js, including how to convert our previously trained models. Then, we'll create small web applications using GANSynth and MusicVAE for sampling audio and sequences respectively. Finally, we'll see how Magenta.js can interact with other applications, using the Web MIDI API and Node.js.
 
@@ -10,11 +10,11 @@ This chapter will show a JavaScript implementation of Magenta that gained popula
 ! This code doesn't correspond to the book's code
 ```
 
-This branch shows the code for Magenta v2.0.1, which is the most recent version. For the book version, use the original [Magenta v1.1.7 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter08).
+This branch shows the code for Magenta 2.1.2, which is the most recent version. For the book version, use the original [Magenta v1.1.7 branch](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter08).
 
 ## Code 
 
-Before you start, follow the [installation instructions for Magenta 2.0.1](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
+Before you start, follow the [installation instructions for Magenta 2.1.2](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/master/Chapter01#installing-magenta).
 
 ### [Example 1](chapter_08_example_01.html)
 

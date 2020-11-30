@@ -1,24 +1,26 @@
 """
 This example shows a basic Drums RNN generation with a hard coded primer.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import os
 
-import magenta.music as mm
 import tensorflow as tf
 from magenta.models.drums_rnn import drums_rnn_sequence_generator
 from magenta.models.shared import sequence_generator_bundle
-from magenta.music import constants
-from magenta.protobuf import generator_pb2
+from note_seq import DrumTrack
+from note_seq import constants
+from note_seq import midi_io
+from note_seq import notebook_utils
+from note_seq.protobuf import generator_pb2
 from visual_midi import Plotter
 
 
 def generate(unused_argv):
   # Downloads the bundle from the magenta website, a bundle (.mag file) is a
   # trained model that is used by magenta
-  mm.notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
+  notebook_utils.download_bundle("drum_kit_rnn.mag", "bundles")
   bundle = sequence_generator_bundle.read_bundle_file(
     os.path.join("bundles", "drum_kit_rnn.mag"))
 
@@ -54,7 +56,7 @@ def generate(unused_argv):
   # midi note 36 (bass drum), followed by 3 steps of silence (those four steps
   # constitutes the first beat or quarter), followed by both notes 36 and 41
   # being struck at the same time (followed by silence by these are optional)
-  primer_drums = mm.DrumTrack(
+  primer_drums = DrumTrack(
     [frozenset(pitches) for pitches in
      [(38, 51), (), (36,), (),
       (38, 44, 51), (), (36,), (),
@@ -96,12 +98,12 @@ def generate(unused_argv):
 
   # Write the resulting midi file to the output directory
   midi_file = os.path.join("output", "out.mid")
-  mm.midi_io.note_sequence_to_midi_file(sequence, midi_file)
+  midi_io.note_sequence_to_midi_file(sequence, midi_file)
   print(f"Generated midi file: {os.path.abspath(midi_file)}")
 
   # Write the resulting plot file to the output directory
   plot_file = os.path.join("output", "out.html")
-  pretty_midi = mm.midi_io.note_sequence_to_pretty_midi(sequence)
+  pretty_midi = midi_io.note_sequence_to_pretty_midi(sequence)
   plotter = Plotter()
   plotter.show(pretty_midi, plot_file)
   print(f"Generated plot file: {os.path.abspath(plot_file)}")

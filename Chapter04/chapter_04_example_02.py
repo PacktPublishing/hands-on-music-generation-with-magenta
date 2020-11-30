@@ -2,17 +2,17 @@
 This example shows how to sample and interpolate a melody sequence
 using MusicVAE and various configurations.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import os
 from typing import List
 
-import magenta.music as mm
 import tensorflow as tf
 from magenta.models.music_vae import TrainedModel, configs
-from magenta.music import DEFAULT_STEPS_PER_BAR
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq import sequences_lib
+from note_seq.constants import DEFAULT_STEPS_PER_BAR
+from note_seq.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 
 from note_sequence_utils import save_midi, save_plot
@@ -117,7 +117,7 @@ def interpolate(model_name: str,
   # for each input sequence. This is useful if some of the input
   # sequences do not have notes at the end (for example the last
   # note ends at 3.5 seconds instead of 4)
-  interpolate_sequence = mm.sequences_lib.concatenate_sequences(
+  interpolate_sequence = sequences_lib.concatenate_sequences(
     interpolate_sequences, [4] * num_output)
 
   # Saves the midi and the plot in the merge folder,

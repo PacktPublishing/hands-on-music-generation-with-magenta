@@ -2,7 +2,7 @@
 This example shows how to sample a trio (drums, melody, bass) sequence
 using MusicVAE and various configurations.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import os
@@ -10,8 +10,8 @@ from typing import List
 
 import tensorflow as tf
 from magenta.models.music_vae import TrainedModel, configs
-from magenta.music import DEFAULT_STEPS_PER_BAR
-from magenta.protobuf.music_pb2 import NoteSequence
+from note_seq.constants import DEFAULT_STEPS_PER_BAR
+from note_seq.protobuf.music_pb2 import NoteSequence
 from six.moves import urllib
 from visual_midi import Coloring
 

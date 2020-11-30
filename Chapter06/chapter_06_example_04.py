@@ -1,7 +1,7 @@
 """
 Get statistics on instrument classes from the MIDI files.
 
-VERSION: Magenta 2.0.1
+VERSION: Magenta 2.1.2
 """
 
 import argparse
