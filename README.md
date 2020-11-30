@@ -44,4 +44,7 @@ In Hands-On Music Generation with Magenta, we explore the role of deep learning 
 You can see what Magenta version you should be using by looking at the badge at the top of the README and in the Python files.
 
 - [**Magenta v1.1.7** (in the `master` branch)](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta) - The book's code uses Magenta 1.1.7 which, at the time of publication, was the latest stable available version. The code for that version is in the default `master` branch and will stay there.
-- [**Magenta v2.0.1** (in the `magenta-v2.0.1` branch)](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/magenta-v2.0.1) - We also provide the code for newer versions of Magenta, like Magenta 2.0.1 which is latest version we have the code for.
+- [**Magenta HEAD (master)** (in the `magenta-master` branch)](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/tree/magenta-master) - We also provide the code for newer versions of Magenta, we try to keep the code up-to-date when new (breaking) versions of Magenta are released.
+    - [**Magenta v2.0.1** (the `magenta-v2.0.1` tag)](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/releases/tag/magenta-v2.0.1) - Corresponds to [Magenta 2.0.1](https://github.com/magenta/magenta/releases/tag/2.0.1), should work with all 2.0.x versions.
+    - [**Magenta v2.1.2** (the `magenta-v2.1.2` tag)](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/releases/tag/magenta-v2.1.2) - Corresponds to [Magenta 2.1.2](https://github.com/magenta/magenta/releases/tag/2.1.2), should work with all 2.1.x versions.
+
