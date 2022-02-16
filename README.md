@@ -61,3 +61,9 @@ We've only tested Magenta using Python 3.6 as interpreter. Magenta v2.x could wo
 ## Windows Compatibility
 
 Magenta 1.1.7 works on Windows, but there seems to be problems from Magenta 2.x onwards (see [#11](https://github.com/PacktPublishing/hands-on-music-generation-with-magenta/issues/11) for more details)
+
+  
+## Errata
+  
+* Page 10: _Pen and paper generative music_ section: **minute** should be **minuet**
+* Page 10: _Pen and paper generative music_ section: a total of **two** will output the measure 32 _should be_ a total of **three** will output the measure 32
