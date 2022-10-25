@@ -67,3 +67,7 @@ Magenta 1.1.7 works on Windows, but there seems to be problems from Magenta 2.x 
   
 * Page 10: _Pen and paper generative music_ section: **minute** should be **minuet**
 * Page 10: _Pen and paper generative music_ section: a total of **two** will output the measure 32 _should be_ a total of **three** will output the measure 32
+### Download a free PDF
+
+ <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
+<p align="center"> <a href="https://packt.link/free-ebook/9781838824419">https://packt.link/free-ebook/9781838824419 </a> </p>
